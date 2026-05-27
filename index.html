@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="정성재 포트폴리오: AI agent, robotics, smart factory, document intelligence projects."
+    />
+    <title>정성재 | AI · Robotics · Smart Factory</title>
+    <link rel="preconnect" href="https://img.youtube.com" />
+    <link rel="stylesheet" href="./assets/styles.css?v=20260527-video" />
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
+    <script src="./assets/portfolio-data.js?v=20260527-video" defer></script>
+    <script src="./assets/app.js?v=20260527-video" defer></script>
+  </head>
+  <body>
+    <header class="site-header" data-header>
+      <a class="brand" href="#top" aria-label="홈으로 이동">
+        <span class="brand-mark">SJ</span>
+        <span class="brand-text">정성재</span>
+      </a>
+      <nav class="nav-links" aria-label="주요 메뉴">
+        <a href="#projects">Projects</a>
+        <a href="#stack">Stack</a>
+        <a href="#resume">Resume</a>
+      </nav>
+      <button class="ghost-button icon-button" type="button" data-studio-toggle aria-label="Portfolio Studio 열기">
+        <i data-lucide="sliders-horizontal"></i>
+      </button>
+    </header>
+
+    <main id="top">
+      <section class="hero section-shell" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow">AI · Robotics · Smart Factory</p>
+          <h1 id="hero-title">현장 문제를 제품과 자동화 시스템으로 정리하는 개발자</h1>
+          <p class="hero-lede" data-profile-summary></p>
+          <div class="hero-actions">
+            <a class="primary-button" href="#projects">
+              <i data-lucide="layout-grid"></i>
+              프로젝트 보기
+            </a>
+          <a class="secondary-button" href="#resume">
+            <i data-lucide="file-down"></i>
+              PDF
+            </a>
+          </div>
+        </div>
+        <div class="hero-panel" aria-label="대표 포트폴리오 요약">
+          <div class="panel-topline">
+            <span>Portfolio Focus</span>
+            <span data-last-updated></span>
+          </div>
+          <div class="focus-map" aria-hidden="true">
+            <span class="node node-main">AI</span>
+            <span class="node node-a">ROS2</span>
+            <span class="node node-b">OPC UA</span>
+            <span class="node node-c">RAG</span>
+            <span class="node node-d">FastAPI</span>
+            <span class="node node-e">Swift</span>
+          </div>
+          <dl class="hero-stats">
+            <div>
+              <dt data-stat-projects>0</dt>
+              <dd>공개 프로젝트</dd>
+            </div>
+            <div>
+              <dt data-stat-tests>0</dt>
+              <dd>검증 테스트</dd>
+            </div>
+            <div>
+              <dt data-stat-domains>0</dt>
+              <dd>핵심 도메인</dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+
+      <section id="projects" class="section-shell projects-section" aria-labelledby="projects-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Selected Work</p>
+            <h2 id="projects-title">프로젝트</h2>
+          </div>
+          <div class="toolbar">
+            <div class="segmented-control" role="tablist" aria-label="프로젝트 필터" data-filter-bar></div>
+            <label class="search-box">
+              <i data-lucide="search"></i>
+              <input type="search" placeholder="검색" data-search-input />
+            </label>
+          </div>
+        </div>
+        <div class="project-grid" data-project-grid></div>
+      </section>
+
+      <section id="stack" class="section-shell stack-section" aria-labelledby="stack-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Technical Range</p>
+            <h2 id="stack-title">기술 스택</h2>
+          </div>
+        </div>
+        <div class="stack-grid" data-stack-grid></div>
+      </section>
+
+      <section id="resume" class="section-shell resume-section" aria-labelledby="resume-title">
+        <div class="resume-copy">
+          <p class="eyebrow">Resume</p>
+          <h2 id="resume-title">웹은 증명, PDF는 제출용</h2>
+          <p>
+            지원할 때는 PDF 이력서를 함께 두고, 웹에서는 프로젝트별 문제 정의·구현 방식·검증 근거를
+            더 깊게 보여주는 구성이 가장 좋습니다.
+          </p>
+        </div>
+        <div class="resume-actions">
+          <a class="primary-button" data-resume-link href="#" download>
+            <i data-lucide="file-text"></i>
+            대표 PDF
+          </a>
+          <a class="secondary-button" data-github-link href="#" target="_blank" rel="noreferrer">
+            <i data-lucide="github"></i>
+            GitHub
+          </a>
+        </div>
+        <div class="pdf-links" data-pdf-links aria-label="PDF 다운로드"></div>
+      </section>
+    </main>
+
+    <aside class="studio" data-studio aria-label="Portfolio Studio" aria-hidden="true">
+      <div class="studio-header">
+        <div>
+          <p class="eyebrow">Studio</p>
+          <h2>포트폴리오 관리</h2>
+        </div>
+        <button class="ghost-button icon-button" type="button" data-studio-close aria-label="닫기">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+
+      <div class="studio-actions">
+        <button class="primary-button compact" type="button" data-new-project>
+          <i data-lucide="plus"></i>
+          추가
+        </button>
+        <button class="secondary-button compact" type="button" data-export-public>
+          <i data-lucide="download"></i>
+          공개 내보내기
+        </button>
+        <button class="secondary-button compact" type="button" data-export-all>
+          <i data-lucide="archive"></i>
+          전체 백업
+        </button>
+        <label class="secondary-button compact file-button">
+          <i data-lucide="upload"></i>
+          가져오기
+          <input type="file" accept="application/json" data-import-input />
+        </label>
+        <button class="danger-button compact" type="button" data-reset-seed>
+          <i data-lucide="rotate-ccw"></i>
+          초기화
+        </button>
+      </div>
+
+      <div class="studio-note">
+        정적 사이트에서는 저장이 이 브라우저에 적용됩니다. 배포본에는 공개 내보내기 파일을 사용하세요.
+      </div>
+
+      <div class="studio-list" data-studio-list></div>
+    </aside>
+
+    <div class="scrim" data-scrim hidden></div>
+
+    <dialog class="project-dialog" data-project-dialog>
+      <form method="dialog" class="project-form" data-project-form>
+        <div class="dialog-header">
+          <div>
+            <p class="eyebrow">Project</p>
+            <h2 data-dialog-title>프로젝트 편집</h2>
+          </div>
+          <button class="ghost-button icon-button" type="button" data-dialog-close aria-label="닫기">
+            <i data-lucide="x"></i>
+          </button>
+        </div>
+
+        <input type="hidden" name="id" />
+        <div class="form-grid">
+          <label>
+            이름
+            <input name="title" required />
+          </label>
+          <label>
+            도메인
+            <select name="domain"></select>
+          </label>
+          <label>
+            상태
+            <select name="visibility">
+              <option value="public">공개</option>
+              <option value="hidden">숨김</option>
+            </select>
+          </label>
+          <label>
+            진행도
+            <select name="maturity">
+              <option value="Production-ready">Production-ready</option>
+              <option value="Case study">Case study</option>
+              <option value="WIP">WIP</option>
+              <option value="Archived">Archived</option>
+            </select>
+          </label>
+          <label class="wide">
+            한 줄 설명
+            <input name="subtitle" />
+          </label>
+          <label class="wide">
+            요약
+            <textarea name="summary" rows="4"></textarea>
+          </label>
+          <label class="wide">
+            결과 / 검증
+            <textarea name="results" rows="3" placeholder="줄바꿈으로 여러 개 입력"></textarea>
+          </label>
+          <label>
+            테스트 수
+            <input name="tests" type="number" min="0" step="1" />
+          </label>
+          <label>
+            대표작
+            <select name="featured">
+              <option value="true">예</option>
+              <option value="false">아니오</option>
+            </select>
+          </label>
+          <label class="wide">
+            기술 스택
+            <input name="stack" placeholder="ROS2, FastAPI, React" />
+          </label>
+          <label class="wide">
+            YouTube 링크
+            <input name="youtubeUrl" placeholder="https://www.youtube.com/watch?v=..." />
+          </label>
+          <label class="wide">
+            로컬 영상 경로
+            <input name="video" placeholder="./assets/videos/demo.mp4" />
+          </label>
+          <label class="wide">
+            영상 포스터 경로
+            <input name="videoPoster" placeholder="./assets/images/video-poster.jpg" />
+          </label>
+          <label class="wide">
+            이미지 경로
+            <input name="image" placeholder="./assets/images/preview.png" />
+          </label>
+          <label class="wide">
+            GitHub / 링크
+            <input name="repo" placeholder="https://github.com/..." />
+          </label>
+          <label class="wide">
+            로컬 경로
+            <input name="localPath" placeholder="/Users/..." />
+          </label>
+        </div>
+
+        <div class="dialog-actions">
+          <button class="danger-button" type="button" data-delete-project>
+            <i data-lucide="trash-2"></i>
+            삭제
+          </button>
+          <span></span>
+          <button class="secondary-button" type="button" data-dialog-cancel>취소</button>
+          <button class="primary-button" type="submit">
+            <i data-lucide="save"></i>
+            저장
+          </button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog class="detail-dialog" data-detail-dialog>
+      <article class="detail-panel">
+        <div class="dialog-header">
+          <div>
+            <p class="eyebrow" data-detail-domain>Project</p>
+            <h2 data-detail-title>프로젝트 상세</h2>
+          </div>
+          <button class="ghost-button icon-button" type="button" data-detail-close aria-label="상세 닫기">
+            <i data-lucide="x"></i>
+          </button>
+        </div>
+        <div class="detail-content" data-detail-content></div>
+      </article>
+    </dialog>
+
+    <dialog class="video-dialog" data-video-dialog>
+      <div class="video-frame">
+        <button class="ghost-button icon-button video-close" type="button" data-video-close aria-label="영상 닫기">
+          <i data-lucide="x"></i>
+        </button>
+        <iframe
+          data-video-iframe
+          title="프로젝트 영상"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+        ></iframe>
+        <video data-video-player title="프로젝트 영상" controls playsinline hidden></video>
+      </div>
+    </dialog>
+
+    <div class="toast" data-toast hidden></div>
+  </body>
+</html>
