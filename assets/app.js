@@ -1,5 +1,5 @@
 (function () {
-  const STORAGE_KEY = "sungjae-portfolio-v5";
+  const STORAGE_KEY = "sungjae-portfolio-v6";
 
   const seed = window.PORTFOLIO_SEED || { profile: {}, domains: ["All"], projects: [] };
   const studioEnabled = isStudioEnabled();
@@ -40,6 +40,9 @@
     videoDialog: $("[data-video-dialog]"),
     videoIframe: $("[data-video-iframe]"),
     videoPlayer: $("[data-video-player]"),
+    imageDialog: $("[data-image-dialog]"),
+    imageViewer: $("[data-image-viewer]"),
+    imageCaption: $("[data-image-caption]"),
     toast: $("[data-toast]")
   };
 
@@ -83,6 +86,7 @@
       image: project.image || "",
       video: project.video || project.videoUrl || "",
       videoPoster: project.videoPoster || "",
+      gallery: Array.isArray(project.gallery) ? project.gallery : splitLines(project.gallery),
       youtubeUrl: project.youtubeUrl || "",
       summary: project.summary || "",
       results: Array.isArray(project.results) ? project.results : splitLines(project.results),
@@ -477,9 +481,15 @@
       const videoButton = event.target.closest("[data-detail-video]");
       const localVideoButton = event.target.closest("[data-detail-local-video]");
       const copyButton = event.target.closest("[data-detail-copy]");
+      const imageButton = event.target.closest("[data-open-image]");
+      const galleryStep = event.target.closest("[data-gallery-step]");
+      const galleryJump = event.target.closest("[data-gallery-jump]");
       if (videoButton) openVideo(videoButton.dataset.detailVideo, "youtube");
       if (localVideoButton) openVideo(localVideoButton.dataset.detailLocalVideo, "local");
       if (copyButton) copyToClipboard(copyButton.dataset.detailCopy || "", "로컬 경로를 복사했습니다.");
+      if (galleryStep) moveGallery(galleryStep, Number(galleryStep.dataset.galleryStep || 1));
+      if (galleryJump) jumpGallery(galleryJump, Number(galleryJump.dataset.galleryJump || 0));
+      if (imageButton) openImage(imageButton.dataset.openImage, imageButton.dataset.imageCaption || "");
     });
 
     $("[data-video-close]").addEventListener("click", closeVideo);
@@ -489,6 +499,13 @@
       els.videoPlayer.pause();
       els.videoPlayer.removeAttribute("src");
       els.videoPlayer.hidden = true;
+    });
+
+    $("[data-image-close]").addEventListener("click", closeImage);
+    els.imageDialog.addEventListener("close", () => {
+      els.imageViewer.removeAttribute("src");
+      els.imageViewer.alt = "";
+      els.imageCaption.textContent = "";
     });
   }
 
@@ -527,6 +544,7 @@
     form.elements.video.value = project.video || "";
     form.elements.videoPoster.value = project.videoPoster || "";
     form.elements.image.value = project.image || "";
+    form.elements.gallery.value = (project.gallery || []).join("\n");
     form.elements.repo.value = firstRepo(project);
     form.elements.localPath.value = project.localPath || "";
 
@@ -548,30 +566,45 @@
     els.detailDomain.textContent = `${project.domain} · ${project.maturity}`;
     els.detailTitle.textContent = project.title;
     els.detailContent.innerHTML = `
-      <div class="detail-layout">
-        ${renderDetailMedia(project, youtubeId, localVideo)}
-        <div class="detail-copy">
+      <div class="detail-hero">
+        ${renderDetailGallery(project, youtubeId, localVideo)}
+        <div class="detail-brief">
+          <p class="detail-label">Case Summary</p>
           <p class="detail-subtitle">${escapeHtml(project.subtitle || "")}</p>
-          <p>${escapeHtml(project.summary || "")}</p>
+          <p class="detail-summary">${escapeHtml(project.summary || "")}</p>
           <div class="detail-meta">
             ${project.tests > 0 ? `<span class="meta-pill"><i data-lucide="check-circle-2"></i>${project.tests} tests</span>` : ""}
             <span class="meta-pill"><i data-lucide="layers-3"></i>${escapeHtml(project.domain)}</span>
             <span class="meta-pill"><i data-lucide="signal"></i>${escapeHtml(project.maturity)}</span>
           </div>
+          ${renderDetailActions(project, links, youtubeId, localVideo)}
         </div>
       </div>
-      <div class="detail-section">
-        <h3>검증 포인트</h3>
-        <ul class="detail-list">
-          ${(project.results || []).map((result) => `<li>${escapeHtml(result)}</li>`).join("")}
-        </ul>
-      </div>
-      <div class="detail-section">
-        <h3>기술 스택</h3>
-        <div class="chip-row">
-          ${(project.stack || []).map((tech) => `<span class="chip">${escapeHtml(tech)}</span>`).join("")}
+      <div class="detail-grid">
+        <div class="detail-section">
+          <h3>검증 포인트</h3>
+          <ul class="detail-list">
+            ${(project.results || []).map((result) => `<li>${escapeHtml(result)}</li>`).join("")}
+          </ul>
+        </div>
+        <div class="detail-section">
+          <h3>기술 스택</h3>
+          <div class="chip-row">
+            ${(project.stack || []).map((tech) => `<span class="chip">${escapeHtml(tech)}</span>`).join("")}
+          </div>
         </div>
       </div>
+    `;
+    els.detailDialog.showModal();
+    refreshIcons();
+  }
+
+  function closeProjectDetail() {
+    els.detailDialog.close();
+  }
+
+  function renderDetailActions(project, links, youtubeId, localVideo) {
+    return `
       <div class="detail-actions">
         ${links
           .map(
@@ -599,17 +632,11 @@
         }
       </div>
     `;
-    els.detailDialog.showModal();
-    refreshIcons();
   }
 
-  function closeProjectDetail() {
-    els.detailDialog.close();
-  }
-
-  function renderDetailMedia(project, youtubeId, localVideo) {
-    const image = project.videoPoster || project.image || (youtubeId ? youtubeThumb(youtubeId) : "");
-    if (!image) {
+  function renderDetailGallery(project, youtubeId, localVideo) {
+    const images = projectImages(project, youtubeId);
+    if (!images.length) {
       const initials = project.title
         .split(/\s+/)
         .filter(Boolean)
@@ -617,11 +644,45 @@
         .map((word) => word[0])
         .join("")
         .toUpperCase();
-      return `<div class="detail-media media-fallback"><span class="fallback-mark">${escapeHtml(initials || "P")}</span></div>`;
+      return `<div class="detail-gallery media-fallback"><span class="fallback-mark">${escapeHtml(initials || "P")}</span></div>`;
     }
+
+    const slides = images
+      .map(
+        (image, index) => `
+          <button
+            class="gallery-slide"
+            type="button"
+            data-open-image="${escapeAttribute(image)}"
+            data-image-caption="${escapeAttribute(`${project.title} ${index + 1}`)}"
+          >
+            <img src="${escapeAttribute(image)}" alt="${escapeAttribute(`${project.title} preview ${index + 1}`)}" loading="${index === 0 ? "eager" : "lazy"}" />
+          </button>
+        `
+      )
+      .join("");
+
+    const thumbs = images
+      .map(
+        (image, index) => `
+          <button class="gallery-thumb" type="button" data-gallery-jump="${index}" aria-label="이미지 ${index + 1}">
+            <img src="${escapeAttribute(image)}" alt="" loading="lazy" />
+          </button>
+        `
+      )
+      .join("");
+
     return `
-      <div class="detail-media">
-        <img src="${escapeAttribute(image)}" alt="${escapeAttribute(project.title)} preview" />
+      <div class="detail-gallery" data-gallery>
+        <div class="gallery-stage">
+          <div class="gallery-track" data-gallery-track>
+            ${slides}
+          </div>
+          ${images.length > 1 ? `<button class="gallery-nav gallery-prev" type="button" data-gallery-step="-1" aria-label="이전 이미지"><i data-lucide="chevron-left"></i></button>` : ""}
+          ${images.length > 1 ? `<button class="gallery-nav gallery-next" type="button" data-gallery-step="1" aria-label="다음 이미지"><i data-lucide="chevron-right"></i></button>` : ""}
+          <div class="gallery-hint"><i data-lucide="maximize-2"></i>크게 보기</div>
+        </div>
+        ${images.length > 1 ? `<div class="gallery-strip" data-gallery-strip>${thumbs}</div>` : ""}
         ${
           localVideo
             ? `<button class="media-play" type="button" data-detail-local-video="${escapeAttribute(localVideo)}"><i data-lucide="play"></i><span>Demo</span></button>`
@@ -634,6 +695,12 @@
         }
       </div>
     `;
+  }
+
+  function projectImages(project, youtubeId) {
+    return unique(
+      [project.videoPoster, project.image, ...(project.gallery || []), youtubeId ? youtubeThumb(youtubeId) : ""].filter(Boolean)
+    );
   }
 
   function fillDomainOptions() {
@@ -670,6 +737,7 @@
       video: form.elements.video.value.trim(),
       videoPoster: form.elements.videoPoster.value.trim(),
       image: form.elements.image.value.trim(),
+      gallery: splitLines(form.elements.gallery.value),
       localPath: form.elements.localPath.value.trim(),
       links: repo ? [{ label: "Link", url: repo, icon: repo.includes("github") ? "github" : "external-link" }] : [],
       priority: findProject(id)?.priority || state.data.projects.length + 1
@@ -784,6 +852,35 @@
     els.videoPlayer.removeAttribute("src");
   }
 
+  function openImage(source, caption = "") {
+    if (!source) return;
+    els.imageViewer.src = source;
+    els.imageViewer.alt = caption || "Project image";
+    els.imageCaption.textContent = caption;
+    els.imageDialog.showModal();
+  }
+
+  function closeImage() {
+    if (els.imageDialog.open) {
+      els.imageDialog.close();
+    }
+  }
+
+  function moveGallery(button, direction) {
+    const gallery = button.closest("[data-gallery]");
+    const track = gallery?.querySelector("[data-gallery-track]");
+    if (!track) return;
+    track.scrollBy({ left: direction * track.clientWidth, behavior: "smooth" });
+  }
+
+  function jumpGallery(button, index) {
+    const gallery = button.closest("[data-gallery]");
+    const track = gallery?.querySelector("[data-gallery-track]");
+    const slide = track?.children[index];
+    if (!slide) return;
+    slide.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
+  }
+
   async function copyToClipboard(value, message) {
     if (!value) return;
     try {
@@ -840,6 +937,7 @@
       image: "",
       video: "",
       videoPoster: "",
+      gallery: [],
       youtubeUrl: "",
       summary: "",
       results: [],
@@ -965,6 +1063,10 @@
 
   function sum(values) {
     return values.reduce((total, value) => total + Number(value || 0), 0);
+  }
+
+  function unique(values) {
+    return Array.from(new Set(values.filter(Boolean)));
   }
 
   function clone(value) {
