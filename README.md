@@ -36,11 +36,13 @@ Paste a YouTube URL into a project:
 
 ```text
 https://www.youtube.com/watch?v=VIDEO_ID
+https://www.youtube.com/watch?v=VIDEO_ID&t=463s
 https://youtu.be/VIDEO_ID
 https://www.youtube.com/shorts/VIDEO_ID
 ```
 
-The site uses the YouTube thumbnail as a preview when no image is set, and opens an embedded player when clicked.
+The site uses the YouTube thumbnail as a preview when no image is set, preserves `t=` / `start=`
+timestamps, and opens an embedded player when clicked.
 
 ## Files
 

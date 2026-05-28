@@ -1,5 +1,5 @@
 (function () {
-  const STORAGE_KEY = "sungjae-portfolio-v4";
+  const STORAGE_KEY = "sungjae-portfolio-v5";
 
   const seed = window.PORTFOLIO_SEED || { profile: {}, domains: ["All"], projects: [] };
   const studioEnabled = isStudioEnabled();
@@ -243,7 +243,7 @@
       play.className = "media-play";
       play.innerHTML = `<i data-lucide="play"></i><span>Demo</span>`;
       play.addEventListener("click", () =>
-        localVideo ? openVideo(localVideo, "local") : openVideo(youtubeId, "youtube")
+        localVideo ? openVideo(localVideo, "local") : openVideo(project.youtubeUrl, "youtube")
       );
       media.append(play);
     }
@@ -320,7 +320,7 @@
       videoLink.className = "project-link";
       videoLink.innerHTML = `<i data-lucide="play-circle"></i>영상 보기`;
       videoLink.addEventListener("click", () =>
-        localVideo ? openVideo(localVideo, "local") : openVideo(youtubeId, "youtube")
+        localVideo ? openVideo(localVideo, "local") : openVideo(project.youtubeUrl, "youtube")
       );
       links.append(videoLink);
     }
@@ -434,6 +434,10 @@
       state.search = event.target.value.trim().toLowerCase();
       renderProjects();
       refreshIcons();
+    });
+
+    $$("[data-hero-video-url]").forEach((button) => {
+      button.addEventListener("click", () => openVideo(button.dataset.heroVideoUrl, "youtube"));
     });
 
     if (studioEnabled) {
@@ -585,7 +589,7 @@
         }
         ${
           youtubeId
-            ? `<button class="secondary-button compact" type="button" data-detail-video="${escapeAttribute(youtubeId)}"><i data-lucide="play-circle"></i>영상 재생</button>`
+            ? `<button class="secondary-button compact" type="button" data-detail-video="${escapeAttribute(project.youtubeUrl)}"><i data-lucide="play-circle"></i>영상 재생</button>`
             : ""
         }
         ${
@@ -625,7 +629,7 @@
         }
         ${
           youtubeId
-            ? `<button class="media-play" type="button" data-detail-video="${escapeAttribute(youtubeId)}"><i data-lucide="play"></i><span>Demo</span></button>`
+            ? `<button class="media-play" type="button" data-detail-video="${escapeAttribute(project.youtubeUrl)}"><i data-lucide="play"></i><span>Demo</span></button>`
             : ""
         }
       </div>
@@ -755,9 +759,14 @@
       els.videoPlayer.src = source;
       els.videoPlayer.load();
     } else {
+      const embedUrl = youtubeEmbedUrl(source);
+      if (!embedUrl) {
+        showToast("영상 링크를 확인하지 못했습니다.");
+        return;
+      }
       els.videoIframe.hidden = false;
       els.videoPlayer.hidden = true;
-      els.videoIframe.src = `https://www.youtube.com/embed/${source}?autoplay=1&rel=0`;
+      els.videoIframe.src = embedUrl;
     }
 
     els.videoDialog.showModal();
@@ -856,16 +865,45 @@
   }
 
   function extractYoutubeId(url) {
-    if (!url) return "";
+    return parseYoutubeSource(url).id;
+  }
+
+  function youtubeEmbedUrl(source) {
+    const video = parseYoutubeSource(source);
+    if (!video.id) return "";
+    const params = new URLSearchParams({
+      autoplay: "1",
+      rel: "0",
+      modestbranding: "1"
+    });
+    if (video.start > 0) params.set("start", String(video.start));
+    return `https://www.youtube.com/embed/${video.id}?${params.toString()}`;
+  }
+
+  function parseYoutubeSource(source) {
+    if (!source) return { id: "", start: 0 };
     try {
-      const parsed = new URL(url);
-      if (parsed.hostname.includes("youtu.be")) return parsed.pathname.split("/").filter(Boolean)[0] || "";
-      if (parsed.pathname.startsWith("/shorts/")) return parsed.pathname.split("/")[2] || "";
-      if (parsed.pathname.startsWith("/embed/")) return parsed.pathname.split("/")[2] || "";
-      return parsed.searchParams.get("v") || "";
+      const parsed = new URL(source);
+      let id = "";
+      if (parsed.hostname.includes("youtu.be")) id = parsed.pathname.split("/").filter(Boolean)[0] || "";
+      else if (parsed.pathname.startsWith("/shorts/")) id = parsed.pathname.split("/")[1] || "";
+      else if (parsed.pathname.startsWith("/embed/")) id = parsed.pathname.split("/")[1] || "";
+      else id = parsed.searchParams.get("v") || "";
+
+      const start = parseYoutubeTime(parsed.searchParams.get("t") || parsed.searchParams.get("start"));
+      return { id, start };
     } catch {
-      return "";
+      return { id: String(source || "").trim(), start: 0 };
     }
+  }
+
+  function parseYoutubeTime(value) {
+    if (!value) return 0;
+    const text = String(value).trim().toLowerCase();
+    if (/^\d+$/.test(text)) return Number(text);
+    const match = text.match(/(?:(\d+)h)?(?:(\d+)m)?(?:(\d+)s)?/);
+    if (!match) return 0;
+    return Number(match[1] || 0) * 3600 + Number(match[2] || 0) * 60 + Number(match[3] || 0);
   }
 
   function isStudioEnabled() {
