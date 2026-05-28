@@ -35,25 +35,25 @@ window.PORTFOLIO_SEED = {
   projects: [
     {
       id: "smart-factory-digital-twin",
-      title: "Vision · Robot · PLC Digital Twin",
-      subtitle: "비전 검사, 로봇 픽킹, PLC 신호, 웹 대시보드를 연결한 제조 디지털 트윈",
+      title: "Factory I/O Robot Process Digital Twin",
+      subtitle: "Factory I/O에서 구현한 로봇 공정과 비전·PLC·웹 대시보드 연동",
       domain: "Smart Factory",
       visibility: "public",
       maturity: "Case study",
       featured: true,
-      priority: 2,
+      priority: 1,
       tests: 1,
-      image: "./assets/images/smart-factory-digital-twin.png",
-      videoPoster: "https://img.youtube.com/vi/2opqmbzk43I/hqdefault.jpg",
+      image: "./assets/images/factoryio-robot-process-poster.jpg",
+      videoPoster: "./assets/images/factoryio-robot-process-poster.jpg",
       youtubeUrl: "https://www.youtube.com/watch?v=2opqmbzk43I&t=504s",
       summary:
-        "비전 인식, 로봇 동작, PLC 제어 신호, 웹 연동 디지털 트윈을 하나의 시연 흐름으로 묶어 제조 공정 상태를 설명 가능하게 보여주는 프로젝트입니다.",
+        "Factory I/O로 로봇 공정을 구성하고, 비전 인식과 PLC 제어 흐름, 웹 연동 디지털 트윈을 하나의 시연 흐름으로 묶어 제조 공정 상태를 설명 가능하게 보여주는 프로젝트입니다.",
       results: [
+        "Factory I/O 기반 로봇 공정 시뮬레이션을 대표 썸네일로 정리",
         "카메라 기반 인식 결과와 로봇 동작을 PLC 흐름에 맞춰 연결",
-        "웹 화면에서 공정 상태와 디지털 트윈을 함께 확인할 수 있게 구성",
         "영상 시작 지점을 핵심 결과물 구간으로 연결해 채용 담당자가 바로 확인 가능"
       ],
-      stack: ["Python", "OpenCV", "Robot", "PLC", "React", "Digital Twin"],
+      stack: ["Factory I/O", "Python", "OpenCV", "Robot", "PLC", "Digital Twin"],
       links: [
         {
           label: "GitHub",
@@ -70,11 +70,11 @@ window.PORTFOLIO_SEED = {
       visibility: "public",
       maturity: "Production-ready",
       featured: true,
-      priority: 1,
+      priority: 2,
       tests: 16,
-      image: "./assets/images/dockerros-video-poster.jpg",
+      image: "./assets/images/dockerros-demo-poster.jpg",
       video: "",
-      videoPoster: "./assets/images/dockerros-video-poster.jpg",
+      videoPoster: "./assets/images/dockerros-demo-poster.jpg",
       youtubeUrl: "https://www.youtube.com/watch?v=3c9PQeWwu58&t=463s",
       summary:
         "무거운 로봇 시뮬레이션을 브라우저에서 확인 가능한 데모와 ROS2 학습 환경으로 나누고, 디지털 트윈 장면까지 영상에서 바로 확인할 수 있게 정리한 프로젝트입니다.",
@@ -259,7 +259,7 @@ window.PORTFOLIO_SEED = {
       priority: 3,
       tests: 31,
       image: "",
-      videoPoster: "https://img.youtube.com/vi/EW7pOTiMH3g/hqdefault.jpg",
+      videoPoster: "./assets/images/koreaarmyquality-demo-poster.jpg",
       youtubeUrl: "https://www.youtube.com/watch?v=EW7pOTiMH3g",
       summary:
         "담당자가 자연어로 질문하면 검색 파라미터를 추출하고, Playwright가 KoreaArmyQuality/KDSIS 계열 WebSquare 화면을 조회해 카드와 표로 반환하는 업무 자동화 앱입니다.",
