@@ -2,9 +2,9 @@ window.PORTFOLIO_SEED = {
   version: 1,
   profile: {
     name: "정성재",
-    role: "AI · Robotics · Smart Factory Builder",
+    role: "AI · Robotics · Digital Twin Builder",
     summary:
-      "AI 업무 자동화, 로봇 시뮬레이션, 스마트팩토리 디지털 트윈, 문서 지능화 도구를 직접 만들며 문제 정의부터 제품화와 검증까지 이어가는 개발자입니다.",
+      "로봇 시뮬레이터, 비전·PLC 기반 스마트팩토리 디지털 트윈, 국방 품질 검색 자동화처럼 실제로 동작하는 데모를 만들고 영상으로 검증하는 개발자입니다.",
     github: "https://github.com/wjdtjdwo0609-cyber",
     resume: "./assets/docs/sungjae-korea-deep-learning-portfolio.pdf",
     pdfs: [
@@ -21,7 +21,7 @@ window.PORTFOLIO_SEED = {
         file: "./assets/docs/sungjae-team-reboott-portfolio.pdf"
       }
     ],
-    updatedAt: "2026-05-27"
+    updatedAt: "2026-05-28"
   },
   domains: [
     "All",
@@ -35,24 +35,25 @@ window.PORTFOLIO_SEED = {
   projects: [
     {
       id: "smart-factory-digital-twin",
-      title: "Smart Factory Digital Twin",
-      subtitle: "PLC, OPC UA, Supabase, DockerRos를 연결한 실시간 제조 디지털 트윈",
+      title: "Vision · Robot · PLC Digital Twin",
+      subtitle: "비전 검사, 로봇 픽킹, PLC 신호, 웹 대시보드를 연결한 제조 디지털 트윈",
       domain: "Smart Factory",
       visibility: "public",
       maturity: "Case study",
       featured: true,
-      priority: 1,
+      priority: 2,
       tests: 1,
       image: "./assets/images/smart-factory-digital-twin.png",
-      youtubeUrl: "",
+      videoPoster: "https://img.youtube.com/vi/2opqmbzk43I/hqdefault.jpg",
+      youtubeUrl: "https://www.youtube.com/watch?v=2opqmbzk43I&t=504s",
       summary:
-        "React 대시보드와 DockerRos 3D 시뮬레이터를 결합해 주문, 공정 상태, PLC I/O, 로드셀 품질 판정, 알람을 한 화면에서 추적하는 스마트팩토리 데모입니다.",
+        "비전 인식, 로봇 동작, PLC 제어 신호, 웹 연동 디지털 트윈을 하나의 시연 흐름으로 묶어 제조 공정 상태를 설명 가능하게 보여주는 프로젝트입니다.",
       results: [
-        "Supabase realtime으로 주문, 공정, 품질 데이터를 연결",
-        "DockerRos 시뮬레이터를 /twin 화면에 iframe 통합",
-        "PLC/GX Simulator와 OPC UA, WebSocket 흐름을 문서화"
+        "카메라 기반 인식 결과와 로봇 동작을 PLC 흐름에 맞춰 연결",
+        "웹 화면에서 공정 상태와 디지털 트윈을 함께 확인할 수 있게 구성",
+        "영상 시작 지점을 핵심 결과물 구간으로 연결해 채용 담당자가 바로 확인 가능"
       ],
-      stack: ["React", "TypeScript", "Supabase", "OPC UA", "Three.js", "Python"],
+      stack: ["Python", "OpenCV", "Robot", "PLC", "React", "Digital Twin"],
       links: [
         {
           label: "GitHub",
@@ -63,24 +64,24 @@ window.PORTFOLIO_SEED = {
     },
     {
       id: "dockerros-web-simulator",
-      title: "DockerRos Web Robot Simulator",
-      subtitle: "브라우저에서 실행되는 ROS2 학습용 3D 로봇·공장 시뮬레이터",
+      title: "DockerRos Web Simulator",
+      subtitle: "로봇 앱 시연과 디지털 트윈을 함께 보여주는 웹 기반 ROS2 시뮬레이터",
       domain: "Robotics",
       visibility: "public",
       maturity: "Production-ready",
       featured: true,
-      priority: 2,
+      priority: 1,
       tests: 16,
       image: "./assets/images/dockerros-video-poster.jpg",
-      video: "./assets/videos/dockerros-web-simulator.mp4",
+      video: "",
       videoPoster: "./assets/images/dockerros-video-poster.jpg",
-      youtubeUrl: "",
+      youtubeUrl: "https://www.youtube.com/watch?v=3c9PQeWwu58&t=463s",
       summary:
-        "Three.js 기반 웹 시뮬레이터와 ROS2/RViz/Gazebo 학습 환경을 함께 제공해, 무거운 로봇 시뮬레이션을 웹 데모와 네이티브 실습으로 나눈 프로젝트입니다.",
+        "무거운 로봇 시뮬레이션을 브라우저에서 확인 가능한 데모와 ROS2 학습 환경으로 나누고, 디지털 트윈 장면까지 영상에서 바로 확인할 수 있게 정리한 프로젝트입니다.",
       results: [
-        "Indy7, UR, Panda, Fanuc 등 여러 로봇 모델 지원",
-        "OPC UA 어댑터로 PLC 신호와 웹 시뮬레이터 연결",
-        "웹 데모와 ROS2 네이티브 실행 경로를 분리해 재현성 개선"
+        "DockerRos 앱 시연 영상의 디지털 트윈 구간으로 바로 이동",
+        "Indy7, UR, Panda, Fanuc 등 여러 로봇 모델과 학습 흐름 지원",
+        "웹 데모와 ROS2 네이티브 실행 경로를 분리해 무거운 의존성을 낮춤"
       ],
       stack: ["ROS2", "Three.js", "WebGL", "Python", "OPC UA", "Gazebo"],
       links: [
@@ -98,8 +99,8 @@ window.PORTFOLIO_SEED = {
       domain: "Robotics",
       visibility: "public",
       maturity: "Case study",
-      featured: true,
-      priority: 3,
+      featured: false,
+      priority: 6,
       tests: 77,
       image: "./assets/images/pickline-preview.png",
       youtubeUrl: "",
@@ -183,7 +184,7 @@ window.PORTFOLIO_SEED = {
       visibility: "public",
       maturity: "Case study",
       featured: false,
-      priority: 6,
+      priority: 7,
       tests: 0,
       image: "./assets/images/knowledge-os-control.png",
       youtubeUrl: "",
@@ -205,7 +206,7 @@ window.PORTFOLIO_SEED = {
       visibility: "public",
       maturity: "Production-ready",
       featured: false,
-      priority: 7,
+      priority: 8,
       tests: 92,
       image: "./assets/images/jangsa-detail.png",
       youtubeUrl: "",
@@ -233,7 +234,7 @@ window.PORTFOLIO_SEED = {
       visibility: "public",
       maturity: "Case study",
       featured: false,
-      priority: 8,
+      priority: 9,
       tests: 14,
       image: "./assets/images/notebooklm-automation.png",
       youtubeUrl: "",
@@ -249,20 +250,21 @@ window.PORTFOLIO_SEED = {
     },
     {
       id: "kdsis-search-agent",
-      title: "KDSIS Search Agent",
-      subtitle: "국방표준 검색을 자연어 질의와 Playwright 자동화로 연결",
+      title: "KoreaArmyQuality Search Agent",
+      subtitle: "국방 품질·표준 검색 업무를 자연어 질의와 브라우저 자동화로 연결",
       domain: "Automation",
       visibility: "public",
       maturity: "Production-ready",
-      featured: false,
-      priority: 9,
+      featured: true,
+      priority: 3,
       tests: 31,
       image: "",
-      youtubeUrl: "",
+      videoPoster: "https://img.youtube.com/vi/EW7pOTiMH3g/hqdefault.jpg",
+      youtubeUrl: "https://www.youtube.com/watch?v=EW7pOTiMH3g",
       summary:
-        "담당자가 자연어로 질문하면 AI가 검색 파라미터를 추출하고, Playwright가 KDSIS WebSquare 그리드를 실시간 조회해 카드와 표로 반환하는 업무 자동화 앱입니다.",
+        "담당자가 자연어로 질문하면 검색 파라미터를 추출하고, Playwright가 KoreaArmyQuality/KDSIS 계열 WebSquare 화면을 조회해 카드와 표로 반환하는 업무 자동화 앱입니다.",
       results: [
-        "AI 키가 없어도 규칙 기반 파싱으로 폴백",
+        "시연 영상으로 검색 요청, 자동 조회, 결과 정리 흐름을 확인 가능",
         "Chromium 싱글턴, serial queue, TTL cache로 안정성 개선",
         "CSV/JSON 다운로드, 정렬, 페이지네이션, 최근 검색 지원"
       ],

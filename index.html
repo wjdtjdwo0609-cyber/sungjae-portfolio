@@ -9,10 +9,11 @@
     />
     <title>정성재 | AI · Robotics · Smart Factory</title>
     <link rel="preconnect" href="https://img.youtube.com" />
-    <link rel="stylesheet" href="./assets/styles.css?v=20260527-video" />
+    <link rel="preconnect" href="https://www.youtube.com" />
+    <link rel="stylesheet" href="./assets/styles.css?v=20260528-youtube" />
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
-    <script src="./assets/portfolio-data.js?v=20260527-video" defer></script>
-    <script src="./assets/app.js?v=20260527-video" defer></script>
+    <script src="./assets/portfolio-data.js?v=20260528-youtube" defer></script>
+    <script src="./assets/app.js?v=20260528-youtube" defer></script>
   </head>
   <body>
     <header class="site-header" data-header>
@@ -34,12 +35,12 @@
       <section class="hero section-shell" aria-labelledby="hero-title">
         <div class="hero-copy">
           <p class="eyebrow">AI · Robotics · Smart Factory</p>
-          <h1 id="hero-title">현장 문제를 제품과 자동화 시스템으로 정리하는 개발자</h1>
+          <h1 id="hero-title">영상으로 증명하는 로봇·AI·디지털 트윈 포트폴리오</h1>
           <p class="hero-lede" data-profile-summary></p>
           <div class="hero-actions">
             <a class="primary-button" href="#projects">
-              <i data-lucide="layout-grid"></i>
-              프로젝트 보기
+              <i data-lucide="play-circle"></i>
+              영상 프로젝트 보기
             </a>
           <a class="secondary-button" href="#resume">
             <i data-lucide="file-down"></i>
@@ -47,18 +48,46 @@
             </a>
           </div>
         </div>
-        <div class="hero-panel" aria-label="대표 포트폴리오 요약">
+        <div class="hero-panel demo-reel" aria-label="대표 영상 포트폴리오">
           <div class="panel-topline">
-            <span>Portfolio Focus</span>
+            <span>Demo Reel</span>
             <span data-last-updated></span>
           </div>
-          <div class="focus-map" aria-hidden="true">
-            <span class="node node-main">AI</span>
-            <span class="node node-a">ROS2</span>
-            <span class="node node-b">OPC UA</span>
-            <span class="node node-c">RAG</span>
-            <span class="node node-d">FastAPI</span>
-            <span class="node node-e">Swift</span>
+          <button
+            class="hero-video hero-video-main"
+            type="button"
+            data-hero-video-url="https://www.youtube.com/watch?v=3c9PQeWwu58&t=463s"
+          >
+            <img src="./assets/images/dockerros-video-poster.jpg" alt="DockerRos 앱 시연 영상" />
+            <span class="hero-video-overlay">
+              <span class="video-label">DockerRos · Digital Twin</span>
+              <span class="video-title">로봇 시뮬레이터와 디지털 트윈 시연</span>
+            </span>
+            <span class="media-play hero-play"><i data-lucide="play"></i><span>Play</span></span>
+          </button>
+          <div class="hero-video-list">
+            <button
+              class="hero-video hero-video-compact"
+              type="button"
+              data-hero-video-url="https://www.youtube.com/watch?v=EW7pOTiMH3g"
+            >
+              <img src="https://img.youtube.com/vi/EW7pOTiMH3g/hqdefault.jpg" alt="KoreaArmyQuality 프로젝트 시연 영상" />
+              <span>
+                <strong>KoreaArmyQuality</strong>
+                <small>검색 자동화 시연</small>
+              </span>
+            </button>
+            <button
+              class="hero-video hero-video-compact"
+              type="button"
+              data-hero-video-url="https://www.youtube.com/watch?v=2opqmbzk43I&t=504s"
+            >
+              <img src="https://img.youtube.com/vi/2opqmbzk43I/hqdefault.jpg" alt="비전 로봇 PLC 디지털 트윈 프로젝트 영상" />
+              <span>
+                <strong>Vision · Robot · PLC</strong>
+                <small>웹 연동 디지털 트윈</small>
+              </span>
+            </button>
           </div>
           <dl class="hero-stats">
             <div>
