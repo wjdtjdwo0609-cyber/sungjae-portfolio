@@ -1,5 +1,5 @@
 (function () {
-  const STORAGE_KEY = "sungjae-portfolio-v6";
+  const STORAGE_KEY = "sungjae-portfolio-v7";
 
   const seed = window.PORTFOLIO_SEED || { profile: {}, domains: ["All"], projects: [] };
   const studioEnabled = isStudioEnabled();
@@ -89,6 +89,8 @@
       gallery: Array.isArray(project.gallery) ? project.gallery : splitLines(project.gallery),
       youtubeUrl: project.youtubeUrl || "",
       summary: project.summary || "",
+      rolePoints: Array.isArray(project.rolePoints) ? project.rolePoints : splitLines(project.rolePoints),
+      scopeNotes: Array.isArray(project.scopeNotes) ? project.scopeNotes : splitLines(project.scopeNotes),
       results: Array.isArray(project.results) ? project.results : splitLines(project.results),
       stack: Array.isArray(project.stack) ? project.stack : splitComma(project.stack),
       links: Array.isArray(project.links) ? project.links : [],
@@ -536,6 +538,8 @@
     form.elements.maturity.value = project.maturity || "Case study";
     form.elements.subtitle.value = project.subtitle || "";
     form.elements.summary.value = project.summary || "";
+    form.elements.rolePoints.value = (project.rolePoints || []).join("\n");
+    form.elements.scopeNotes.value = (project.scopeNotes || []).join("\n");
     form.elements.results.value = (project.results || []).join("\n");
     form.elements.tests.value = project.tests || 0;
     form.elements.featured.value = project.featured ? "true" : "false";
@@ -581,12 +585,9 @@
         </div>
       </div>
       <div class="detail-grid">
-        <div class="detail-section">
-          <h3>검증 포인트</h3>
-          <ul class="detail-list">
-            ${(project.results || []).map((result) => `<li>${escapeHtml(result)}</li>`).join("")}
-          </ul>
-        </div>
+        ${renderDetailListSection("나의 역할", project.rolePoints)}
+        ${renderDetailListSection("구현 범위", project.scopeNotes)}
+        ${renderDetailListSection("검증 포인트", project.results)}
         <div class="detail-section">
           <h3>기술 스택</h3>
           <div class="chip-row">
@@ -630,6 +631,19 @@
             ? `<button class="secondary-button compact" type="button" data-detail-copy="${escapeAttribute(project.localPath)}"><i data-lucide="copy"></i>로컬 경로 복사</button>`
             : ""
         }
+      </div>
+    `;
+  }
+
+  function renderDetailListSection(title, items) {
+    const list = Array.isArray(items) ? items.filter(Boolean) : [];
+    if (!list.length) return "";
+    return `
+      <div class="detail-section">
+        <h3>${escapeHtml(title)}</h3>
+        <ul class="detail-list">
+          ${list.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}
+        </ul>
       </div>
     `;
   }
@@ -729,6 +743,8 @@
       maturity: form.elements.maturity.value,
       subtitle: form.elements.subtitle.value.trim(),
       summary: form.elements.summary.value.trim(),
+      rolePoints: splitLines(form.elements.rolePoints.value),
+      scopeNotes: splitLines(form.elements.scopeNotes.value),
       results: splitLines(form.elements.results.value),
       tests: Number(form.elements.tests.value || 0),
       featured: form.elements.featured.value === "true",
@@ -906,6 +922,8 @@
         project.summary,
         project.domain,
         project.maturity,
+        ...(project.rolePoints || []),
+        ...(project.scopeNotes || []),
         ...(project.stack || []),
         ...(project.results || [])
       ]
@@ -940,6 +958,8 @@
       gallery: [],
       youtubeUrl: "",
       summary: "",
+      rolePoints: [],
+      scopeNotes: [],
       results: [],
       stack: [],
       links: []
