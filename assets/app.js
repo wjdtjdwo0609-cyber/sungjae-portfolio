@@ -1,5 +1,5 @@
 (function () {
-  const STORAGE_KEY = "sungjae-portfolio-v7";
+  const STORAGE_KEY = "sungjae-portfolio-v8";
 
   const seed = window.PORTFOLIO_SEED || { profile: {}, domains: ["All"], projects: [] };
   const studioEnabled = isStudioEnabled();
@@ -89,6 +89,12 @@
       gallery: Array.isArray(project.gallery) ? project.gallery : splitLines(project.gallery),
       youtubeUrl: project.youtubeUrl || "",
       summary: project.summary || "",
+      problem: project.problem || "",
+      architecture: Array.isArray(project.architecture) ? project.architecture : splitLines(project.architecture),
+      buildSteps: Array.isArray(project.buildSteps) ? project.buildSteps : splitLines(project.buildSteps),
+      challenges: normalizeCasePairs(project.challenges),
+      evidence: normalizeCasePairs(project.evidence),
+      metrics: normalizeCasePairs(project.metrics),
       rolePoints: Array.isArray(project.rolePoints) ? project.rolePoints : splitLines(project.rolePoints),
       scopeNotes: Array.isArray(project.scopeNotes) ? project.scopeNotes : splitLines(project.scopeNotes),
       results: Array.isArray(project.results) ? project.results : splitLines(project.results),
@@ -584,6 +590,14 @@
           ${renderDetailActions(project, links, youtubeId, localVideo)}
         </div>
       </div>
+      ${renderMetricStrip(project.metrics)}
+      ${renderProblemSection(project.problem)}
+      ${renderArchitectureFlow(project.architecture)}
+      <div class="detail-grid case-study-grid">
+        ${renderDetailListSection("구현 방식", project.buildSteps)}
+        ${renderChallengeSection(project.challenges)}
+        ${renderEvidenceSection(project.evidence)}
+      </div>
       <div class="detail-grid">
         ${renderDetailListSection("나의 역할", project.rolePoints)}
         ${renderDetailListSection("구현 범위", project.scopeNotes)}
@@ -644,6 +658,94 @@
         <ul class="detail-list">
           ${list.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}
         </ul>
+      </div>
+    `;
+  }
+
+  function renderMetricStrip(items) {
+    const metrics = Array.isArray(items) ? items.filter((item) => item.label || item.value) : [];
+    if (!metrics.length) return "";
+    return `
+      <div class="case-metrics" aria-label="핵심 증거">
+        ${metrics
+          .map(
+            (item) => `
+              <div class="case-metric">
+                <strong>${escapeHtml(item.label || "")}</strong>
+                <span>${escapeHtml(item.value || "")}</span>
+              </div>
+            `
+          )
+          .join("")}
+      </div>
+    `;
+  }
+
+  function renderProblemSection(problem) {
+    if (!problem) return "";
+    return `
+      <div class="detail-section case-problem">
+        <h3>문제 정의</h3>
+        <p class="detail-paragraph">${escapeHtml(problem)}</p>
+      </div>
+    `;
+  }
+
+  function renderArchitectureFlow(items) {
+    const nodes = Array.isArray(items) ? items.filter(Boolean) : [];
+    if (!nodes.length) return "";
+    return `
+      <div class="detail-section case-flow">
+        <h3>시스템 구조</h3>
+        <div class="flow-row" aria-label="${escapeAttribute(nodes.join(" to "))}">
+          ${nodes.map((node) => `<span class="flow-node">${escapeHtml(node)}</span>`).join("")}
+        </div>
+      </div>
+    `;
+  }
+
+  function renderChallengeSection(items) {
+    const challenges = Array.isArray(items) ? items.filter((item) => item.label || item.value) : [];
+    if (!challenges.length) return "";
+    return `
+      <div class="detail-section">
+        <h3>문제 / 해결</h3>
+        <div class="challenge-list">
+          ${challenges
+            .map(
+              (item) => `
+                <div class="challenge-item">
+                  <p>문제</p>
+                  <strong>${escapeHtml(item.label || "")}</strong>
+                  <p>해결</p>
+                  <span>${escapeHtml(item.value || "")}</span>
+                </div>
+              `
+            )
+            .join("")}
+        </div>
+      </div>
+    `;
+  }
+
+  function renderEvidenceSection(items) {
+    const evidence = Array.isArray(items) ? items.filter((item) => item.label || item.value) : [];
+    if (!evidence.length) return "";
+    return `
+      <div class="detail-section">
+        <h3>증거 자료</h3>
+        <div class="evidence-list">
+          ${evidence
+            .map(
+              (item) => `
+                <div class="evidence-item">
+                  <strong>${escapeHtml(item.label || "")}</strong>
+                  <span>${escapeHtml(item.value || "")}</span>
+                </div>
+              `
+            )
+            .join("")}
+        </div>
       </div>
     `;
   }
@@ -735,6 +837,7 @@
     const form = els.projectForm;
     const id = form.elements.id.value || slugify(form.elements.title.value);
     const repo = form.elements.repo.value.trim();
+    const previous = findProject(id);
     const project = {
       id,
       title: form.elements.title.value.trim(),
@@ -743,6 +846,12 @@
       maturity: form.elements.maturity.value,
       subtitle: form.elements.subtitle.value.trim(),
       summary: form.elements.summary.value.trim(),
+      problem: previous?.problem || "",
+      architecture: previous?.architecture || [],
+      buildSteps: previous?.buildSteps || [],
+      challenges: previous?.challenges || [],
+      evidence: previous?.evidence || [],
+      metrics: previous?.metrics || [],
       rolePoints: splitLines(form.elements.rolePoints.value),
       scopeNotes: splitLines(form.elements.scopeNotes.value),
       results: splitLines(form.elements.results.value),
@@ -920,8 +1029,14 @@
         project.title,
         project.subtitle,
         project.summary,
+        project.problem,
         project.domain,
         project.maturity,
+        ...(project.architecture || []),
+        ...(project.buildSteps || []),
+        ...flattenCasePairs(project.challenges),
+        ...flattenCasePairs(project.evidence),
+        ...flattenCasePairs(project.metrics),
         ...(project.rolePoints || []),
         ...(project.scopeNotes || []),
         ...(project.stack || []),
@@ -958,6 +1073,12 @@
       gallery: [],
       youtubeUrl: "",
       summary: "",
+      problem: "",
+      architecture: [],
+      buildSteps: [],
+      challenges: [],
+      evidence: [],
+      metrics: [],
       rolePoints: [],
       scopeNotes: [],
       results: [],
@@ -1079,6 +1200,26 @@
       .split(",")
       .map((item) => item.trim())
       .filter(Boolean);
+  }
+
+  function normalizeCasePairs(items) {
+    if (!items) return [];
+    const source = Array.isArray(items) ? items : splitLines(items);
+    return source
+      .map((item) => {
+        if (typeof item === "string") {
+          return { label: item, value: "" };
+        }
+        return {
+          label: item.label || item.problem || item.title || "",
+          value: item.value || item.solution || item.body || ""
+        };
+      })
+      .filter((item) => item.label || item.value);
+  }
+
+  function flattenCasePairs(items) {
+    return (Array.isArray(items) ? items : []).flatMap((item) => [item.label, item.value].filter(Boolean));
   }
 
   function sum(values) {

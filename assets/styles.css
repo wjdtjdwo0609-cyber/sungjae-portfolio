@@ -1329,6 +1329,10 @@ dialog::backdrop {
   gap: 24px;
 }
 
+.case-study-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
 .detail-layout {
   display: grid;
   grid-template-columns: minmax(280px, 0.95fr) minmax(0, 1.05fr);
@@ -1394,6 +1398,119 @@ dialog::backdrop {
 
 .detail-section h3 {
   font-size: 18px;
+}
+
+.detail-paragraph {
+  margin: 0;
+  color: #3f4650;
+  font-size: 16px;
+  line-height: 1.68;
+}
+
+.case-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.case-metric {
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(245, 245, 247, 0.78);
+}
+
+.case-metric strong,
+.case-metric span {
+  display: block;
+}
+
+.case-metric strong {
+  color: var(--text);
+  font-size: 17px;
+  line-height: 1.25;
+}
+
+.case-metric span {
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.case-flow {
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(245, 245, 247, 0.62);
+}
+
+.flow-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.flow-node {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #fff;
+  color: #2e353f;
+  padding: 0 12px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.flow-node:not(:last-child)::after {
+  content: "→";
+  position: absolute;
+  right: -14px;
+  color: var(--quiet);
+  font-weight: 800;
+}
+
+.challenge-list,
+.evidence-list {
+  display: grid;
+  gap: 10px;
+}
+
+.challenge-item,
+.evidence-item {
+  display: grid;
+  gap: 6px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(245, 245, 247, 0.62);
+}
+
+.challenge-item p {
+  margin: 0;
+  color: var(--blue);
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.challenge-item strong,
+.evidence-item strong {
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.42;
+}
+
+.challenge-item span,
+.evidence-item span {
+  color: #3f4650;
+  font-size: 13px;
+  line-height: 1.48;
 }
 
 .detail-list {
@@ -1617,7 +1734,9 @@ textarea:focus {
   }
 
   .detail-hero,
-  .detail-grid {
+  .detail-grid,
+  .case-study-grid,
+  .case-metrics {
     grid-template-columns: 1fr;
   }
 
@@ -1720,6 +1839,23 @@ textarea:focus {
     grid-template-columns: 1fr;
   }
 
+  .flow-row {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .flow-node {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .flow-node:not(:last-child)::after {
+    bottom: -18px;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%) rotate(90deg);
+  }
+
   .gallery-stage {
     min-height: 230px;
   }
@@ -1805,13 +1941,25 @@ textarea:focus {
   .media-fallback,
   .detail-media,
   .gallery-stage,
-  .gallery-thumb {
+  .gallery-thumb,
+  .case-metric,
+  .case-flow,
+  .challenge-item,
+  .evidence-item {
     background-color: #17191f;
+  }
+
+  .flow-node {
+    background: rgba(24, 26, 31, 0.92);
+    color: #f5f5f7;
   }
 
   .detail-copy p,
   .detail-summary,
-  .detail-list li {
+  .detail-paragraph,
+  .detail-list li,
+  .challenge-item span,
+  .evidence-item span {
     color: #c2c8d1;
   }
 

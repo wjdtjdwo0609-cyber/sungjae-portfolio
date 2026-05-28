@@ -46,13 +46,53 @@ window.PORTFOLIO_SEED = {
       image: "./assets/images/factoryio-robot-process-poster.jpg",
       videoPoster: "./assets/images/factoryio-robot-process-poster.jpg",
       gallery: [
+        "./assets/images/factoryio-robot-process-poster.jpg",
+        "./assets/images/smart-factory-web-twin-io.png",
         "./assets/images/smart-factory-dashboard.png",
-        "./assets/images/smart-factory-digital-twin.png",
-        "./assets/images/loadcell-capture.jpg"
+        "./assets/images/smart-factory-plc-addresses.png"
       ],
       youtubeUrl: "https://www.youtube.com/watch?v=xNjqt9xNdQY",
       summary:
         "Factory I/O로 로봇 공정을 구성하고, PLC 신호 흐름과 웹 화면 표현을 연결해 제조 공정 상태를 설명 가능하게 보여주는 프로젝트입니다.",
+      problem:
+        "로봇 공정 시뮬레이션은 영상만 보여주면 장비 동선은 보이지만, 어떤 신호가 공정 상태를 바꾸는지 설명하기 어렵습니다. 그래서 Factory I/O 공정, PLC 신호, 웹 상태 화면을 한 흐름으로 묶어 검증 가능한 시연 형태로 정리했습니다.",
+      architecture: ["Factory I/O 공정", "PLC 신호", "상태 매핑", "웹 공정 화면", "영상 검증"],
+      buildSteps: [
+        "Factory I/O에서 컨베이어, 로봇, 설비 동선이 보이는 공정 레이아웃 구성",
+        "PLC 신호를 공정 상태명과 주소 단위로 정리해 웹 화면에서 추적 가능하게 구성",
+        "웹 화면에는 공정 흐름, I/O 상태, 품질 지표를 분리해 검토자가 빠르게 읽을 수 있게 배치",
+        "YouTube 영상과 상세 갤러리를 연결해 실제 동작 증거를 바로 확인 가능하게 구성"
+      ],
+      challenges: [
+        {
+          problem: "시뮬레이션 영상만으로는 PLC와 웹 화면의 관계가 약해 보임",
+          solution: "PLC 주소록과 웹 상태 화면 캡처를 함께 배치해 신호-상태 연결을 증거로 보강"
+        },
+        {
+          problem: "공정 레이아웃이 복잡해 한 장면에서 흐름을 읽기 어려움",
+          solution: "대표 썸네일은 전체 공정, 상세 갤러리는 PLC·대시보드·웹 트윈으로 분리"
+        }
+      ],
+      evidence: [
+        {
+          label: "Factory I/O 시연 영상",
+          value: "로봇 공정 레이아웃과 설비 동선을 실제 재생 가능한 영상으로 제공"
+        },
+        {
+          label: "PLC 주소 매핑 화면",
+          value: "CMD_START, STS_PROCESS, STS_WEIGHT 같은 상태/명령 태그를 주소와 함께 제시"
+        },
+        {
+          label: "웹 공정 화면",
+          value: "SCADA/HMI 대신 웹 UI로 공정 흐름과 상태를 보여주는 구현 증거"
+        }
+      ],
+      metrics: [
+        { label: "Factory I/O", value: "로봇 공정 시뮬레이션" },
+        { label: "PLC Signal", value: "주소·상태 매핑" },
+        { label: "Web View", value: "공정 흐름 시각화" },
+        { label: "Demo", value: "영상 검증 가능" }
+      ],
       rolePoints: [
         "Factory I/O 기반 로봇 공정 레이아웃 구성",
         "PLC 신호 흐름을 공정 상태 표현과 연결",
@@ -90,13 +130,64 @@ window.PORTFOLIO_SEED = {
       image: "./assets/images/vision-robot-plc-digital-twin-poster.jpg",
       videoPoster: "./assets/images/vision-robot-plc-digital-twin-poster.jpg",
       gallery: [
+        "./assets/images/smart-factory-process-layout.png",
+        "./assets/images/smart-factory-plc-addresses.png",
+        "./assets/images/smart-factory-web-twin-io.png",
+        "./assets/images/smart-factory-quality-analysis.png",
         "./assets/images/pickline-preview.png",
-        "./assets/images/smart-factory-digital-twin.png",
         "./assets/images/loadcell-capture.jpg"
       ],
       youtubeUrl: "https://www.youtube.com/watch?v=2opqmbzk43I",
       summary:
         "비전 모델 학습으로 대상 인식 흐름을 만들고, 로봇 티칭과 PLC 신호 연동, 웹 기반 디지털 트윈 화면을 묶어 실제 공정을 시연한 스마트팩토리 프로젝트입니다.",
+      problem:
+        "비전, 로봇, PLC, 웹 화면이 각각 따로 동작하면 최종 프로젝트처럼 보여도 시스템 통합 역량이 잘 드러나지 않습니다. 이 프로젝트는 인식 결과, 로봇 티칭 동작, PLC 신호, 웹 디지털 트윈을 하나의 공정 흐름으로 연결해 실제 장비와 화면이 같이 설명되도록 만든 사례입니다.",
+      architecture: ["Vision Training", "Detection Result", "Robot Teaching", "PLC Signal", "Web Digital Twin", "Demo Video"],
+      buildSteps: [
+        "비전 학습 결과를 로봇 동작 조건과 공정 판단 흐름에 연결",
+        "로봇 티칭 포인트와 작업 순서를 실제 셀 시연 기준으로 조정",
+        "PLC 래더 작성이 아니라 PLC 신호를 웹 상태, 로봇 동작, 공정 단계와 연결하는 통합 흐름을 담당",
+        "웹 디지털 트윈 화면에 입력, 출력, 릴레이, 공정 단계, 로봇 셀 상태가 보이도록 구성",
+        "최종 영상에서는 실제 장비 셀과 웹 화면을 함께 보여줘 검토자가 동작 증거를 확인할 수 있게 구성"
+      ],
+      challenges: [
+        {
+          problem: "비전 인식 결과와 로봇 동작이 따로 보이면 통합 프로젝트의 설득력이 떨어짐",
+          solution: "인식 결과를 공정 판단 값으로 정리하고, 로봇 티칭 동작과 PLC 신호 흐름에 맞춰 시연 순서를 구성"
+        },
+        {
+          problem: "PLC를 했다고 쓰면 래더 작성까지 한 것처럼 오해될 수 있음",
+          solution: "상세 보기에서 직접 수행 범위와 제외 범위를 분리해 PLC 신호 연동 중심으로 명확히 표기"
+        },
+        {
+          problem: "SCADA/HMI 없이 공정 상태를 보여줘야 함",
+          solution: "웹 디지털 트윈을 상태 표시 화면으로 설계해 I/O, 공정 단계, 품질 지표를 한 화면에서 설명"
+        }
+      ],
+      evidence: [
+        {
+          label: "최종 시연 영상",
+          value: "비전, 로봇, PLC 신호, 웹 디지털 트윈이 함께 등장하는 결과물"
+        },
+        {
+          label: "공정 현황 화면",
+          value: "입력/출력/릴레이와 로봇 셀 상태를 웹 화면에서 확인 가능"
+        },
+        {
+          label: "PLC 주소록",
+          value: "태그명, 주소, 설명을 분리해 신호 연동 범위를 검토 가능하게 제시"
+        },
+        {
+          label: "품질 분석 화면",
+          value: "불량률, 무게, SPC 관리도 등 생산 데이터 표현까지 연결"
+        }
+      ],
+      metrics: [
+        { label: "Vision", value: "학습·인식 흐름" },
+        { label: "Robot", value: "티칭·동작 조정" },
+        { label: "PLC", value: "신호 연동" },
+        { label: "Web Twin", value: "상태 시각화" }
+      ],
       rolePoints: [
         "비전 학습과 인식 결과를 공정 판단 흐름에 연결",
         "로봇 티칭과 동작 흐름 조정",
@@ -147,6 +238,49 @@ window.PORTFOLIO_SEED = {
       youtubeUrl: "https://www.youtube.com/watch?v=3c9PQeWwu58&t=463s",
       summary:
         "무거운 로봇 시뮬레이션을 브라우저에서 확인 가능한 데모와 ROS2 학습 환경으로 나누고, 디지털 트윈 장면까지 영상에서 바로 확인할 수 있게 정리한 프로젝트입니다.",
+      problem:
+        "ROS2, Gazebo, 로봇 모델, PLC 연동을 한 번에 설치해야 하는 구조는 포트폴리오 검토자가 바로 실행해 보기 어렵습니다. 그래서 무거운 로봇 실행 환경과 웹 데모를 분리하고, 브라우저에서 먼저 로봇 시뮬레이션과 디지털 트윈 흐름을 확인할 수 있게 만들었습니다.",
+      architecture: ["Browser Demo", "Three.js Robot View", "OPC UA Adapter", "WebSocket", "PLC / GX Simulator", "ROS2 Native Path"],
+      buildSteps: [
+        "Three.js/WebGL 기반 웹 시뮬레이터로 로봇 장면을 브라우저에서 확인 가능하게 구성",
+        "Indy7, UR, Panda, Fanuc 등 여러 로봇 모델을 학습·시연용으로 정리",
+        "OPC UA와 WebSocket 어댑터를 두어 PLC 연동 흐름을 웹 시뮬레이터와 분리",
+        "ROS2 네이티브 실행 경로와 웹 데모 경로를 나눠 무거운 의존성 문제를 낮춤"
+      ],
+      challenges: [
+        {
+          problem: "로봇 시뮬레이터가 무거워서 채용자가 바로 실행하기 어려움",
+          solution: "웹 데모와 ROS2 네이티브 실행 경로를 분리해 브라우저에서 먼저 결과를 볼 수 있게 구성"
+        },
+        {
+          problem: "PLC 연동은 OS, Python 버전, 포트, 실행 순서에 민감함",
+          solution: "OPC UA 4840, WebSocket 9091, Python 3.12, 실행 순서를 README와 어댑터 구조로 명시"
+        },
+        {
+          problem: "영상 썸네일이 검은 여백 위주라 결과물이 약해 보임",
+          solution: "로컬 원본 영상에서 웹 디지털 트윈 화면이 잘 보이는 프레임을 추출해 대표 이미지로 교체"
+        }
+      ],
+      evidence: [
+        {
+          label: "웹 시뮬레이터 화면",
+          value: "대시보드와 3D 로봇 시뮬레이션을 같은 화면에서 확인 가능"
+        },
+        {
+          label: "OPC UA / WebSocket 경로",
+          value: "PLC와 브라우저 사이를 어댑터로 분리한 구조"
+        },
+        {
+          label: "README 실행 문서",
+          value: "웹 데모, PLC 연동, ROS2 실행 경로를 분리해 설명"
+        }
+      ],
+      metrics: [
+        { label: "WebGL", value: "브라우저 시뮬레이션" },
+        { label: "ROS2", value: "네이티브 학습 경로" },
+        { label: "OPC UA", value: "PLC 연동 어댑터" },
+        { label: "16 tests", value: "검증 항목" }
+      ],
       results: [
         "DockerRos 앱 시연 영상의 디지털 트윈 구간으로 바로 이동",
         "Indy7, UR, Panda, Fanuc 등 여러 로봇 모델과 학습 흐름 지원",
