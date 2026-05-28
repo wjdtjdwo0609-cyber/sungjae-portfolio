@@ -137,12 +137,12 @@ window.PORTFOLIO_SEED = {
       featured: true,
       priority: 3,
       tests: 16,
-      image: "./assets/images/dockerros-demo-poster.jpg",
+      image: "./assets/images/dockerros-web-simulator-poster.jpg",
       video: "",
-      videoPoster: "./assets/images/dockerros-demo-poster.jpg",
+      videoPoster: "./assets/images/dockerros-web-simulator-poster.jpg",
       gallery: [
-        "./assets/images/dockerros-video-poster.jpg",
-        "./assets/images/factoryio-robot-process-poster.jpg"
+        "./assets/images/dockerros-web-simulator-overview.jpg",
+        "./assets/images/dockerros-web-simulator-poster.jpg"
       ],
       youtubeUrl: "https://www.youtube.com/watch?v=3c9PQeWwu58&t=463s",
       summary:
