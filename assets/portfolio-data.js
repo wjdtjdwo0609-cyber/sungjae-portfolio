@@ -4,7 +4,7 @@ window.PORTFOLIO_SEED = {
     name: "정성재",
     role: "AI · Robotics · Digital Twin Builder",
     summary:
-      "Factory I/O 로봇 공정, 비전·로봇·PLC 기반 디지털 트윈, 국방 품질 검색 자동화처럼 실제로 동작하는 데모를 만들고 영상으로 검증하는 개발자입니다.",
+      "비전 학습, 로봇 티칭, PLC 신호 연동, 웹 디지털 트윈처럼 실제 장비와 소프트웨어가 맞물리는 흐름을 만들고 영상으로 검증하는 개발자입니다.",
     github: "https://github.com/wjdtjdwo0609-cyber",
     resume: "./assets/docs/sungjae-korea-deep-learning-portfolio.pdf",
     pdfs: [
@@ -36,7 +36,7 @@ window.PORTFOLIO_SEED = {
     {
       id: "smart-factory-digital-twin",
       title: "Factory I/O Robot Process Simulation",
-      subtitle: "Factory I/O에서 구현한 로봇 공정과 PLC·웹 대시보드 연동",
+      subtitle: "Factory I/O에서 구현한 로봇 공정과 PLC 신호·웹 화면 연동",
       domain: "Smart Factory",
       visibility: "public",
       maturity: "Case study",
@@ -52,10 +52,20 @@ window.PORTFOLIO_SEED = {
       ],
       youtubeUrl: "https://www.youtube.com/watch?v=xNjqt9xNdQY",
       summary:
-        "Factory I/O로 로봇 공정을 구성하고, PLC 제어 흐름과 웹 대시보드 표현을 연결해 제조 공정 상태를 설명 가능하게 보여주는 프로젝트입니다.",
+        "Factory I/O로 로봇 공정을 구성하고, PLC 신호 흐름과 웹 화면 표현을 연결해 제조 공정 상태를 설명 가능하게 보여주는 프로젝트입니다.",
+      rolePoints: [
+        "Factory I/O 기반 로봇 공정 레이아웃 구성",
+        "PLC 신호 흐름을 공정 상태 표현과 연결",
+        "웹 화면에서 시뮬레이션 상태를 이해할 수 있도록 정리"
+      ],
+      scopeNotes: [
+        "초점은 Factory I/O 로봇 공정 시뮬레이션과 웹 기반 상태 표현",
+        "SCADA/HMI가 아니라 웹 화면으로 공정 흐름을 보여주는 방식",
+        "영상에서 전체 공정 동선과 설비 배치를 바로 확인 가능"
+      ],
       results: [
         "Factory I/O 기반 로봇 공정 시뮬레이션을 대표 썸네일로 정리",
-        "PLC 신호와 웹 대시보드 흐름을 함께 이해할 수 있게 구성",
+        "PLC 신호와 웹 화면 흐름을 함께 이해할 수 있게 구성",
         "로봇 공정 레이아웃과 장비 동선을 영상으로 확인 가능"
       ],
       stack: ["Factory I/O", "PLC", "Robot", "React", "Digital Twin"],
@@ -70,7 +80,7 @@ window.PORTFOLIO_SEED = {
     {
       id: "vision-robot-plc-digital-twin",
       title: "Vision · Robot · PLC Digital Twin",
-      subtitle: "비전 인식, 로봇 제어, PLC 연동, 웹 디지털 트윈을 연결한 공정 시연",
+      subtitle: "비전 학습, 로봇 티칭, PLC 신호, 웹 디지털 트윈을 연결한 최종 프로젝트",
       domain: "Smart Factory",
       visibility: "public",
       maturity: "Case study",
@@ -86,13 +96,24 @@ window.PORTFOLIO_SEED = {
       ],
       youtubeUrl: "https://www.youtube.com/watch?v=2opqmbzk43I",
       summary:
-        "실제 로봇 셀에서 비전 인식, 로봇 동작, PLC 제어 흐름을 연결하고, 이를 웹 기반 디지털 트윈 화면과 함께 보여주는 스마트팩토리 프로젝트입니다.",
-      results: [
-        "비전 인식 결과와 로봇 동작을 PLC 제어 흐름에 맞춰 연결",
-        "실제 장비 셀과 웹 디지털 트윈 표현을 함께 시연",
-        "영상으로 전체 공정 흐름과 결과물을 바로 확인 가능"
+        "비전 모델 학습으로 대상 인식 흐름을 만들고, 로봇 티칭과 PLC 신호 연동, 웹 기반 디지털 트윈 화면을 묶어 실제 공정을 시연한 스마트팩토리 프로젝트입니다.",
+      rolePoints: [
+        "비전 학습과 인식 결과를 공정 판단 흐름에 연결",
+        "로봇 티칭과 동작 흐름 조정",
+        "PLC 신호를 로봇 동작 및 웹 디지털 트윈 상태 표현과 연동",
+        "영상에서 실제 장비와 웹 화면의 관계가 보이도록 시연 구성"
       ],
-      stack: ["Python", "OpenCV", "Robot", "PLC", "React", "Digital Twin"],
+      scopeNotes: [
+        "직접 수행 범위: 비전 학습, 로봇 티칭, PLC 신호 연동, 웹 디지털 트윈 구현",
+        "제외 범위: PLC 래더 작성, SCADA/HMI 구현",
+        "표현 방식: SCADA/HMI 대신 웹 화면으로 공정 상태와 흐름을 시각화"
+      ],
+      results: [
+        "비전 학습 결과를 로봇 동작 조건과 공정 흐름에 연결",
+        "로봇 티칭 기반 실제 동작과 PLC 신호 연동을 함께 시연",
+        "웹 디지털 트윈 화면으로 장비 상태와 공정 흐름을 확인 가능"
+      ],
+      stack: ["Python", "OpenCV", "Vision Training", "Robot Teaching", "PLC Signal", "Web Digital Twin"],
       links: [
         {
           label: "Dashboard",
