@@ -10,10 +10,10 @@
     <title>정성재 | AI · Robotics · Smart Factory</title>
     <link rel="preconnect" href="https://img.youtube.com" />
     <link rel="preconnect" href="https://www.youtube.com" />
-    <link rel="stylesheet" href="./assets/styles.css?v=20260528-thumbnails" />
+    <link rel="stylesheet" href="./assets/styles.css?v=20260528-detail-gallery" />
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
-    <script src="./assets/portfolio-data.js?v=20260528-thumbnails" defer></script>
-    <script src="./assets/app.js?v=20260528-thumbnails" defer></script>
+    <script src="./assets/portfolio-data.js?v=20260528-detail-gallery" defer></script>
+    <script src="./assets/app.js?v=20260528-detail-gallery" defer></script>
   </head>
   <body>
     <header class="site-header" data-header>
@@ -282,6 +282,10 @@
             <input name="image" placeholder="./assets/images/preview.png" />
           </label>
           <label class="wide">
+            갤러리 이미지
+            <textarea name="gallery" rows="3" placeholder="./assets/images/preview-2.png&#10;./assets/images/preview-3.png"></textarea>
+          </label>
+          <label class="wide">
             GitHub / 링크
             <input name="repo" placeholder="https://github.com/..." />
           </label>
@@ -333,6 +337,16 @@
           allowfullscreen
         ></iframe>
         <video data-video-player title="프로젝트 영상" controls playsinline hidden></video>
+      </div>
+    </dialog>
+
+    <dialog class="image-dialog" data-image-dialog>
+      <div class="image-frame">
+        <button class="ghost-button icon-button image-close" type="button" data-image-close aria-label="이미지 닫기">
+          <i data-lucide="x"></i>
+        </button>
+        <img data-image-viewer alt="" />
+        <p data-image-caption></p>
       </div>
     </dialog>
 

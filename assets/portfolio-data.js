@@ -45,6 +45,11 @@ window.PORTFOLIO_SEED = {
       tests: 1,
       image: "./assets/images/factoryio-robot-process-poster.jpg",
       videoPoster: "./assets/images/factoryio-robot-process-poster.jpg",
+      gallery: [
+        "./assets/images/smart-factory-dashboard.png",
+        "./assets/images/smart-factory-digital-twin.png",
+        "./assets/images/loadcell-capture.jpg"
+      ],
       youtubeUrl: "https://www.youtube.com/watch?v=2opqmbzk43I&t=504s",
       summary:
         "Factory I/O로 로봇 공정을 구성하고, 비전 인식과 PLC 제어 흐름, 웹 연동 디지털 트윈을 하나의 시연 흐름으로 묶어 제조 공정 상태를 설명 가능하게 보여주는 프로젝트입니다.",
@@ -75,6 +80,10 @@ window.PORTFOLIO_SEED = {
       image: "./assets/images/dockerros-demo-poster.jpg",
       video: "",
       videoPoster: "./assets/images/dockerros-demo-poster.jpg",
+      gallery: [
+        "./assets/images/dockerros-video-poster.jpg",
+        "./assets/images/factoryio-robot-process-poster.jpg"
+      ],
       youtubeUrl: "https://www.youtube.com/watch?v=3c9PQeWwu58&t=463s",
       summary:
         "무거운 로봇 시뮬레이션을 브라우저에서 확인 가능한 데모와 ROS2 학습 환경으로 나누고, 디지털 트윈 장면까지 영상에서 바로 확인할 수 있게 정리한 프로젝트입니다.",
@@ -260,6 +269,9 @@ window.PORTFOLIO_SEED = {
       tests: 31,
       image: "",
       videoPoster: "./assets/images/koreaarmyquality-demo-poster.jpg",
+      gallery: [
+        "./assets/images/koreaarmyquality-demo-poster.jpg"
+      ],
       youtubeUrl: "https://www.youtube.com/watch?v=EW7pOTiMH3g",
       summary:
         "담당자가 자연어로 질문하면 검색 파라미터를 추출하고, Playwright가 KoreaArmyQuality/KDSIS 계열 WebSquare 화면을 조회해 카드와 표로 반환하는 업무 자동화 앱입니다.",
