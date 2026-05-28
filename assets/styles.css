@@ -442,6 +442,10 @@ h3 {
   font-size: 12px;
 }
 
+.hero-video-list .hero-video-compact:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+}
+
 .focus-map {
   position: relative;
   height: 360px;

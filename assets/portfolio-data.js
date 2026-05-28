@@ -4,7 +4,7 @@ window.PORTFOLIO_SEED = {
     name: "정성재",
     role: "AI · Robotics · Digital Twin Builder",
     summary:
-      "로봇 시뮬레이터, 비전·PLC 기반 스마트팩토리 디지털 트윈, 국방 품질 검색 자동화처럼 실제로 동작하는 데모를 만들고 영상으로 검증하는 개발자입니다.",
+      "Factory I/O 로봇 공정, 비전·로봇·PLC 기반 디지털 트윈, 국방 품질 검색 자동화처럼 실제로 동작하는 데모를 만들고 영상으로 검증하는 개발자입니다.",
     github: "https://github.com/wjdtjdwo0609-cyber",
     resume: "./assets/docs/sungjae-korea-deep-learning-portfolio.pdf",
     pdfs: [
@@ -35,8 +35,8 @@ window.PORTFOLIO_SEED = {
   projects: [
     {
       id: "smart-factory-digital-twin",
-      title: "Factory I/O Robot Process Digital Twin",
-      subtitle: "Factory I/O에서 구현한 로봇 공정과 비전·PLC·웹 대시보드 연동",
+      title: "Factory I/O Robot Process Simulation",
+      subtitle: "Factory I/O에서 구현한 로봇 공정과 PLC·웹 대시보드 연동",
       domain: "Smart Factory",
       visibility: "public",
       maturity: "Case study",
@@ -52,17 +52,56 @@ window.PORTFOLIO_SEED = {
       ],
       youtubeUrl: "https://www.youtube.com/watch?v=xNjqt9xNdQY",
       summary:
-        "Factory I/O로 로봇 공정을 구성하고, 비전 인식과 PLC 제어 흐름, 웹 연동 디지털 트윈을 하나의 시연 흐름으로 묶어 제조 공정 상태를 설명 가능하게 보여주는 프로젝트입니다.",
+        "Factory I/O로 로봇 공정을 구성하고, PLC 제어 흐름과 웹 대시보드 표현을 연결해 제조 공정 상태를 설명 가능하게 보여주는 프로젝트입니다.",
       results: [
         "Factory I/O 기반 로봇 공정 시뮬레이션을 대표 썸네일로 정리",
-        "카메라 기반 인식 결과와 로봇 동작을 PLC 흐름에 맞춰 연결",
-        "영상 시작 지점을 핵심 결과물 구간으로 연결해 채용 담당자가 바로 확인 가능"
+        "PLC 신호와 웹 대시보드 흐름을 함께 이해할 수 있게 구성",
+        "로봇 공정 레이아웃과 장비 동선을 영상으로 확인 가능"
       ],
-      stack: ["Factory I/O", "Python", "OpenCV", "Robot", "PLC", "Digital Twin"],
+      stack: ["Factory I/O", "PLC", "Robot", "React", "Digital Twin"],
       links: [
         {
           label: "GitHub",
           url: "https://github.com/wjdtjdwo0609-cyber/smart-factory-dashboard",
+          icon: "github"
+        }
+      ]
+    },
+    {
+      id: "vision-robot-plc-digital-twin",
+      title: "Vision · Robot · PLC Digital Twin",
+      subtitle: "비전 인식, 로봇 제어, PLC 연동, 웹 디지털 트윈을 연결한 공정 시연",
+      domain: "Smart Factory",
+      visibility: "public",
+      maturity: "Case study",
+      featured: true,
+      priority: 2,
+      tests: 1,
+      image: "./assets/images/vision-robot-plc-digital-twin-poster.jpg",
+      videoPoster: "./assets/images/vision-robot-plc-digital-twin-poster.jpg",
+      gallery: [
+        "./assets/images/pickline-preview.png",
+        "./assets/images/smart-factory-digital-twin.png",
+        "./assets/images/loadcell-capture.jpg"
+      ],
+      youtubeUrl: "https://www.youtube.com/watch?v=2opqmbzk43I",
+      summary:
+        "실제 로봇 셀에서 비전 인식, 로봇 동작, PLC 제어 흐름을 연결하고, 이를 웹 기반 디지털 트윈 화면과 함께 보여주는 스마트팩토리 프로젝트입니다.",
+      results: [
+        "비전 인식 결과와 로봇 동작을 PLC 제어 흐름에 맞춰 연결",
+        "실제 장비 셀과 웹 디지털 트윈 표현을 함께 시연",
+        "영상으로 전체 공정 흐름과 결과물을 바로 확인 가능"
+      ],
+      stack: ["Python", "OpenCV", "Robot", "PLC", "React", "Digital Twin"],
+      links: [
+        {
+          label: "Dashboard",
+          url: "https://github.com/wjdtjdwo0609-cyber/smart-factory-dashboard",
+          icon: "github"
+        },
+        {
+          label: "Toolkit",
+          url: "https://github.com/wjdtjdwo0609-cyber/pickline-toolkit",
           icon: "github"
         }
       ]
@@ -75,7 +114,7 @@ window.PORTFOLIO_SEED = {
       visibility: "public",
       maturity: "Production-ready",
       featured: true,
-      priority: 2,
+      priority: 3,
       tests: 16,
       image: "./assets/images/dockerros-demo-poster.jpg",
       video: "",
@@ -109,7 +148,7 @@ window.PORTFOLIO_SEED = {
       visibility: "public",
       maturity: "Case study",
       featured: false,
-      priority: 6,
+      priority: 7,
       tests: 77,
       image: "./assets/images/pickline-preview.png",
       youtubeUrl: "",
@@ -137,7 +176,7 @@ window.PORTFOLIO_SEED = {
       visibility: "public",
       maturity: "Production-ready",
       featured: true,
-      priority: 4,
+      priority: 5,
       tests: 137,
       image: "./assets/images/local-agent-ai.png",
       youtubeUrl: "",
@@ -165,7 +204,7 @@ window.PORTFOLIO_SEED = {
       visibility: "public",
       maturity: "Case study",
       featured: true,
-      priority: 5,
+      priority: 6,
       tests: 5,
       image: "./assets/images/docscope-document-split.png",
       youtubeUrl: "",
@@ -193,7 +232,7 @@ window.PORTFOLIO_SEED = {
       visibility: "public",
       maturity: "Case study",
       featured: false,
-      priority: 7,
+      priority: 8,
       tests: 0,
       image: "./assets/images/knowledge-os-control.png",
       youtubeUrl: "",
@@ -215,7 +254,7 @@ window.PORTFOLIO_SEED = {
       visibility: "public",
       maturity: "Production-ready",
       featured: false,
-      priority: 8,
+      priority: 9,
       tests: 92,
       image: "./assets/images/jangsa-detail.png",
       youtubeUrl: "",
@@ -243,7 +282,7 @@ window.PORTFOLIO_SEED = {
       visibility: "public",
       maturity: "Case study",
       featured: false,
-      priority: 9,
+      priority: 10,
       tests: 14,
       image: "./assets/images/notebooklm-automation.png",
       youtubeUrl: "",
@@ -265,7 +304,7 @@ window.PORTFOLIO_SEED = {
       visibility: "public",
       maturity: "Production-ready",
       featured: true,
-      priority: 3,
+      priority: 4,
       tests: 31,
       image: "",
       videoPoster: "./assets/images/koreaarmyquality-demo-poster.jpg",
