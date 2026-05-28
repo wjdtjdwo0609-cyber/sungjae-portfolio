@@ -50,7 +50,7 @@ window.PORTFOLIO_SEED = {
         "./assets/images/smart-factory-digital-twin.png",
         "./assets/images/loadcell-capture.jpg"
       ],
-      youtubeUrl: "https://www.youtube.com/watch?v=2opqmbzk43I&t=504s",
+      youtubeUrl: "https://www.youtube.com/watch?v=xNjqt9xNdQY",
       summary:
         "Factory I/O로 로봇 공정을 구성하고, 비전 인식과 PLC 제어 흐름, 웹 연동 디지털 트윈을 하나의 시연 흐름으로 묶어 제조 공정 상태를 설명 가능하게 보여주는 프로젝트입니다.",
       results: [
