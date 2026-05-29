@@ -113,7 +113,7 @@ window.PORTFOLIO_SEED = {
         {
           label: "GitHub",
           url: "https://github.com/wjdtjdwo0609-cyber/smart-factory-dashboard",
-          icon: "github"
+          icon: "code-2"
         }
       ]
     },
@@ -130,6 +130,9 @@ window.PORTFOLIO_SEED = {
       image: "./assets/images/vision-robot-plc-digital-twin-poster.jpg",
       videoPoster: "./assets/images/vision-robot-plc-digital-twin-poster.jpg",
       gallery: [
+        "./assets/images/vision-r2-quality-detection-original.jpg",
+        "./assets/images/vision-depth-pose-original.jpg",
+        "./assets/images/intel5-vision-robot-gui-summary.jpg",
         "./assets/images/smart-factory-process-layout.png",
         "./assets/images/smart-factory-plc-addresses.png",
         "./assets/images/smart-factory-web-twin-io.png",
@@ -144,8 +147,9 @@ window.PORTFOLIO_SEED = {
         "비전, 로봇, PLC, 웹 화면이 각각 따로 동작하면 최종 프로젝트처럼 보여도 시스템 통합 역량이 잘 드러나지 않습니다. 이 프로젝트는 인식 결과, 로봇 티칭 동작, PLC 신호, 웹 디지털 트윈을 하나의 공정 흐름으로 연결해 실제 장비와 화면이 같이 설명되도록 만든 사례입니다.",
       architecture: ["Vision Training", "Detection Result", "Robot Teaching", "PLC Signal", "Web Digital Twin", "Demo Video"],
       buildSteps: [
-        "비전 학습 결과를 로봇 동작 조건과 공정 판단 흐름에 연결",
-        "로봇 티칭 포인트와 작업 순서를 실제 셀 시연 기준으로 조정",
+        "VISION2 / ROBOT2 GUI에서 ROI, confidence, 8pin/12pin 판정 결과가 보이도록 비전 검출 화면을 구성",
+        "Robot2 fixed-pose teaching GUI에서 집는 위치, 놓는 위치, HOME pose를 저장하고 실제 셀 배출 동작에 재사용",
+        "Robot3 loadcell teaching GUI에서 컨베이어 픽업, 로드셀 투입/재픽업, 8pin/12pin/reject bin 위치를 pose 파일로 관리",
         "PLC 래더 작성이 아니라 PLC 신호를 웹 상태, 로봇 동작, 공정 단계와 연결하는 통합 흐름을 담당",
         "웹 디지털 트윈 화면에 입력, 출력, 릴레이, 공정 단계, 로봇 셀 상태가 보이도록 구성",
         "최종 영상에서는 실제 장비 셀과 웹 화면을 함께 보여줘 검토자가 동작 증거를 확인할 수 있게 구성"
@@ -154,6 +158,10 @@ window.PORTFOLIO_SEED = {
         {
           problem: "비전 인식 결과와 로봇 동작이 따로 보이면 통합 프로젝트의 설득력이 떨어짐",
           solution: "인식 결과를 공정 판단 값으로 정리하고, 로봇 티칭 동작과 PLC 신호 흐름에 맞춰 시연 순서를 구성"
+        },
+        {
+          problem: "비전 좌표를 바로 로봇 좌표로 넘기면 depth 노이즈와 좌표계 오차 때문에 실제 셀 동작 안정성이 떨어질 수 있음",
+          solution: "R1은 호모그래피 기반 XY 변환, R2는 스토퍼 고정 위치와 티칭 pose를 사용하는 fixed-pose 방식으로 분리"
         },
         {
           problem: "PLC를 했다고 쓰면 래더 작성까지 한 것처럼 오해될 수 있음",
@@ -168,6 +176,18 @@ window.PORTFOLIO_SEED = {
         {
           label: "최종 시연 영상",
           value: "비전, 로봇, PLC 신호, 웹 디지털 트윈이 함께 등장하는 결과물"
+        },
+        {
+          label: "실제 비전 검출 원본 캡처",
+          value: "VISION2 / ROBOT2 GUI에서 ROI, confidence, REJECT/IGNORE 판정, RealSense 카메라 선택 상태를 함께 확인 가능"
+        },
+        {
+          label: "Depth / pose 실험 캡처",
+          value: "RGB 검출 화면과 depth map을 함께 띄워 X/Y/Z(mm) 및 자세 추정 흐름을 검증"
+        },
+        {
+          label: "로봇 티칭 GUI 구현",
+          value: "집는 위치, 놓는 위치, HOME pose 저장 로직과 fixed_poses_r2.yaml / fixed_poses_r3.yaml 좌표 파일로 증거 보강"
         },
         {
           label: "공정 현황 화면",
@@ -190,18 +210,19 @@ window.PORTFOLIO_SEED = {
       ],
       rolePoints: [
         "비전 학습과 인식 결과를 공정 판단 흐름에 연결",
-        "로봇 티칭과 동작 흐름 조정",
+        "로봇 티칭 GUI와 fixed pose 파일을 통해 실제 집기/놓기/HOME 위치를 저장하고 동작 흐름 조정",
         "PLC 신호를 로봇 동작 및 웹 디지털 트윈 상태 표현과 연동",
         "영상에서 실제 장비와 웹 화면의 관계가 보이도록 시연 구성"
       ],
       scopeNotes: [
         "직접 수행 범위: 비전 학습, 로봇 티칭, PLC 신호 연동, 웹 디지털 트윈 구현",
         "제외 범위: PLC 래더 작성, SCADA/HMI 구현",
+        "티칭 근거: step24_auto_pick_gui.py, step30_robot3_teaching_gui.py, fixed_poses_r2.yaml, fixed_poses_r3.yaml",
         "표현 방식: SCADA/HMI 대신 웹 화면으로 공정 상태와 흐름을 시각화"
       ],
       results: [
-        "비전 학습 결과를 로봇 동작 조건과 공정 흐름에 연결",
-        "로봇 티칭 기반 실제 동작과 PLC 신호 연동을 함께 시연",
+        "8pin/12pin 검출, confidence 판정, REJECT/IGNORE 판단 흐름을 실제 GUI 캡처로 제시",
+        "로봇 티칭 기반 fixed pose 동작과 PLC 신호 연동을 함께 시연",
         "웹 디지털 트윈 화면으로 장비 상태와 공정 흐름을 확인 가능"
       ],
       stack: ["Python", "OpenCV", "Vision Training", "Robot Teaching", "PLC Signal", "Web Digital Twin"],
@@ -209,12 +230,12 @@ window.PORTFOLIO_SEED = {
         {
           label: "Dashboard",
           url: "https://github.com/wjdtjdwo0609-cyber/smart-factory-dashboard",
-          icon: "github"
+          icon: "code-2"
         },
         {
           label: "Toolkit",
           url: "https://github.com/wjdtjdwo0609-cyber/pickline-toolkit",
-          icon: "github"
+          icon: "code-2"
         }
       ]
     },
@@ -291,7 +312,7 @@ window.PORTFOLIO_SEED = {
         {
           label: "GitHub",
           url: "https://github.com/wjdtjdwo0609-cyber/DockerRos",
-          icon: "github"
+          icon: "code-2"
         }
       ]
     },
@@ -319,7 +340,7 @@ window.PORTFOLIO_SEED = {
         {
           label: "GitHub",
           url: "https://github.com/wjdtjdwo0609-cyber/pickline-toolkit",
-          icon: "github"
+          icon: "code-2"
         }
       ]
     },
@@ -347,7 +368,7 @@ window.PORTFOLIO_SEED = {
         {
           label: "GitHub",
           url: "https://github.com/wjdtjdwo0609-cyber/local-agent-ai-gui",
-          icon: "github"
+          icon: "code-2"
         }
       ]
     },
@@ -375,7 +396,7 @@ window.PORTFOLIO_SEED = {
         {
           label: "GitHub",
           url: "https://github.com/wjdtjdwo0609-cyber/docscope",
-          icon: "github"
+          icon: "code-2"
         }
       ]
     },
@@ -425,7 +446,7 @@ window.PORTFOLIO_SEED = {
         {
           label: "GitHub",
           url: "https://github.com/wjdtjdwo0609-cyber/JangsaSimulator",
-          icon: "github"
+          icon: "code-2"
         }
       ]
     },
@@ -479,7 +500,7 @@ window.PORTFOLIO_SEED = {
         {
           label: "GitHub",
           url: "https://github.com/wjdtjdwo0609-cyber/KoreaArmyQualitySearching",
-          icon: "github"
+          icon: "code-2"
         }
       ]
     },
@@ -529,7 +550,7 @@ window.PORTFOLIO_SEED = {
         {
           label: "GitHub",
           url: "https://github.com/wjdtjdwo0609-cyber/ai-army",
-          icon: "github"
+          icon: "code-2"
         }
       ]
     },
