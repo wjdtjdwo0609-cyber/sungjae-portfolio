@@ -1,5 +1,5 @@
 (function () {
-  const STORAGE_KEY = "sungjae-portfolio-v8";
+  const STORAGE_KEY = "sungjae-portfolio-v9";
 
   const seed = window.PORTFOLIO_SEED || { profile: {}, domains: ["All"], projects: [] };
   const studioEnabled = isStudioEnabled();
@@ -864,7 +864,7 @@
       image: form.elements.image.value.trim(),
       gallery: splitLines(form.elements.gallery.value),
       localPath: form.elements.localPath.value.trim(),
-      links: repo ? [{ label: "Link", url: repo, icon: repo.includes("github") ? "github" : "external-link" }] : [],
+      links: repo ? [{ label: "Link", url: repo, icon: repo.includes("github") ? "code-2" : "external-link" }] : [],
       priority: findProject(id)?.priority || state.data.projects.length + 1
     };
 
