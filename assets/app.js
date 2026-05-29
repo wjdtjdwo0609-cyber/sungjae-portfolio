@@ -1,5 +1,5 @@
 (function () {
-  const STORAGE_KEY = "sungjae-portfolio-v9";
+  const STORAGE_KEY = "sungjae-portfolio-v10";
 
   const seed = window.PORTFOLIO_SEED || { profile: {}, domains: ["All"], projects: [] };
   const studioEnabled = isStudioEnabled();
