@@ -1,5 +1,5 @@
 (function () {
-  const STORAGE_KEY = "sungjae-portfolio-v11";
+  const STORAGE_KEY = "sungjae-portfolio-v12";
 
   const seed = window.PORTFOLIO_SEED || { profile: {}, domains: ["All"], projects: [] };
   const studioEnabled = isStudioEnabled();
@@ -85,6 +85,7 @@
       tests: Number.isFinite(Number(project.tests)) ? Number(project.tests) : 0,
       image: project.image || "",
       imageFit: project.imageFit || "",
+      visual: project.visual || "",
       video: project.video || project.videoUrl || "",
       videoPoster: project.videoPoster || "",
       gallery: Array.isArray(project.gallery) ? project.gallery : splitLines(project.gallery),
@@ -227,7 +228,9 @@
 
     const media = document.createElement("div");
     media.className = "project-media";
-    if (localVideo) {
+    if (project.visual === "game-prototypes") {
+      media.append(htmlToElement(renderGamePrototypeVisual()));
+    } else if (localVideo) {
       const video = document.createElement("video");
       video.src = localVideo;
       video.poster = image || "";
@@ -764,6 +767,10 @@
   }
 
   function renderDetailGallery(project, youtubeId, localVideo) {
+    if (project.visual === "game-prototypes") {
+      return `<div class="detail-gallery">${renderGamePrototypeVisual("detail")}</div>`;
+    }
+
     const images = projectImages(project, youtubeId);
     if (!images.length) {
       const initials = project.title
@@ -832,6 +839,47 @@
     );
   }
 
+  function renderGamePrototypeVisual(size = "") {
+    const classes = ["game-prototype-visual", size ? `game-prototype-visual-${size}` : ""].filter(Boolean).join(" ");
+    return `
+      <div class="${classes}" aria-label="Game prototype systems">
+        <div class="game-visual-topline">
+          <span>Game Prototypes</span>
+          <span>Local Play</span>
+        </div>
+        <div class="game-visual-grid">
+          <div class="game-visual-panel">
+            <strong>Water Bomb</strong>
+            <span>4P input</span>
+            <span>bomb → cross blast</span>
+            <span>bubble trap</span>
+          </div>
+          <div class="game-visual-panel">
+            <strong>Bbangya</strong>
+            <span>30s turns</span>
+            <span>combo score</span>
+            <span>mobile touch</span>
+          </div>
+          <div class="game-visual-panel">
+            <strong>Breakout</strong>
+            <span>pygame loop</span>
+            <span>collision angle</span>
+            <span>restart state</span>
+          </div>
+        </div>
+        <div class="game-visual-flow">
+          <span>Input</span>
+          <i></i>
+          <span>Rules</span>
+          <i></i>
+          <span>State</span>
+          <i></i>
+          <span>Feedback</span>
+        </div>
+      </div>
+    `;
+  }
+
   function fillDomainOptions() {
     const select = els.projectForm.elements.domain;
     select.innerHTML = "";
@@ -876,6 +924,7 @@
       videoPoster: form.elements.videoPoster.value.trim(),
       image: form.elements.image.value.trim(),
       imageFit: previous?.imageFit || "",
+      visual: previous?.visual || "",
       gallery: splitLines(form.elements.gallery.value),
       localPath: form.elements.localPath.value.trim(),
       links: repo ? [{ label: "Link", url: repo, icon: repo.includes("github") ? "code-2" : "external-link" }] : [],

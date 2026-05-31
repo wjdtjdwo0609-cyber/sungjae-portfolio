@@ -736,6 +736,103 @@ h3 {
   font-weight: 800;
 }
 
+.game-prototype-visual {
+  display: grid;
+  align-content: space-between;
+  gap: 14px;
+  width: 100%;
+  height: 100%;
+  min-height: 245px;
+  padding: 18px;
+  background:
+    linear-gradient(135deg, rgba(29, 29, 31, 0.96), rgba(39, 48, 62, 0.96)),
+    #1d1d1f;
+  color: #fff;
+}
+
+.game-visual-topline,
+.game-visual-flow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.game-visual-topline {
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 12px;
+  font-weight: 750;
+  text-transform: uppercase;
+}
+
+.game-visual-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.game-visual-panel {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.game-visual-panel strong,
+.game-visual-panel span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.game-visual-panel strong {
+  font-size: 14px;
+}
+
+.game-visual-panel span {
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 12px;
+}
+
+.game-visual-flow {
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.game-visual-flow i {
+  flex: 1 1 auto;
+  height: 1px;
+  min-width: 8px;
+  background: rgba(255, 255, 255, 0.24);
+}
+
+.game-prototype-visual-detail {
+  min-height: 430px;
+}
+
+.game-prototype-visual-detail .game-visual-grid {
+  gap: 14px;
+}
+
+.game-prototype-visual-detail .game-visual-panel {
+  min-height: 160px;
+}
+
+.game-prototype-visual-detail .game-visual-panel strong,
+.game-prototype-visual-detail .game-visual-panel span {
+  overflow: visible;
+  text-overflow: clip;
+  white-space: normal;
+}
+
 .media-play {
   position: absolute;
   right: 14px;
@@ -1744,6 +1841,10 @@ textarea:focus {
   .gallery-stage {
     min-height: 280px;
   }
+
+  .game-prototype-visual-detail {
+    min-height: 360px;
+  }
 }
 
 @media (max-width: 720px) {
@@ -1826,6 +1927,30 @@ textarea:focus {
 
   .project-media {
     min-height: 210px;
+  }
+
+  .game-visual-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .game-visual-panel {
+    gap: 5px;
+    padding: 11px;
+  }
+
+  .game-visual-flow {
+    flex-wrap: wrap;
+    justify-content: center;
+    border-radius: var(--radius);
+  }
+
+  .game-visual-flow i {
+    display: none;
+  }
+
+  .game-prototype-visual,
+  .game-prototype-visual-detail {
+    min-height: auto;
   }
 
   .stack-grid {
