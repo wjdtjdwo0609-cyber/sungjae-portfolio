@@ -21,7 +21,7 @@ window.PORTFOLIO_SEED = {
         file: "./assets/docs/sungjae-team-reboott-portfolio.pdf"
       }
     ],
-    updatedAt: "2026-05-31"
+    updatedAt: "2026-06-01"
   },
   domains: [
     "All",
@@ -30,7 +30,8 @@ window.PORTFOLIO_SEED = {
     "AI Agent",
     "Document AI",
     "Automation",
-    "Product"
+    "Product",
+    "Game"
   ],
   projects: [
     {
@@ -907,6 +908,79 @@ window.PORTFOLIO_SEED = {
           icon: "code-2"
         }
       ]
+    },
+    {
+      id: "game-prototypes",
+      title: "Game Prototypes",
+      subtitle: "4인 로컬 멀티플레이, 모바일 턴제 사격, pygame 아케이드까지 직접 구현한 게임 로직 프로토타입",
+      domain: "Game",
+      visibility: "public",
+      maturity: "Local prototype",
+      featured: false,
+      priority: 9.5,
+      tests: 0,
+      image: "",
+      visual: "game-prototypes",
+      gallery: [],
+      youtubeUrl: "",
+      summary:
+        "화려한 그래픽보다 게임 루프, 입력 처리, 충돌 판정, 점수·상태 전환을 끝까지 만들어 본 경험을 보여주는 프로토타입 묶음입니다.",
+      problem:
+        "게임 회사 지원에서는 AI/산업 프로젝트만으로는 실제 게임 구현 경험이 약하게 보일 수 있습니다. 그래서 공개 웹 포트폴리오에는 비주얼 완성도보다 구현한 규칙, 입력, 상태머신, 피드백 루프를 정확히 보여주는 별도 게임 섹션을 두었습니다.",
+      architecture: ["Input Handling", "Game Loop", "Collision / Rules", "State Machine", "Score / Feedback", "Local Run"],
+      buildSteps: [
+        "워터밤 배틀: 한 키보드 4인 입력, 물풍선 설치, 십자 폭발, 물방울 갇힘, 연타 탈출, 재피격 즉사 로직 구성",
+        "빵야빵야: 모바일 브라우저 기반 30초 턴제, 타겟 점수, 콤보 배율, 스폰 가속, 리더보드, 진동 피드백 구성",
+        "벽돌깨기: Python pygame으로 패들/공/벽돌 클래스, 60개 벽돌, 충돌 지점 기반 반사각, 생명/점수, R 재시작 루프 구현",
+        "시각 자료는 제출용에서 과하게 보이지 않도록 제외하고, 웹에서는 시스템 구조 중심의 비주얼로 정리"
+      ],
+      challenges: [
+        {
+          problem: "게임 화면 완성도보다 로직 구현 증거가 중요함",
+          solution: "스크린샷을 크게 노출하지 않고 입력·규칙·상태·피드백 흐름을 프로젝트 설명 중심으로 배치"
+        },
+        {
+          problem: "여러 명이 동시에 조작하거나 모바일 터치를 쓰면 입력 충돌이 생기기 쉬움",
+          solution: "키보드 플레이어별 조작계를 분리하고, 모바일은 touch-action, viewport, DPR 대응을 별도로 정리"
+        }
+      ],
+      evidence: [
+        {
+          label: "워터밤 배틀",
+          value: "4인 로컬 멀티플레이 단일 HTML 산출물 기준으로 입력, 폭발, 갇힘, 라운드 상태머신 구현"
+        },
+        {
+          label: "빵야빵야",
+          value: "모바일 브라우저 실행을 전제로 짧은 턴제 세션, 점수 피드백, 진동 피드백 구현"
+        },
+        {
+          label: "벽돌깨기",
+          value: "pygame 로컬 실행 파일과 기본 게임 루프, 충돌, 점수, 재시작 흐름 구현"
+        }
+      ],
+      metrics: [
+        { label: "Prototype", value: "3 games" },
+        { label: "Input", value: "4P / touch" },
+        { label: "Loop", value: "상태머신" },
+        { label: "Runtime", value: "HTML / pygame" }
+      ],
+      rolePoints: [
+        "캐주얼 게임의 입력, 충돌, 점수, 상태 전환 규칙을 직접 설계하고 구현",
+        "모바일 브라우저와 로컬 키보드 플레이처럼 실행 환경이 다른 게임 UX를 각각 구성",
+        "게임 IP/라이브 서비스 회사 지원 시 AI 도구 경험과 별도로 실제 게임 구현 경험을 보강"
+      ],
+      scopeNotes: [
+        "공개 웹에서는 게임 화면 이미지보다 구현 구조와 로컬 실행 가능성을 중심으로 표기",
+        "앱스토어 출시나 상용 서비스 운영처럼 확인되지 않은 표현은 사용하지 않음",
+        "워터밤/빵야빵야는 단일 HTML 산출물, 벽돌깨기는 pygame 로컬 실행 기준"
+      ],
+      results: [
+        "게임 회사 지원에서 확인 가능한 게임 구현 섹션을 웹 포트폴리오에 추가",
+        "4인 입력, 모바일 터치, pygame 루프처럼 서로 다른 인터랙션 구현 경험을 한 카드로 정리",
+        "트리노드 제출 포트폴리오의 게임 경험과 웹 포트폴리오 내용이 서로 맞도록 보강"
+      ],
+      stack: ["JavaScript", "HTML Canvas", "Python", "Pygame", "Game Loop", "Input Handling"],
+      links: []
     },
     {
       id: "graphmind",
