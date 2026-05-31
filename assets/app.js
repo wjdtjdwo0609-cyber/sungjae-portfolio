@@ -1,5 +1,5 @@
 (function () {
-  const STORAGE_KEY = "sungjae-portfolio-v10";
+  const STORAGE_KEY = "sungjae-portfolio-v11";
 
   const seed = window.PORTFOLIO_SEED || { profile: {}, domains: ["All"], projects: [] };
   const studioEnabled = isStudioEnabled();
@@ -84,6 +84,7 @@
       priority: Number.isFinite(Number(project.priority)) ? Number(project.priority) : index + 1,
       tests: Number.isFinite(Number(project.tests)) ? Number(project.tests) : 0,
       image: project.image || "",
+      imageFit: project.imageFit || "",
       video: project.video || project.videoUrl || "",
       videoPoster: project.videoPoster || "",
       gallery: Array.isArray(project.gallery) ? project.gallery : splitLines(project.gallery),
@@ -207,7 +208,9 @@
   function createProjectCard(project, index) {
     const card = document.createElement("article");
     card.className = `project-card ${layoutClass(index)}${project.featured ? " featured" : ""}`;
-    if (project.image && project.image.includes("pickline-preview")) {
+    if (project.imageFit) {
+      card.dataset.imageFit = project.imageFit;
+    } else if (project.image && project.image.includes("pickline-preview")) {
       card.dataset.imageFit = "contain";
     }
 
@@ -369,24 +372,34 @@
     const publicProjects = getPublicProjects();
     const groups = [
       {
+        title: "Frontend / UX",
+        tags: ["React", "TypeScript", "Vite", "Three.js", "Tauri", "PWA"],
+        body: "채용자가 바로 볼 수 있는 웹 화면, 대시보드, 디지털 트윈, 로컬 GUI를 실제 실행 캡처와 함께 만듭니다."
+      },
+      {
+        title: "Backend / API",
+        tags: ["Python", "FastAPI", "Node.js", "Express", "WebSocket", "SSE"],
+        body: "로컬 앱, 자동화 서버, 브릿지 프로세스, 실시간 스트림을 제품 흐름에 맞춰 분리합니다."
+      },
+      {
+        title: "Data / Search",
+        tags: ["Supabase", "PostgreSQL", "PostGIS", "SQLite", "RAG", "BM25"],
+        body: "공공 API, 상권/입지 데이터, PLC 패턴, 문서 청크를 DB·검색 인덱스·운영 화면으로 연결합니다."
+      },
+      {
+        title: "AI / Agents",
+        tags: ["AI Agent", "Multi-agent", "Ollama", "MLX", "Claude", "Gemini"],
+        body: "도메인 특화 AI 서비스, 로컬 에이전트 GUI, 역할형 협업 에이전트, 브라우저 자동화를 구현합니다."
+      },
+      {
         title: "Robotics / Factory",
-        tags: ["ROS2", "Three.js", "OPC UA", "PLC", "Indy7", "Gazebo"],
-        body: "로봇 시뮬레이션, PLC 신호, 디지털 트윈, 품질 데이터를 연결해 현장 흐름을 설명 가능한 시스템으로 만듭니다."
+        tags: ["PLC", "MELSEC", "OPC UA", "MC Protocol", "Indy7", "LeRobot", "Pi0"],
+        body: "PLC 신호, 설비 브릿지, 비전·로봇 티칭, VLA 데이터셋, 웹 디지털 트윈을 한 흐름으로 묶습니다."
       },
       {
-        title: "AI Agent",
-        tags: ["FastAPI", "WebSocket", "Ollama", "MLX", "Multi-agent"],
-        body: "로컬 모델과 역할형 에이전트를 세션, 워크스페이스, 실행 로그로 묶어 실제 작업 도구로 구성합니다."
-      },
-      {
-        title: "Document AI",
-        tags: ["RAG", "Knowledge Graph", "OCR", "Tauri", "Mermaid"],
-        body: "비정형 문서를 구조화하고 그래프, 검색 인덱스, 메모 가능한 캔버스로 바꾸는 흐름에 집중합니다."
-      },
-      {
-        title: "Product Engineering",
-        tags: ["React", "Vite", "SQLite", "Playwright", "Vitest"],
-        body: "계산, 자동화, 운영 화면을 제품 형태로 닫고 테스트와 실행 증거를 함께 남기는 쪽을 선호합니다."
+        title: "QA / Product Ops",
+        tags: ["Playwright", "Vitest", "pytest", "PortOne", "Security Audit", "GitHub Actions"],
+        body: "테스트, 결제 검증, 보안 감사, 운영 로그, 제출 가능한 화면 증거까지 제품 완성도를 챙깁니다."
       }
     ];
 
@@ -862,6 +875,7 @@
       video: form.elements.video.value.trim(),
       videoPoster: form.elements.videoPoster.value.trim(),
       image: form.elements.image.value.trim(),
+      imageFit: previous?.imageFit || "",
       gallery: splitLines(form.elements.gallery.value),
       localPath: form.elements.localPath.value.trim(),
       links: repo ? [{ label: "Link", url: repo, icon: repo.includes("github") ? "code-2" : "external-link" }] : [],
