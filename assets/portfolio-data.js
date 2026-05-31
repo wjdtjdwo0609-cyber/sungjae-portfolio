@@ -83,8 +83,8 @@ window.PORTFOLIO_SEED = {
           value: "https://plcanalyze.xyz/ 에서 코드 생성·해석 흐름 확인 가능"
         },
         {
-          label: "특허 출원 주제",
-          value: "에이전트 AI를 이용한 PLC 생성 및 해석"
+          label: "지식재산 활동",
+          value: "3계층 하이브리드 RA 특허출원 접수 (출원번호: 10-2026-0061403)"
         }
       ],
       metrics: [
@@ -101,12 +101,12 @@ window.PORTFOLIO_SEED = {
       scopeNotes: [
         "직접 실행 화면을 대표 이미지와 갤러리에 배치",
         "지원 시 웹 포트폴리오 링크와 함께 별도 라이브 데모 링크로 제시 가능",
-        "특허 출원 주제는 '에이전트 AI를 이용한 PLC 생성 및 해석'으로만 표기"
+        "등록 단계가 아닌 특허출원 접수 사실로만 표기"
       ],
       results: [
         "PLC 코드 생성과 코드 해석을 한 서비스에서 보여주는 라이브 데모 운영",
         "MELSEC/GX Works 계열 로직을 현장 엔지니어가 읽을 수 있는 설명형 결과로 전환",
-        "에이전트 AI를 이용한 PLC 생성 및 해석 특허 출원 주제로 정리"
+        "3계층 하이브리드 RA 특허출원 접수 사실과 출원번호를 함께 정리"
       ],
       stack: ["React", "TypeScript", "PLC", "MELSEC", "RAG", "BM25", "AI Agent"],
       links: [
@@ -746,8 +746,8 @@ window.PORTFOLIO_SEED = {
           value: "공공 API, DB, Edge Functions, 결제, 테스트, 보안 감사를 함께 수행"
         },
         {
-          label: "특허 출원 주제",
-          value: "에이전트 AI를 이용한 상권분석"
+          label: "지식재산 활동",
+          value: "AI 에이전트 기반 상권분석 특허출원 접수 (출원번호: 10-2026-0061383)"
         }
       ],
       metrics: [
@@ -761,7 +761,7 @@ window.PORTFOLIO_SEED = {
         "Supabase Edge Functions 35개와 자동화 테스트 285개 이상 구성",
         "보안 감사 2회, 결제 검증 취약점 및 RPC 우회 취약점 수정",
         "사용자 흐름 설계, 리포트, 운영 대시보드, 반복 개선까지 제품화 흐름으로 정리",
-        "특허 출원 주제: 에이전트 AI를 이용한 상권분석"
+        "AI 에이전트 기반 상권분석 특허출원 접수 (출원번호: 10-2026-0061383)"
       ],
       stack: ["React", "TypeScript", "Vite", "Supabase", "PostgreSQL", "PostGIS", "PortOne", "Vitest"],
       links: [
