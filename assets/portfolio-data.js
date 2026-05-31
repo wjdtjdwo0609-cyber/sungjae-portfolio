@@ -203,8 +203,8 @@ window.PORTFOLIO_SEED = {
     },
     {
       id: "vision-robot-plc-digital-twin",
-      title: "Vision · Robot · PLC Digital Twin",
-      subtitle: "비전 학습, 로봇 티칭, PLC 신호, 웹 디지털 트윈을 연결한 최종 프로젝트",
+      title: "Smart Factory Dashboard & Digital Twin",
+      subtitle: "비전 학습, 로봇 티칭, PLC 신호, 웹 대시보드·디지털 트윈을 연결한 최종 프로젝트",
       domain: "Smart Factory",
       visibility: "public",
       maturity: "Case study",
@@ -229,7 +229,7 @@ window.PORTFOLIO_SEED = {
       ],
       youtubeUrl: "https://www.youtube.com/watch?v=2opqmbzk43I",
       summary:
-        "비전 모델 학습으로 대상 인식 흐름을 만들고, 로봇 티칭과 PLC 신호 연동, 웹 기반 디지털 트윈 화면을 묶어 실제 공정을 시연한 스마트팩토리 프로젝트입니다.",
+        "비전 모델 학습으로 대상 인식 흐름을 만들고, 로봇 티칭과 PLC 신호 연동, 웹 기반 대시보드·디지털 트윈 화면을 묶어 실제 공정을 시연한 스마트팩토리 프로젝트입니다.",
       problem:
         "비전, 로봇, PLC, 웹 화면이 각각 따로 동작하면 최종 프로젝트처럼 보여도 시스템 통합 역량이 잘 드러나지 않습니다. 이 프로젝트는 인식 결과, 로봇 티칭 동작, PLC 신호, 웹 디지털 트윈을 하나의 공정 흐름으로 연결해 실제 장비와 화면이 같이 설명되도록 만든 사례입니다.",
       architecture: ["Vision Training", "Detection Result", "Robot Teaching", "PLC Signal", "Web Digital Twin", "Demo Video"],
@@ -310,7 +310,7 @@ window.PORTFOLIO_SEED = {
       results: [
         "8pin/12pin 검출, confidence 판정, REJECT/IGNORE 판단 흐름을 실제 GUI 캡처로 제시",
         "로봇 티칭 기반 fixed pose 동작과 PLC 신호 연동을 함께 시연",
-        "웹 디지털 트윈 화면으로 장비 상태와 공정 흐름을 확인 가능"
+        "Smart Factory Dashboard & Digital Twin 화면으로 장비 상태와 공정 흐름을 확인 가능"
       ],
       stack: ["Python", "OpenCV", "Vision Training", "Robot Teaching", "PLC Signal", "Web Digital Twin"],
       links: [
@@ -709,7 +709,7 @@ window.PORTFOLIO_SEED = {
     {
       id: "jangsa-simulator",
       title: "장사OS / AI 상권분석 SaaS",
-      subtitle: "공공데이터 API, PostgreSQL/PostGIS, Supabase, 결제·보안·테스트를 연결한 제품형 SaaS",
+      subtitle: "Product AI 관점으로 공공데이터 API, PostgreSQL/PostGIS, Supabase, 결제·보안·테스트를 연결한 제품형 SaaS",
       domain: "Product",
       visibility: "public",
       maturity: "Production-ready",
@@ -726,7 +726,7 @@ window.PORTFOLIO_SEED = {
       ],
       youtubeUrl: "",
       summary:
-        "공공 API 15개 이상, PostgreSQL/PostGIS, Supabase Edge Functions, 결제, 자동화 테스트, 보안 감사를 연결해 상권분석을 실제 서비스 화면으로 만든 SaaS입니다.",
+        "Product AI 관점으로 공공 API 15개 이상, PostgreSQL/PostGIS, Supabase Edge Functions, 결제, 자동화 테스트, 보안 감사를 연결해 상권분석을 실제 서비스 화면으로 만든 SaaS입니다.",
       problem:
         "AI 서비스는 분석 모델만으로 완성되지 않습니다. 외부 API, 데이터베이스, 결제, 대시보드, 테스트, 보안, 사용자 피드백이 하나의 운영 시스템으로 연결되어야 실제 제품이 됩니다.",
       architecture: ["React UI", "Public APIs", "Supabase Edge Functions", "PostgreSQL / PostGIS", "Payment", "Security Review"],
@@ -760,6 +760,7 @@ window.PORTFOLIO_SEED = {
         "공공 API 15개 이상과 상권/입지 데이터를 제품 화면으로 연결",
         "Supabase Edge Functions 35개와 자동화 테스트 285개 이상 구성",
         "보안 감사 2회, 결제 검증 취약점 및 RPC 우회 취약점 수정",
+        "사용자 흐름 설계, 리포트, 운영 대시보드, 반복 개선까지 제품화 흐름으로 정리",
         "특허 출원 주제: 에이전트 AI를 이용한 상권분석"
       ],
       stack: ["React", "TypeScript", "Vite", "Supabase", "PostgreSQL", "PostGIS", "PortOne", "Vitest"],
@@ -896,7 +897,7 @@ window.PORTFOLIO_SEED = {
       results: [
         "PM/기획/기술 구현 사이의 연결 역량을 보여주는 프로젝트로 정리",
         "도메인 워크플로우 중심으로 backend/application/domain 분리",
-        "AI/DT 과제의 진행 상황과 검증 루프를 가시화하는 구조 확보"
+        "AI/DT 과제의 진행 상황과 검증 루프를 가시화하는 FDE식 실행 구조 확보"
       ],
       stack: ["Python", "FastAPI", "Multi-agent", "DDD", "Event Stream", "Task Board"],
       links: [
