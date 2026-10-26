@@ -172,7 +172,7 @@
     const copyrights = projects.flatMap((p) => (p.copyrights || []).map((entry) => ({ ...entry, projectId: p.id })));
     const fact = (label, title, detail) => title ? `<div><dt>${escapeHtml(label)}</dt><dd>${escapeHtml(title)}${detail ? `<span>${escapeHtml(detail)}</span>` : ""}</dd></div>` : "";
     $("[data-overview-content]").innerHTML = `
-      <div class="overview-column">
+      <div class="overview-column overview-education">
         <h3>학력·교육</h3>
         ${overview.headline ? `<p class="overview-intro">${escapeHtml(overview.headline)}</p>` : ""}
         <dl class="overview-facts">
@@ -180,7 +180,7 @@
           ${fact("AI 교육", overview.training, [overview.trainingPeriod, overview.trainingDetail].filter(Boolean).join(" · "))}
         </dl>
       </div>
-      <div class="overview-column">
+      <div class="overview-column overview-experience">
         <h3>대표 경험 · 내가 맡은 일</h3>
         <div class="overview-projects">${highlights.map(({ id, label, role, project }) => `
           <a class="overview-project" href="#project/${encodeURIComponent(id)}" data-overview-project="${escapeAttribute(id)}">
@@ -189,9 +189,11 @@
             <small>${escapeHtml([project.collaboration, project.period].filter(Boolean).join(" · "))}</small>
           </a>`).join("")}</div>
       </div>
-      <div class="overview-column">
+      <div class="overview-column overview-awards">
         <h3>수상·표창 <span class="overview-count">${awards.length}건</span></h3>
         <ol class="overview-records">${awards.map((award) => `<li><time>${escapeHtml((award.date || "").slice(0, 7))}</time><a href="#recognition">${escapeHtml(award.title)}${award.scope?.includes("팀") ? '<span class="overview-scope">팀</span>' : ""}</a></li>`).join("")}</ol>
+      </div>
+      <div class="overview-column overview-intellectual-property">
         ${patents.length ? `<div class="overview-patents"><h3>특허출원 접수 <span class="overview-count">${patents.length}건</span></h3>${patents.map((patent) => `<a href="#project/${encodeURIComponent(patent.projectId)}" data-overview-project="${escapeAttribute(patent.projectId)}"><strong>${escapeHtml(patent.title)}</strong><span>${escapeHtml(patent.number)}</span></a>`).join("")}</div>` : ""}
         ${copyrights.length ? `<div class="overview-copyrights"><h3>프로그램 저작권 등록 <span class="overview-count">${copyrights.length}건</span></h3>${copyrights.map((record) => `<a href="#project/${encodeURIComponent(record.projectId)}" data-overview-project="${escapeAttribute(record.projectId)}"><strong>${escapeHtml(record.title)}</strong><span>${escapeHtml(record.number)} · ${escapeHtml(record.registeredAt)}</span></a>`).join("")}</div>` : ""}
       </div>`;
@@ -1150,16 +1152,26 @@
     return url.href;
   }
 
-  function renderAwardCards(project) {
+  function renderAwardCards(project, level = 3) {
+    const heading = level === 4 ? "h4" : "h3";
     return (project.awards || []).map((award) => {
       const caption = [award.title, award.issuer, award.date, award.scope].filter(Boolean).join(" · ");
       const pdf = /^(https?:\/\/|\.\/)/i.test(award.certificatePdf || "") ? award.certificatePdf : "";
-      return `<article class="award-card"><p class="eyebrow">${escapeHtml(project.title)}</p><h3>${escapeHtml(award.title)}</h3><p>${escapeHtml([award.issuer, award.date, award.scope].filter(Boolean).join(" · "))}</p>${award.certificate || pdf ? `<div class="award-actions">${award.certificate ? `<button type="button" class="secondary-button compact" data-open-image="${escapeAttribute(award.certificate)}" data-image-caption="${escapeAttribute(caption)}">상장 보기</button>` : ""}${pdf ? `<a class="secondary-button compact" href="${escapeAttribute(pdf)}" target="_blank" rel="noopener">상장 PDF</a>` : ""}</div>` : ""}</article>`;
+      return `<article class="award-card"><p class="eyebrow">${escapeHtml(project.title)}</p><${heading}>${escapeHtml(award.title)}</${heading}><p>${escapeHtml([award.issuer, award.date, award.scope].filter(Boolean).join(" · "))}</p>${award.certificate || pdf ? `<div class="award-actions">${award.certificate ? `<button type="button" class="secondary-button compact" data-open-image="${escapeAttribute(award.certificate)}" data-image-caption="${escapeAttribute(caption)}">상장 보기</button>` : ""}${pdf ? `<a class="secondary-button compact" href="${escapeAttribute(pdf)}" target="_blank" rel="noopener">상장 PDF</a>` : ""}</div>` : ""}</article>`;
     }).join("");
   }
 
   function renderRecognitions() {
-    const html = getPublicProjects().filter((p) => p.awards?.length || p.patents?.length || p.copyrights?.length).map((p) => renderAwardCards(p) + renderPatentCards(p) + renderCopyrightCards(p)).join("") + renderAwardCards({ title: "수상·표창", awards: state.data.profile.awards || [] });
+    const projects = getPublicProjects();
+    const awards = projects.flatMap((p) => (p.awards || []).map((award) => ({ title: p.title, award })))
+      .concat((state.data.profile.awards || []).map((award) => ({ title: "수상·표창", award })))
+      .sort((a, b) => (b.award.date || "").localeCompare(a.award.date || ""));
+    const groups = [
+      { id: "award-records", title: "수상·표창", count: awards.length, cards: awards.map(({ title, award }) => renderAwardCards({ title, awards: [award] }, 4)).join("") },
+      { id: "patent-records", title: "특허출원 접수", count: projects.reduce((sum, p) => sum + (p.patents || []).length, 0), cards: projects.map((p) => renderPatentCards(p, 4)).join("") },
+      { id: "copyright-records", title: "프로그램 저작권 등록", count: projects.reduce((sum, p) => sum + (p.copyrights || []).length, 0), cards: projects.map((p) => renderCopyrightCards(p, 4)).join("") }
+    ];
+    const html = groups.filter((group) => group.count).map((group) => `<section id="${group.id}" class="recognition-group" aria-labelledby="${group.id}-title"><div class="recognition-group-heading"><h3 id="${group.id}-title">${group.title} <span class="overview-count">${group.count}건</span></h3></div><div class="recognition-cards">${group.cards}</div></section>`).join("");
     $("[data-recognition]").hidden = !html;
     $("[data-awards-grid]").innerHTML = html;
   }
@@ -1171,14 +1183,16 @@
     }).filter((a) => a.title);
   }
 
-  function renderPatentCards(project) {
-    return (project.patents || []).map((p) => `<article class="award-card"><p class="eyebrow">${escapeHtml(project.title)}</p><h3>${escapeHtml(p.title)}</h3><p>${escapeHtml(p.status)} · ${escapeHtml(p.number)}${p.filedAt ? `<br />접수일 ${escapeHtml(p.filedAt)}` : ""}</p>${p.evidence ? `<button class="secondary-button compact" type="button" data-open-image="${escapeAttribute(p.evidence)}" data-image-caption="${escapeAttribute(`${p.title} · ${p.number} · ${p.filedAt} 접수 · 2026-05-31 저장 화면`)}">접수 화면 보기</button>` : ""}</article>`).join("");
+  function renderPatentCards(project, level = 3) {
+    const heading = level === 4 ? "h4" : "h3";
+    return (project.patents || []).map((p) => `<article class="award-card"><p class="eyebrow">${escapeHtml(project.title)}</p><${heading}>${escapeHtml(p.title)}</${heading}><p>${escapeHtml(p.status)} · ${escapeHtml(p.number)}${p.filedAt ? `<br />접수일 ${escapeHtml(p.filedAt)}` : ""}</p>${p.evidence ? `<button class="secondary-button compact" type="button" data-open-image="${escapeAttribute(p.evidence)}" data-image-caption="${escapeAttribute(`${p.title} · ${p.number} · ${p.filedAt} 접수 · 2026-05-31 저장 화면`)}">접수 화면 보기</button>` : ""}</article>`).join("");
   }
 
-  function renderCopyrightCards(project) {
+  function renderCopyrightCards(project, level = 3) {
+    const heading = level === 4 ? "h4" : "h3";
     return (project.copyrights || []).map((record) => {
       const caption = `${record.title} · ${record.number} · ${record.registeredAt} 등록 · ${record.issuer || "한국저작권위원회"} 등록 내역`;
-      return `<article class="award-card" data-copyright-record><p class="eyebrow">${escapeHtml(project.title)}</p><h3>${escapeHtml(record.title)}</h3><p>컴퓨터프로그램 저작권 등록<br />${escapeHtml(record.number)} · ${escapeHtml(record.registeredAt)}<br />${escapeHtml(record.issuer || "한국저작권위원회")}${record.author ? `<br />저작자 ${escapeHtml(record.author)}` : ""}${record.rightsHolder ? ` · 권리자 ${escapeHtml(record.rightsHolder)}` : ""}</p>${record.evidence ? `<button class="secondary-button compact" type="button" data-open-image="${escapeAttribute(record.evidence)}" data-image-caption="${escapeAttribute(caption)}">등록 내역 보기</button>` : ""}</article>`;
+      return `<article class="award-card" data-copyright-record><p class="eyebrow">${escapeHtml(project.title)}</p><${heading}>${escapeHtml(record.title)}</${heading}><p>컴퓨터프로그램 저작권 등록<br />${escapeHtml(record.number)} · ${escapeHtml(record.registeredAt)}<br />${escapeHtml(record.issuer || "한국저작권위원회")}${record.author ? `<br />저작자 ${escapeHtml(record.author)}` : ""}${record.rightsHolder ? ` · 권리자 ${escapeHtml(record.rightsHolder)}` : ""}</p>${record.evidence ? `<button class="secondary-button compact" type="button" data-open-image="${escapeAttribute(record.evidence)}" data-image-caption="${escapeAttribute(caption)}">등록 내역 보기</button>` : ""}</article>`;
     }).join("");
   }
 
