@@ -66,7 +66,7 @@
         <h1>${e(p.title)}</h1><p class="subtitle">${e(p.subtitle)}</p>
         ${p.period || p.collaboration ? `<p class="context">${e([p.period, p.collaboration].filter(Boolean).join(" · "))}</p>` : ""}
         ${(p.awards || []).map((a) => `<p class="context">${e([a.title, a.issuer, a.date, a.scope].filter(Boolean).join(" · "))}</p>`).join("")}
-        ${(p.patents || []).map((a) => `<p class="context">${e([a.title, a.status, a.number].filter(Boolean).join(" · "))}</p>`).join("")}
+        ${(p.patents || []).map((a) => `<p class="context">${e([a.title, a.status, a.number, a.filedAt].filter(Boolean).join(" · "))}</p>`).join("")}
         <p class="intro">${e(p.summary)}</p>
         ${p.image && safeLink(p.image) ? `<figure><img src="${e(p.image)}" alt="${e(caption)}" /><figcaption>${e(caption)}</figcaption></figure>` : ""}
         <div class="case-columns">
@@ -87,7 +87,7 @@
     return `<article class="print-case"><header class="case-header"><span>정성재 · 수상·교육·출원 기록</span><span>${e(data.profile.updatedAt || "")}</span></header><p class="eyebrow">Records</p><h1>수상·표창과 출원 기록</h1>
       ${data.profile.education ? text("교육", data.profile.education) : ""}
       <section><h3>수상·표창</h3>${allAwards.map((a) => `<p><strong>${e(a.title)}</strong><br />${e([a.issuer, a.date, a.scope].filter(Boolean).join(" · "))}<br /><span class="context">${e(a.project)}</span>${a.certificate && safeLink(a.certificate) ? ` · <a href="${e(new URL(a.certificate, data.profile.website || location.href).href)}">상장 보기</a>` : ""}</p>`).join("")}</section>
-      <section><h3>지식재산 활동</h3>${patents.map((a) => `<p><strong>${e(a.title)}</strong><br />${e(a.status)} · ${e(a.number)}<br /><span class="context">${e(a.project)}</span></p>`).join("")}</section>
+      <section><h3>지식재산 활동</h3>${patents.map((a) => `<p><strong>${e(a.title)}</strong><br />${e(a.status)} · ${e(a.number)}${a.filedAt ? ` · 접수일 ${e(a.filedAt)}` : ""}<br /><span class="context">${e(a.project)}</span>${a.evidence && safeLink(a.evidence) ? ` · <a href="${e(new URL(a.evidence, data.profile.website || location.href).href)}">접수 화면 보기</a>` : ""}</p>`).join("")}</section>
       <footer><a href="${e((data.profile.website || new URL('./', location.href).href)+'#recognition')}">웹 기록과 증빙</a></footer></article>`;
   }
   document.querySelector("[data-print]").addEventListener("click", () => window.print());

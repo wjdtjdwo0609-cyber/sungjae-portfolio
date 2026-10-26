@@ -45,7 +45,8 @@ window.PORTFOLIO_SEED = {
         "certificate": ""
       }
     ],
-    "education": "대한상공회의소 부산인력개발원 · [인텔] AI 융합 DX 마스터 클래스(5회차) · 2025.11.13~2026.05.22 · 900시간 수료"
+    "education": "대한상공회의소 부산인력개발원 · [인텔] AI 융합 DX 마스터 클래스(5회차) · 2025.11.13~2026.05.22 · 900시간 수료",
+    "revision": "2026-10-26-ip-evidence"
   },
   "domains": [
     "All",
@@ -133,6 +134,10 @@ window.PORTFOLIO_SEED = {
         {
           "label": "일관성 개선 기록",
           "value": "경쟁 점포의 중복 보정을 제거하고 화면값·검증 표시를 같은 출처로 맞춘 변경 기록과 테스트가 남아 있습니다."
+        },
+        {
+          "label": "특허로 접수내역 화면",
+          "value": "2026.04.04 접수, 해당 출원번호와 접수완료 표시를 2026-05-31 저장 화면에서 확인할 수 있습니다."
         }
       ],
       "metrics": [
@@ -187,7 +192,9 @@ window.PORTFOLIO_SEED = {
         {
           "title": "AI 에이전트를 이용한 상권분석",
           "number": "10-2026-0061383",
-          "status": "특허출원 접수"
+          "status": "특허출원 접수",
+          "filedAt": "2026.04.04",
+          "evidence": "./assets/images/records/patent-filings-received-20260531.png"
         }
       ]
     },
@@ -572,6 +579,10 @@ window.PORTFOLIO_SEED = {
         {
           "label": "지식재산 활동",
           "value": "AI 에이전트를 이용한 PLC 생성 및 해석 특허출원 접수 (출원번호: 10-2026-0061403)"
+        },
+        {
+          "label": "특허로 접수내역 화면",
+          "value": "2026.04.05 접수, 해당 출원번호와 접수완료 표시를 2026-05-31 저장 화면에서 확인할 수 있습니다."
         }
       ],
       "metrics": [
@@ -627,7 +638,9 @@ window.PORTFOLIO_SEED = {
         {
           "title": "AI 에이전트를 이용한 PLC 생성 및 해석",
           "number": "10-2026-0061403",
-          "status": "특허출원 접수"
+          "status": "특허출원 접수",
+          "filedAt": "2026.04.05",
+          "evidence": "./assets/images/records/patent-filings-received-20260531.png"
         }
       ]
     },
