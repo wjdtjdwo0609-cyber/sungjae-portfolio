@@ -48,6 +48,7 @@
         title: String(item.title), issuer: String(item.issuer || ""), date: String(item.date || ""), scope: String(item.scope || ""), certificate: String(item.certificate || ""), certificatePdf: String(item.certificatePdf || "")
       })) : [],
       patents: Array.isArray(project.patents) ? project.patents : [],
+      copyrights: Array.isArray(project.copyrights) ? project.copyrights : [],
       architecture: Array.isArray(project.architecture) ? project.architecture : splitLines(project.architecture),
       buildSteps: Array.isArray(project.buildSteps) ? project.buildSteps : splitLines(project.buildSteps),
       challenges: normalizeCasePairs(project.challenges),
@@ -176,9 +177,9 @@
     if (data.projects.some((p) => !p || typeof p !== "object" || typeof p.title !== "string")) {
       throw new Error("프로젝트의 이름과 데이터 형식을 확인하세요.");
     }
-    const recordLists = [data.profile.awards, ...data.projects.flatMap((p) => [p.links, p.mediaNotes, p.awards, p.patents])];
+    const recordLists = [data.profile.awards, ...data.projects.flatMap((p) => [p.links, p.mediaNotes, p.awards, p.patents, p.copyrights])];
     if (recordLists.some((items) => items != null && (!Array.isArray(items) || items.some((item) => !item || typeof item !== "object" || Array.isArray(item))))) {
-      throw new Error("링크·이미지 설명·수상·출원 기록의 배열 형식을 확인하세요.");
+      throw new Error("링크·이미지 설명·수상·출원·저작권 기록의 배열 형식을 확인하세요.");
     }
     const ids = data.projects.map((p) => p.id || slugify(p.title));
     if (ids.some((id) => typeof id !== "string" || !/^[a-zA-Z0-9가-힣_-]+$/.test(id)) || new Set(ids).size !== ids.length) throw new Error("프로젝트 ID는 중복 없이 영문·숫자·한글·밑줄·하이픈으로 입력하세요.");

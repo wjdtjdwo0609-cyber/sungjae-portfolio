@@ -2142,17 +2142,17 @@ textarea:focus {
 .overview-records li { display:grid; grid-template-columns:50px minmax(0,1fr); gap:10px; align-items:baseline; font-size:12px; line-height:1.6; word-break:keep-all; }
 .overview-records time { color:var(--muted); font-size:11px; white-space:nowrap; }
 .overview-scope { color:var(--muted); font-size:10px; padding:1px 4px; margin-left:5px; border:1px solid var(--line); border-radius:3px; white-space:nowrap; }
-.overview-patents { margin-top:24px; padding-top:18px; border-top:1px solid var(--line); }
-.overview-patents h3 { margin-bottom:12px; }
-.overview-patents > a { display:block; margin-top:12px; font-size:12px; line-height:1.6; word-break:keep-all; }
-.overview-patents strong { font-weight:550; }
-.overview-patents > a > span { display:block; color:var(--muted); font-size:11px; }
+:is(.overview-patents, .overview-copyrights) { margin-top:24px; padding-top:18px; border-top:1px solid var(--line); }
+:is(.overview-patents, .overview-copyrights) h3 { margin-bottom:12px; }
+:is(.overview-patents, .overview-copyrights) > a { display:block; margin-top:12px; font-size:12px; line-height:1.6; word-break:keep-all; }
+:is(.overview-patents, .overview-copyrights) strong { font-weight:550; }
+:is(.overview-patents, .overview-copyrights) > a > span { display:block; color:var(--muted); font-size:11px; }
 @media(max-width:980px) {
  .overview-grid { grid-template-columns:1fr 1fr; }
  .overview-column:last-child { grid-column:1 / -1; padding:24px 0 0; border-left:0; border-top:1px solid var(--line); }
  .overview-records { grid-template-columns:1fr 1fr; column-gap:28px; }
- .overview-patents { display:grid; grid-template-columns:1fr 1fr; gap:0 28px; }
- .overview-patents h3 { grid-column:1 / -1; }
+ :is(.overview-patents, .overview-copyrights) { display:grid; grid-template-columns:1fr 1fr; gap:0 28px; }
+ :is(.overview-patents, .overview-copyrights) h3 { grid-column:1 / -1; }
 }
 @media(max-width:720px) {
  .overview-section { padding-top:40px; }
@@ -2161,7 +2161,7 @@ textarea:focus {
  .overview-grid { grid-template-columns:1fr; padding:24px; gap:24px; }
  .overview-column + .overview-column { border-left:0; border-top:1px solid var(--line); padding:24px 0 0; }
  .overview-column:last-child { grid-column:auto; }
- .overview-records, .overview-patents { grid-template-columns:1fr; }
+ .overview-records, :is(.overview-patents, .overview-copyrights) { grid-template-columns:1fr; }
  .overview-project > div { font-size:17px; }
  .project-body { padding:20px; }
 }
