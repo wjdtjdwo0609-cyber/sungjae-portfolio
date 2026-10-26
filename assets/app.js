@@ -94,7 +94,7 @@
         if (saved) {
           const draft = JSON.parse(saved);
           const data = validateImport(draft.data || draft);
-          draftNotice = draft.seedRevision === seed.profile?.updatedAt
+          draftNotice = draft.seedRevision === (seed.profile?.revision || seed.profile?.updatedAt)
             ? "이 브라우저의 편집 초안을 불러왔습니다. 공개 화면과는 별도로 저장됩니다."
             : "이 초안은 이전 공개 버전에서 만들었습니다. 전체 백업 후 최신 공개본과 비교하세요. 공개본 불러오기는 초안을 교체합니다.";
           return data;
@@ -109,7 +109,7 @@
 
   function saveData() {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({ seedRevision: seed.profile?.updatedAt, data: state.data }));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ seedRevision: (seed.profile?.revision || seed.profile?.updatedAt), data: state.data }));
       $("[data-draft-notice]").textContent = "브라우저 초안 저장 완료. 공개 반영에는 배포용 파일 내보내기가 필요합니다.";
       return true;
     } catch {
@@ -592,7 +592,7 @@
     for (const key of ["challenges", "evidence", "metrics"]) form.elements[key].value = pairLines(project[key]);
     form.elements.priority.value = project.priority;
     form.elements.awards.value = (project.awards || []).map((a) => [a.title, a.issuer, a.date, a.scope, a.certificate].join(" | ")).join("\n");
-    form.elements.patents.value = (project.patents || []).map((a) => [a.title, a.number, a.status].join(" | ")).join("\n");
+    form.elements.patents.value = (project.patents || []).map((a) => [a.title, a.number, a.status, a.filedAt || "", a.evidence || ""].join(" | ")).join("\n");
     form.elements.mediaNotes.value = (project.mediaNotes || []).map((m) => [m.src, m.caption, m.capturedAt, m.version].map((v) => v || "").join(" | ")).join("\n");
     form.elements.links.value = (project.links || []).map((l) => `${l.label || "Link"} | ${l.url}`).join("\n");
     if (![...form.elements.maturity.options].some((o) => o.value === project.maturity)) form.elements.maturity.add(new Option(project.maturity, project.maturity));
@@ -970,8 +970,8 @@
       }),
       awards: parseAwardInput(form.elements.awards.value),
       patents: splitLines(form.elements.patents.value).map((line) => {
-        const [title, number = "", status = "특허출원 접수"] = line.split(" | ");
-        return { title: title.trim(), number: number.trim(), status: status.trim() };
+        const [title, number = "", status = "특허출원 접수", filedAt = "", evidence = ""] = line.split(" | ");
+        return { title: title.trim(), number: number.trim(), status: status.trim(), filedAt: filedAt.trim(), evidence: evidence.trim() };
       }),
       architecture: splitLines(form.elements.architecture.value),
       buildSteps: splitLines(form.elements.buildSteps.value),
@@ -1038,6 +1038,7 @@
   function exportDeploy() {
     const data = publicData(state.data);
     data.profile.updatedAt = new Date().toLocaleDateString("sv-SE", { timeZone: "Asia/Seoul" });
+    data.profile.revision = new Date().toISOString();
     downloadFile("portfolio-data.js", `window.PORTFOLIO_SEED = ${JSON.stringify(data, null, 2)};\n`, "text/javascript");
     showToast("assets/portfolio-data.js를 이 파일로 교체한 뒤 사이트를 배포하세요.");
   }
@@ -1111,7 +1112,7 @@
   }
 
   function renderPatentCards(project) {
-    return (project.patents || []).map((p) => `<article class="award-card"><p class="eyebrow">${escapeHtml(project.title)}</p><h3>${escapeHtml(p.title)}</h3><p>${escapeHtml(p.status)} · ${escapeHtml(p.number)}</p></article>`).join("");
+    return (project.patents || []).map((p) => `<article class="award-card"><p class="eyebrow">${escapeHtml(project.title)}</p><h3>${escapeHtml(p.title)}</h3><p>${escapeHtml(p.status)} · ${escapeHtml(p.number)}${p.filedAt ? `<br />접수일 ${escapeHtml(p.filedAt)}` : ""}</p>${p.evidence ? `<button class="secondary-button compact" type="button" data-open-image="${escapeAttribute(p.evidence)}" data-image-caption="${escapeAttribute(`${p.title} · ${p.number} · ${p.filedAt} 접수 · 2026-05-31 저장 화면`)}">접수 화면 보기</button>` : ""}</article>`).join("");
   }
 
   function syncProjectRoute() {

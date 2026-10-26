@@ -84,3 +84,7 @@ For GitHub Pages, the whole folder can be uploaded as a static site.
 - Rules live in `assets/portfolio-domain.js` (pure); `assets/app.js` is the DOM/localStorage adapter.
 - Run tests: `node tests/run-all.js` (domain + architecture fitness)
 - Docs: `ARCHITECTURE.md`, `DDD_MODULEIZATION.md`, `TROUBLESHOOTING.md`, `UPGRADE_PLAN.md`
+
+### Patent filing evidence found (2026-10-26)
+
+An original 2026-05-31 screenshot of the Patent-ro filing list was located and copied unchanged. It shows 10-2026-0061383 received 2026-04-04 and 10-2026-0061403 received 2026-04-05, both with 접수완료 at that time. This proves the recorded receipt state in that screenshot, not current examination or registration status. Project records and summaries link to the image. Individual receipt PDFs and specification originals remain unlocated. Deploy exports assign a revision timestamp so same-day published changes can be distinguished from browser drafts.
