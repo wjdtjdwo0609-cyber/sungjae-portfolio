@@ -2133,9 +2133,9 @@ textarea:focus {
 .studio-note textarea { display:block; width:100%; margin:12px 0; font:inherit; padding:10px; }
 .studio-actions { flex-wrap:wrap; }
 .form-grid textarea { min-width:0; }
-.award-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr)); gap:16px; margin:24px 0; }
+.award-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr)); gap:16px; margin:24px 0; }
 .award-card { padding:24px; background:var(--surface-strong); border:1px solid var(--line); border-radius:var(--radius); }
-.award-card h3 { margin:8px 0; font-size:20px; }
+.award-card h3 { margin:8px 0; font-size:20px; line-height:1.5; word-break:keep-all; overflow-wrap:break-word; }
 .award-card p { color:var(--muted); line-height:1.7; }
 .project-body, .detail-section, .detail-brief { min-width:0; overflow-wrap:anywhere; }
 .toast { max-width:calc(100vw - 30px); line-height:1.6; }
