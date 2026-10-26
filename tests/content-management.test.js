@@ -23,6 +23,10 @@ assert.ok(!("localPath" in exported.projects[0]));
 assert.strictEqual(exported.projects[0].mediaNotes[0].capturedAt, "2026-10-25");
 assert.strictEqual(input.projects.length, 2);
 assert.strictEqual(input.projects[0].localPath, "/private/work");
+// Scanned award PDF links survive editing/import and public export.
+const awardBackup = { profile: {}, projects: [{ id: "award", title: "수상 사례", awards: [{ title: "최우수상", certificate: "./scan.jpg", certificatePdf: "./scan.pdf" }] }] };
+const awardRoundTrip = d.validateImport(JSON.parse(JSON.stringify(d.publicData(awardBackup))));
+assert.strictEqual(awardRoundTrip.projects[0].awards[0].certificatePdf, "./scan.pdf");
 assert.throws(() => d.validateImport({ unrelated: true }));
 assert.throws(() => d.validateImport({ profile: { awards: "invalid" }, projects: [] }));
 assert.throws(() => d.validateImport({ profile: {}, projects: [{ id: "case", title: "A", links: [null] }] }));
