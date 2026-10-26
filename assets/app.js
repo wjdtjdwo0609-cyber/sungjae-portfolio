@@ -458,7 +458,7 @@
     for (const key of ["headline", "degree", "degreePeriod", "training", "trainingPeriod", "trainingDetail"]) {
       $("[data-overview-form]").elements[key].value = state.data.profile.overview?.[key] || "";
     }
-    $("[data-profile-awards]").value = (state.data.profile.awards || []).map((a) => [a.title, a.issuer, a.date, a.scope, a.certificate].join(" | ")).join("\n");
+    $("[data-profile-awards]").value = (state.data.profile.awards || []).map((a) => [a.title, a.issuer, a.date, a.scope, a.certificate, a.certificatePdf].join(" | ")).join("\n");
     const projects = [...state.data.projects].sort(projectSort);
     projects.forEach((project) => {
       const item = document.createElement("div");
@@ -642,7 +642,7 @@
     for (const key of ["architecture", "buildSteps"]) form.elements[key].value = (project[key] || []).join("\n");
     for (const key of ["challenges", "evidence", "metrics"]) form.elements[key].value = pairLines(project[key]);
     form.elements.priority.value = project.priority;
-    form.elements.awards.value = (project.awards || []).map((a) => [a.title, a.issuer, a.date, a.scope, a.certificate].join(" | ")).join("\n");
+    form.elements.awards.value = (project.awards || []).map((a) => [a.title, a.issuer, a.date, a.scope, a.certificate, a.certificatePdf].join(" | ")).join("\n");
     form.elements.patents.value = (project.patents || []).map((a) => [a.title, a.number, a.status, a.filedAt || "", a.evidence || ""].join(" | ")).join("\n");
     form.elements.mediaNotes.value = (project.mediaNotes || []).map((m) => [m.src, m.caption, m.capturedAt, m.version].map((v) => v || "").join(" | ")).join("\n");
     form.elements.links.value = (project.links || []).map((l) => `${l.label || "Link"} | ${l.url}`).join("\n");
@@ -1145,20 +1145,21 @@
   function renderAwardCards(project) {
     return (project.awards || []).map((award) => {
       const caption = [award.title, award.issuer, award.date, award.scope].filter(Boolean).join(" · ");
-      return `<article class="award-card"><p class="eyebrow">${escapeHtml(project.title)}</p><h3>${escapeHtml(award.title)}</h3><p>${escapeHtml([award.issuer, award.date, award.scope].filter(Boolean).join(" · "))}</p>${award.certificate ? `<button type="button" class="secondary-button compact" data-open-image="${escapeAttribute(award.certificate)}" data-image-caption="${escapeAttribute(caption)}">상장 보기</button>` : ""}</article>`;
+      const pdf = /^(https?:\/\/|\.\/)/i.test(award.certificatePdf || "") ? award.certificatePdf : "";
+      return `<article class="award-card"><p class="eyebrow">${escapeHtml(project.title)}</p><h3>${escapeHtml(award.title)}</h3><p>${escapeHtml([award.issuer, award.date, award.scope].filter(Boolean).join(" · "))}</p>${award.certificate || pdf ? `<div class="award-actions">${award.certificate ? `<button type="button" class="secondary-button compact" data-open-image="${escapeAttribute(award.certificate)}" data-image-caption="${escapeAttribute(caption)}">상장 보기</button>` : ""}${pdf ? `<a class="secondary-button compact" href="${escapeAttribute(pdf)}" target="_blank" rel="noopener">상장 PDF</a>` : ""}</div>` : ""}</article>`;
     }).join("");
   }
 
   function renderRecognitions() {
-    const html = getPublicProjects().filter((p) => p.awards?.length || p.patents?.length).map((p) => renderAwardCards(p) + renderPatentCards(p)).join("") + renderAwardCards({ title: "개인 수상·표창", awards: state.data.profile.awards || [] });
+    const html = getPublicProjects().filter((p) => p.awards?.length || p.patents?.length).map((p) => renderAwardCards(p) + renderPatentCards(p)).join("") + renderAwardCards({ title: "수상·표창", awards: state.data.profile.awards || [] });
     $("[data-recognition]").hidden = !html;
     $("[data-awards-grid]").innerHTML = html;
   }
 
   function parseAwardInput(value) {
     return splitLines(value).map((line) => {
-      const [title, issuer = "", date = "", scope = "", certificate = ""] = line.split(" | ");
-      return { title: title.trim(), issuer: issuer.trim(), date: date.trim(), scope: scope.trim(), certificate: certificate.trim() };
+      const [title, issuer = "", date = "", scope = "", certificate = "", certificatePdf = ""] = line.split(" | ");
+      return { title: title.trim(), issuer: issuer.trim(), date: date.trim(), scope: scope.trim(), certificate: certificate.trim(), certificatePdf: certificatePdf.trim() };
     }).filter((a) => a.title);
   }
 

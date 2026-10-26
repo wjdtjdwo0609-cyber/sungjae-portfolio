@@ -20,33 +20,44 @@ window.PORTFOLIO_SEED = {
         "file": "./assets/docs/sungjae-team-reboott-portfolio.pdf"
       }
     ],
-    "updatedAt": "2026-10-26",
+    "updatedAt": "2026-10-27",
     "website": "https://wjdtjdwo0609-cyber.github.io/sungjae-portfolio/",
     "awards": [
+      {
+        "title": "제5회 AI·공공데이터 활용 및 창업 경진대회 공모전 장려상",
+        "issuer": "경상국립대학교 빅데이터 혁신융합대학 사업단장",
+        "date": "2026.06.18",
+        "scope": "팀 수상 · 대표 정성재",
+        "certificate": "./assets/images/records/scans-20261027/ai-public-data-contest-20260618.jpg",
+        "certificatePdf": "./assets/docs/awards/ai-public-data-contest-20260618.pdf"
+      },
       {
         "title": "부산지방경찰청장 표창",
         "issuer": "부산지방경찰청장",
         "date": "2016.08.22",
         "scope": "개인 표창 · 영사관 화재 진화 공로",
-        "certificate": "./assets/images/records/busan-police-commendation.jpg"
+        "certificate": "./assets/images/records/scans-20261027/busan-police-20160822.jpg",
+        "certificatePdf": "./assets/docs/awards/busan-police-20160822.pdf"
       },
       {
         "title": "생명자원소재 아이디어공모전 우수상",
         "issuer": "동아대학교 생명자원과학대학장",
         "date": "2021.01.26",
         "scope": "팀 수상",
-        "certificate": "./assets/images/records/bio-materials-idea-prize.jpg"
+        "certificate": "./assets/images/records/scans-20261027/bio-materials-20210126.jpg",
+        "certificatePdf": "./assets/docs/awards/bio-materials-20210126.pdf"
       },
       {
         "title": "제1회 BIO Leaders 경진대회 입상",
         "issuer": "동아대학교 생명자원과학대학장",
         "date": "2015.11.06",
         "scope": "수상자 정성재",
-        "certificate": ""
+        "certificate": "",
+        "certificatePdf": ""
       }
     ],
     "education": "대한상공회의소 부산인력개발원 · [인텔] AI 융합 DX 마스터 클래스(5회차) · 2025.11.13~2026.05.22 · 900시간 수료",
-    "revision": "2026-10-26-overview-layout",
+    "revision": "2026-10-27-scanned-certificates",
     "overview": {
       "headline": "서비스를 직접 만들고, 팀과 현장 시스템을 연결해 왔습니다.",
       "degree": "동아대학교 유전공학과 · 이학사",
@@ -386,6 +397,16 @@ window.PORTFOLIO_SEED = {
           "url": "https://github.com/wjdtjdwo0609-cyber/pickline-toolkit",
           "icon": "code-2"
         }
+      ],
+      "awards": [
+        {
+          "title": "2026 K-디지털 트레이닝 프로젝트발표회 최우수상",
+          "issuer": "대한상공회의소 부산인력개발원장",
+          "date": "2026.05.22",
+          "scope": "팀 수상 · 정공시스템",
+          "certificate": "./assets/images/records/scans-20261027/factory-project-20260522.jpg",
+          "certificatePdf": "./assets/docs/awards/factory-project-20260522.pdf"
+        }
       ]
     },
     {
@@ -534,7 +555,8 @@ window.PORTFOLIO_SEED = {
           "issuer": "대한상공회의소 부산인력개발원장",
           "date": "2026.05.22",
           "scope": "팀 수상 · 제3의 손",
-          "certificate": "./assets/images/records/vla-team-first-prize.jpg"
+          "certificate": "./assets/images/records/scans-20261027/intel-vla-project-20260522.jpg",
+          "certificatePdf": "./assets/docs/awards/intel-vla-project-20260522.pdf"
         }
       ]
     },
@@ -955,7 +977,8 @@ window.PORTFOLIO_SEED = {
           "url": "https://github.com/wjdtjdwo0609-cyber/KoreaArmyQualitySearching",
           "icon": "code-2"
         }
-      ]
+      ],
+      "awards": []
     },
     {
       "id": "local-agent-ai",

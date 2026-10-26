@@ -2193,6 +2193,7 @@ textarea:focus {
 .award-card { padding:24px; background:var(--surface-strong); border:1px solid var(--line); border-radius:var(--radius); }
 .award-card h3 { margin:8px 0; font-size:20px; line-height:1.5; word-break:keep-all; overflow-wrap:break-word; }
 .award-card p { color:var(--muted); line-height:1.7; }
+.award-actions { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin-top:16px; }
 .project-body, .detail-section, .detail-brief { min-width:0; overflow-wrap:anywhere; }
 .toast { max-width:calc(100vw - 30px); line-height:1.6; }
 [hidden] { display:none !important; }

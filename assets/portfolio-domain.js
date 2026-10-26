@@ -45,7 +45,7 @@
       nextSteps: project.nextSteps || "",
       mediaNotes: Array.isArray(project.mediaNotes) ? project.mediaNotes : [],
       awards: Array.isArray(project.awards) ? project.awards.filter((item) => item && item.title).map((item) => ({
-        title: String(item.title), issuer: String(item.issuer || ""), date: String(item.date || ""), scope: String(item.scope || ""), certificate: String(item.certificate || "")
+        title: String(item.title), issuer: String(item.issuer || ""), date: String(item.date || ""), scope: String(item.scope || ""), certificate: String(item.certificate || ""), certificatePdf: String(item.certificatePdf || "")
       })) : [],
       patents: Array.isArray(project.patents) ? project.patents : [],
       architecture: Array.isArray(project.architecture) ? project.architecture : splitLines(project.architecture),
