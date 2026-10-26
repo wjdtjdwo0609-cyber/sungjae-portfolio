@@ -88,3 +88,11 @@ For GitHub Pages, the whole folder can be uploaded as a static site.
 ### Patent filing evidence found (2026-10-26)
 
 An original 2026-05-31 screenshot of the Patent-ro filing list was located and copied unchanged. It shows 10-2026-0061383 received 2026-04-04 and 10-2026-0061403 received 2026-04-05, both with 접수완료 at that time. This proves the recorded receipt state in that screenshot, not current examination or registration status. Project records and summaries link to the image. Individual receipt PDFs and specification originals remain unlocated. Deploy exports assign a revision timestamp so same-day published changes can be distinguished from browser drafts.
+
+### Profile overview and card layout (2026-10-26)
+
+`#overview` appears after the hero and before the project catalogue. It combines degree/training, three project highlights with actual individual/team roles, verified awards and patent filings. Award and patent lists reuse public project/profile records. Degree details come from the existing personal fact sheet; training dates/hours come from the inspected completion certificate. Do not turn education or team project activity into employment history.
+
+Studio's **약력 관리** edits `profile.overview`; project highlights remain in its `projects` list in JSON. The new hero shortcut and Profile navigation open the overview; its project links open the existing project details. Editing the training summary also updates the education field used by the printable records page.
+
+Project bodies use a vertical flex layout with the action row at the bottom. Footer actions share available width, are centered, and keep the same 20px body padding on both sides and below. This was checked at 320, 390, 768 and 1440px.

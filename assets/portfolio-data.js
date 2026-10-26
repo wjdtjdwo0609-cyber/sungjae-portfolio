@@ -46,7 +46,32 @@ window.PORTFOLIO_SEED = {
       }
     ],
     "education": "대한상공회의소 부산인력개발원 · [인텔] AI 융합 DX 마스터 클래스(5회차) · 2025.11.13~2026.05.22 · 900시간 수료",
-    "revision": "2026-10-26-ip-evidence"
+    "revision": "2026-10-26-overview-layout",
+    "overview": {
+      "headline": "서비스를 직접 만들고, 팀과 현장 시스템을 연결해 왔습니다.",
+      "degree": "동아대학교 유전공학과 · 이학사",
+      "degreePeriod": "2015.03~2021.02",
+      "training": "대한상공회의소 부산인력개발원 · [인텔] AI 융합 DX 마스터 클래스",
+      "trainingPeriod": "2025.11.13~2026.05.22",
+      "trainingDetail": "6개월 · 900시간 수료",
+      "projects": [
+        {
+          "id": "jangsa-simulator",
+          "label": "장사OS",
+          "role": "개인 서비스 기획·개발 · 데이터·분석 API·웹 화면 연결"
+        },
+        {
+          "id": "vision-robot-plc-digital-twin",
+          "label": "비전·로봇·PLC 공정 통합",
+          "role": "Vision1·2 프로그래밍 · PLC–로봇–웹 연동"
+        },
+        {
+          "id": "robot-vla-pipeline",
+          "label": "제3의 손 · DOBOT/VLA",
+          "role": "기획·PM · 음성 모듈 개발·통합"
+        }
+      ]
+    }
   },
   "domains": [
     "All",
