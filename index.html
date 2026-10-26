@@ -10,12 +10,14 @@
     <title>정성재 | AI · Robotics · Smart Factory</title>
     <link rel="preconnect" href="https://img.youtube.com" />
     <link rel="preconnect" href="https://www.youtube.com" />
-    <link rel="stylesheet" href="./assets/styles.css?v=20260601-game-prototypes" />
+    <link rel="stylesheet" href="./assets/styles.css?v=20261026" />
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
-    <script src="./assets/portfolio-data.js?v=20260601-game-prototypes" defer></script>
-    <script src="./assets/app.js?v=20260601-game-prototypes" defer></script>
+    <script src="./assets/portfolio-data.js?v=20261026" defer></script>
+    <script src="./assets/portfolio-domain.js?v=20261026" defer></script>
+    <script src="./assets/app.js?v=20261026" defer></script>
   </head>
   <body>
+    <a class="skip-link" href="#projects">프로젝트로 바로가기</a>
     <header class="site-header" data-header>
       <a class="brand" href="#top" aria-label="홈으로 이동">
         <span class="brand-mark">SJ</span>
@@ -24,6 +26,7 @@
       <nav class="nav-links" aria-label="주요 메뉴">
         <a href="#projects">Projects</a>
         <a href="#stack">Stack</a>
+        <a href="#recognition">Records</a>
         <a href="#resume">Resume</a>
       </nav>
       <button class="ghost-button icon-button" type="button" data-studio-toggle aria-label="Portfolio Studio 열기">
@@ -35,12 +38,12 @@
       <section class="hero section-shell" aria-labelledby="hero-title">
         <div class="hero-copy">
           <p class="eyebrow">Full-stack AI · Robotics · Industrial DX</p>
-          <h1 id="hero-title">풀스택 AI·로봇·산업 DX 프로젝트를 실행 화면으로 증명합니다</h1>
+          <h1 id="hero-title">현장의 문제를<br />서비스와 로봇으로<br />풀어갑니다</h1>
           <p class="hero-lede" data-profile-summary></p>
           <div class="hero-actions">
             <a class="primary-button" href="#projects">
               <i data-lucide="play-circle"></i>
-              전체 프로젝트 보기
+              프로젝트 살펴보기
             </a>
           <a class="secondary-button" href="#resume">
             <i data-lucide="file-down"></i>
@@ -50,54 +53,22 @@
         </div>
         <div class="hero-panel demo-reel" aria-label="대표 영상 포트폴리오">
           <div class="panel-topline">
-            <span>Demo Reel</span>
+            <span>Selected Projects · 대표 경험</span>
             <span data-last-updated></span>
           </div>
-          <button
-            class="hero-video hero-video-main"
-            type="button"
-            data-hero-video-url="https://www.youtube.com/watch?v=2opqmbzk43I"
-          >
-            <img src="./assets/images/vision-robot-plc-digital-twin-poster.jpg" alt="비전 로봇 PLC 디지털 트윈 프로젝트 영상" />
-            <span class="hero-video-overlay">
-              <span class="video-label">Vision · Robot · PLC</span>
-              <span class="video-title">비전·로봇·PLC 디지털 트윈 최종 프로젝트</span>
-            </span>
-            <span class="media-play hero-play"><i data-lucide="play"></i><span>Play</span></span>
+          <button class="hero-video hero-video-main" type="button" data-open-project="jangsa-simulator" aria-label="장사OS 프로젝트 상세 보기">
+            <img src="./assets/images/jangsaos-current-input-20261025.png" alt="장사OS 상권분석 입력 화면, 2026년 10월 25일" />
+            <span class="hero-video-overlay"><span class="video-label">01 · Product</span><span class="video-title">장사OS — 창업 판단을 돕는 서비스</span></span>
+            <span class="media-play hero-play"><i data-lucide="arrow-up-right"></i><span>Case</span></span>
           </button>
-          <div class="hero-video-list">
-            <button
-              class="hero-video hero-video-compact"
-              type="button"
-              data-hero-video-url="https://www.youtube.com/watch?v=xNjqt9xNdQY"
-            >
-              <img src="./assets/images/factoryio-robot-process-poster.jpg" alt="Factory I/O 로봇 공정 시연 영상" />
-              <span>
-                <strong>Factory I/O</strong>
-                <small>로봇 공정 시뮬레이션</small>
-              </span>
+          <div class="hero-video-list featured-previews">
+            <button class="hero-video hero-video-compact" type="button" data-open-project="vision-robot-plc-digital-twin">
+              <img src="./assets/images/vision-r2-quality-detection-original.jpg" alt="비전 검출과 로봇 티칭 GUI" />
+              <span><strong>02 · 비전·로봇·PLC</strong><small>학습·티칭·공정 연동</small></span>
             </button>
-            <button
-              class="hero-video hero-video-compact"
-              type="button"
-              data-hero-video-url="https://www.youtube.com/watch?v=3c9PQeWwu58&t=463s"
-            >
-              <img src="./assets/images/dockerros-web-simulator-poster.jpg" alt="DockerRos 앱 시연 영상" />
-              <span>
-                <strong>DockerRos</strong>
-                <small>웹 시뮬레이터 시연</small>
-              </span>
-            </button>
-            <button
-              class="hero-video hero-video-compact"
-              type="button"
-              data-hero-video-url="https://www.youtube.com/watch?v=EW7pOTiMH3g"
-            >
-              <img src="./assets/images/koreaarmyquality-demo-poster.jpg" alt="KoreaArmyQuality 프로젝트 시연 영상" />
-              <span>
-                <strong>KoreaArmyQuality</strong>
-                <small>검색 자동화 시연</small>
-              </span>
+            <button class="hero-video hero-video-compact" type="button" data-open-project="robot-vla-pipeline">
+              <img src="./assets/images/vla-speech-instruction-slide.png" alt="음성 입력을 VLA 작업 명령으로 연결한 발표자료" />
+              <span><strong>제3의 손 · 음성/VLA</strong><small>기획·PM·음성 모듈</small></span>
             </button>
           </div>
           <dl class="hero-stats">
@@ -107,7 +78,7 @@
             </div>
             <div>
               <dt data-stat-tests>0</dt>
-              <dd>검증 테스트</dd>
+              <dd>대표 사례</dd>
             </div>
             <div>
               <dt data-stat-domains>0</dt>
@@ -121,19 +92,24 @@
         <div class="section-heading">
           <div>
             <p class="eyebrow">Selected Work</p>
-            <h2 id="projects-title">프로젝트</h2>
+            <h2 id="projects-title">직접 만들고, 확인한 것들</h2>
+            <p class="section-intro">문제와 나의 역할, 시도와 개선 과정을 프로젝트별로 정리했습니다.</p>
           </div>
           <div class="toolbar">
             <div class="segmented-control" role="tablist" aria-label="프로젝트 필터" data-filter-bar></div>
             <label class="search-box">
               <i data-lucide="search"></i>
-              <input type="search" placeholder="검색" data-search-input />
+              <input type="search" placeholder="프로젝트·기술 검색" aria-label="프로젝트 검색" data-search-input />
             </label>
           </div>
         </div>
         <div class="project-grid" data-project-grid></div>
       </section>
 
+      <section id="recognition" class="section-shell" aria-labelledby="recognition-title" data-recognition hidden>
+        <div class="section-heading"><div><p class="eyebrow">Recognition &amp; Intellectual Property</p><h2 id="recognition-title">수상·표창과 출원 기록</h2></div></div>
+        <div class="award-grid" data-awards-grid></div>
+      </section>
       <section id="stack" class="section-shell stack-section" aria-labelledby="stack-title">
         <div class="section-heading">
           <div>
@@ -147,13 +123,14 @@
       <section id="resume" class="section-shell resume-section" aria-labelledby="resume-title">
         <div class="resume-copy">
           <p class="eyebrow">Resume</p>
-          <h2 id="resume-title">웹은 증명, PDF는 제출용</h2>
+          <h2 id="resume-title">경험을 더 자세히 살펴보세요</h2>
           <p>
-            지원할 때는 PDF 이력서를 함께 두고, 웹에서는 프로젝트별 문제 정의·구현 방식·검증 근거를
-            더 깊게 보여주는 구성이 가장 좋습니다.
+            대표 프로젝트 요약과 분야별 자료, 소스 코드에서 구현 과정과 결과물을 확인할 수 있습니다.
           </p>
+          <p data-education-summary></p>
         </div>
         <div class="resume-actions">
+          <a class="primary-button" href="./summary.html" target="_blank" rel="noopener">대표 프로젝트 요약 / 인쇄</a>
           <a class="primary-button" data-resume-link href="#" download>
             <i data-lucide="file-text"></i>
             대표 PDF
@@ -179,6 +156,10 @@
       </div>
 
       <div class="studio-actions">
+        <button class="primary-button compact" type="button" data-export-deploy>배포용 파일</button>
+        <a class="secondary-button compact" href="?view=public" target="_blank" rel="noopener">공개 화면 확인</a>
+        <a class="secondary-button compact" href="./summary.html?draft=1" target="_blank" rel="noopener">초안 요약 확인</a>
+        <button class="secondary-button compact" type="button" data-import-legacy hidden>이전 브라우저 자료</button>
         <button class="primary-button compact" type="button" data-new-project>
           <i data-lucide="plus"></i>
           추가
@@ -198,15 +179,18 @@
         </label>
         <button class="danger-button compact" type="button" data-reset-seed>
           <i data-lucide="rotate-ccw"></i>
-          초기화
+          공개본 불러오기
         </button>
       </div>
 
       <div class="studio-note">
-        정적 사이트에서는 저장이 이 브라우저에 적용됩니다. 배포본에는 공개 내보내기 파일을 사용하세요.
+        <p data-draft-notice></p>
+        <ol><li>내용과 이미지 경로를 편집하고 전체 백업을 보관합니다.</li><li>배포용 파일을 받아 assets/portfolio-data.js를 교체합니다.</li><li>이미지 파일도 함께 올린 뒤 새 브라우저에서 공개 화면을 확인합니다.</li></ol>
+        <p>공개 내보내기와 배포용 파일에는 숨김 프로젝트·로컬 경로가 포함되지 않습니다.</p>
       </div>
 
       <div class="studio-list" data-studio-list></div>
+      <details class="studio-note"><summary>개인 수상·표창 관리</summary><form data-profile-awards-form><label>프로젝트 외 수상·표창<textarea data-profile-awards rows="5" placeholder="상명 | 수여기관 | 날짜 | 개인/팀 | 이미지 경로"></textarea></label><button class="secondary-button compact" type="submit">개인 기록 저장</button></form></details>
     </aside>
 
     <div class="scrim" data-scrim hidden></div>
@@ -224,6 +208,7 @@
         </div>
 
         <input type="hidden" name="id" />
+        <p class="form-help">저장은 브라우저 초안에 적용됩니다. 공개 사이트 반영은 배포용 파일로 진행하세요.</p>
         <div class="form-grid">
           <label>
             이름
@@ -243,6 +228,9 @@
           <label>
             진행도
             <select name="maturity">
+              <option value="Live service">공개 서비스</option>
+              <option value="Live demo">실행 데모</option>
+              <option value="Experiment">실험</option>
               <option value="Production-ready">Production-ready</option>
               <option value="Case study">Case study</option>
               <option value="WIP">WIP</option>
@@ -257,6 +245,21 @@
             요약
             <textarea name="summary" rows="4"></textarea>
           </label>
+
+          <label>프로젝트 기간<input name="period" placeholder="기록으로 확인한 기간" /></label>
+          <label>개인·팀 / 참여 범위<input name="collaboration" placeholder="개인 또는 팀 활동과 본인의 범위" /></label>
+          <label>노출 순서<input name="priority" type="number" min="1" step="1" /></label>
+          <label class="wide">해결하려던 문제<textarea name="problem" rows="3"></textarea></label>
+          <label class="wide">구현 흐름<textarea name="architecture" rows="3" placeholder="단계별로 한 줄씩"></textarea></label>
+          <label class="wide">선택과 구현 과정<textarea name="buildSteps" rows="4" placeholder="항목별로 한 줄씩"></textarea></label>
+          <label class="wide">시행착오와 개선<textarea name="challenges" rows="4" placeholder="문제 | 시도한 해결 방법 (항목별 한 줄)"></textarea></label>
+          <label class="wide">증빙 설명<textarea name="evidence" rows="4" placeholder="자료명 | 자료가 보여주는 내용 (항목별 한 줄)"></textarea></label>
+          <label class="wide">핵심 결과 요약<textarea name="metrics" rows="3" placeholder="항목 | 확인된 값·상태 (항목별 한 줄)"></textarea></label>
+          <label class="wide">배운 점<textarea name="learning" rows="3"></textarea></label>
+          <label class="wide">현재 한계<textarea name="limitations" rows="3"></textarea></label>
+          <label class="wide">다음에 검증할 것<textarea name="nextSteps" rows="3"></textarea></label>
+          <label class="wide">수상·상장<textarea name="awards" rows="3" placeholder="정확한 상명 | 수여기관 | 수상일 | 개인/팀 수상 | ./assets/images/certificate.jpg"></textarea></label>
+          <label class="wide">특허출원 기록<textarea name="patents" rows="3" placeholder="출원명 | 출원번호 | 특허출원 접수"></textarea></label>
           <label class="wide">
             나의 역할
             <textarea name="rolePoints" rows="3" placeholder="줄바꿈으로 여러 개 입력"></textarea>
@@ -304,10 +307,8 @@
             갤러리 이미지
             <textarea name="gallery" rows="3" placeholder="./assets/images/preview-2.png&#10;./assets/images/preview-3.png"></textarea>
           </label>
-          <label class="wide">
-            GitHub / 링크
-            <input name="repo" placeholder="https://github.com/..." />
-          </label>
+          <label class="wide">관련 링크<textarea name="links" rows="3" placeholder="서비스 | https://example.com (항목별 한 줄)"></textarea></label>
+          <label class="wide">이미지 설명·시점·버전<textarea name="mediaNotes" rows="4" placeholder="./assets/images/example.png | 화면 설명 | 촬영일 또는 미상 | 버전·작동 모드"></textarea></label>
           <label class="wide">
             로컬 경로
             <input name="localPath" placeholder="/Users/..." />
@@ -352,7 +353,7 @@
         <iframe
           data-video-iframe
           title="프로젝트 영상"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowfullscreen
         ></iframe>
         <video data-video-player title="프로젝트 영상" controls playsinline hidden></video>
