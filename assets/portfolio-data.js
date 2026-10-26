@@ -57,7 +57,7 @@ window.PORTFOLIO_SEED = {
       }
     ],
     "education": "대한상공회의소 부산인력개발원 · [인텔] AI 융합 DX 마스터 클래스(5회차) · 2025.11.13~2026.05.22 · 900시간 수료",
-    "revision": "2026-10-27-scanned-certificates",
+    "revision": "2026-10-27-copyright-registration",
     "overview": {
       "headline": "서비스를 직접 만들고, 팀과 현장 시스템을 연결해 왔습니다.",
       "degree": "동아대학교 유전공학과 · 이학사",
@@ -231,6 +231,17 @@ window.PORTFOLIO_SEED = {
           "status": "특허출원 접수",
           "filedAt": "2026.04.04",
           "evidence": "./assets/images/records/patent-filings-received-20260531.png"
+        }
+      ],
+      "copyrights": [
+        {
+          "title": "장사OS",
+          "number": "C-2026-018420",
+          "registeredAt": "2026.04.10",
+          "author": "정성재",
+          "rightsHolder": "정성재",
+          "issuer": "한국저작권위원회",
+          "evidence": "./assets/images/records/copyright-registrations-20261027.png"
         }
       ]
     },
@@ -688,6 +699,17 @@ window.PORTFOLIO_SEED = {
           "status": "특허출원 접수",
           "filedAt": "2026.04.05",
           "evidence": "./assets/images/records/patent-filings-received-20260531.png"
+        }
+      ],
+      "copyrights": [
+        {
+          "title": "PLC Copilot(피엘씨 코파일럿)",
+          "number": "C-2026-013771",
+          "registeredAt": "2026.03.17",
+          "author": "정성재",
+          "rightsHolder": "정성재",
+          "issuer": "한국저작권위원회",
+          "evidence": "./assets/images/records/copyright-registrations-20261027.png"
         }
       ]
     },

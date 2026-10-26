@@ -169,6 +169,7 @@
     const highlights = (overview.projects || []).map((entry) => ({ ...entry, project: projects.find((p) => p.id === entry.id) })).filter((entry) => entry.project);
     const awards = projects.flatMap((p) => p.awards || []).concat(profile.awards || []).sort((a, b) => (b.date || "").localeCompare(a.date || ""));
     const patents = projects.flatMap((p) => (p.patents || []).map((entry) => ({ ...entry, projectId: p.id })));
+    const copyrights = projects.flatMap((p) => (p.copyrights || []).map((entry) => ({ ...entry, projectId: p.id })));
     const fact = (label, title, detail) => title ? `<div><dt>${escapeHtml(label)}</dt><dd>${escapeHtml(title)}${detail ? `<span>${escapeHtml(detail)}</span>` : ""}</dd></div>` : "";
     $("[data-overview-content]").innerHTML = `
       <div class="overview-column">
@@ -192,6 +193,7 @@
         <h3>수상·표창 <span class="overview-count">${awards.length}건</span></h3>
         <ol class="overview-records">${awards.map((award) => `<li><time>${escapeHtml((award.date || "").slice(0, 7))}</time><a href="#recognition">${escapeHtml(award.title)}${award.scope?.includes("팀") ? '<span class="overview-scope">팀</span>' : ""}</a></li>`).join("")}</ol>
         ${patents.length ? `<div class="overview-patents"><h3>특허출원 접수 <span class="overview-count">${patents.length}건</span></h3>${patents.map((patent) => `<a href="#project/${encodeURIComponent(patent.projectId)}" data-overview-project="${escapeAttribute(patent.projectId)}"><strong>${escapeHtml(patent.title)}</strong><span>${escapeHtml(patent.number)}</span></a>`).join("")}</div>` : ""}
+        ${copyrights.length ? `<div class="overview-copyrights"><h3>프로그램 저작권 등록 <span class="overview-count">${copyrights.length}건</span></h3>${copyrights.map((record) => `<a href="#project/${encodeURIComponent(record.projectId)}" data-overview-project="${escapeAttribute(record.projectId)}"><strong>${escapeHtml(record.title)}</strong><span>${escapeHtml(record.number)} · ${escapeHtml(record.registeredAt)}</span></a>`).join("")}</div>` : ""}
       </div>`;
   }
 
@@ -644,6 +646,7 @@
     form.elements.priority.value = project.priority;
     form.elements.awards.value = (project.awards || []).map((a) => [a.title, a.issuer, a.date, a.scope, a.certificate, a.certificatePdf].join(" | ")).join("\n");
     form.elements.patents.value = (project.patents || []).map((a) => [a.title, a.number, a.status, a.filedAt || "", a.evidence || ""].join(" | ")).join("\n");
+    form.elements.copyrights.value = (project.copyrights || []).map((a) => [a.title, a.number, a.registeredAt, a.author, a.rightsHolder, a.issuer, a.evidence].join(" | ")).join("\n");
     form.elements.mediaNotes.value = (project.mediaNotes || []).map((m) => [m.src, m.caption, m.capturedAt, m.version].map((v) => v || "").join(" | ")).join("\n");
     form.elements.links.value = (project.links || []).map((l) => `${l.label || "Link"} | ${l.url}`).join("\n");
     if (![...form.elements.maturity.options].some((o) => o.value === project.maturity)) form.elements.maturity.add(new Option(project.maturity, project.maturity));
@@ -702,6 +705,7 @@
       ${renderDetailListSection("내가 맡은 일", project.rolePoints)}
       ${project.awards?.length ? `<div class="award-grid">${renderAwardCards(project)}</div>` : ""}
       ${project.patents?.length ? `<div class="award-grid">${renderPatentCards(project)}</div>` : ""}
+      ${project.copyrights?.length ? `<div class="award-grid">${renderCopyrightCards(project)}</div>` : ""}
       ${renderMetricStrip(project.metrics)}
       ${renderProblemSection(project.problem)}
       ${renderArchitectureFlow(project.architecture)}
@@ -1024,6 +1028,10 @@
         const [title, number = "", status = "특허출원 접수", filedAt = "", evidence = ""] = line.split(" | ");
         return { title: title.trim(), number: number.trim(), status: status.trim(), filedAt: filedAt.trim(), evidence: evidence.trim() };
       }),
+      copyrights: splitLines(form.elements.copyrights.value).map((line) => {
+        const [title, number = "", registeredAt = "", author = "", rightsHolder = "", issuer = "한국저작권위원회", evidence = ""] = line.split(" | ");
+        return { title: title.trim(), number: number.trim(), registeredAt: registeredAt.trim(), author: author.trim(), rightsHolder: rightsHolder.trim(), issuer: issuer.trim(), evidence: evidence.trim() };
+      }),
       architecture: splitLines(form.elements.architecture.value),
       buildSteps: splitLines(form.elements.buildSteps.value),
       challenges: parsePairLines(form.elements.challenges.value),
@@ -1151,7 +1159,7 @@
   }
 
   function renderRecognitions() {
-    const html = getPublicProjects().filter((p) => p.awards?.length || p.patents?.length).map((p) => renderAwardCards(p) + renderPatentCards(p)).join("") + renderAwardCards({ title: "수상·표창", awards: state.data.profile.awards || [] });
+    const html = getPublicProjects().filter((p) => p.awards?.length || p.patents?.length || p.copyrights?.length).map((p) => renderAwardCards(p) + renderPatentCards(p) + renderCopyrightCards(p)).join("") + renderAwardCards({ title: "수상·표창", awards: state.data.profile.awards || [] });
     $("[data-recognition]").hidden = !html;
     $("[data-awards-grid]").innerHTML = html;
   }
@@ -1165,6 +1173,13 @@
 
   function renderPatentCards(project) {
     return (project.patents || []).map((p) => `<article class="award-card"><p class="eyebrow">${escapeHtml(project.title)}</p><h3>${escapeHtml(p.title)}</h3><p>${escapeHtml(p.status)} · ${escapeHtml(p.number)}${p.filedAt ? `<br />접수일 ${escapeHtml(p.filedAt)}` : ""}</p>${p.evidence ? `<button class="secondary-button compact" type="button" data-open-image="${escapeAttribute(p.evidence)}" data-image-caption="${escapeAttribute(`${p.title} · ${p.number} · ${p.filedAt} 접수 · 2026-05-31 저장 화면`)}">접수 화면 보기</button>` : ""}</article>`).join("");
+  }
+
+  function renderCopyrightCards(project) {
+    return (project.copyrights || []).map((record) => {
+      const caption = `${record.title} · ${record.number} · ${record.registeredAt} 등록 · ${record.issuer || "한국저작권위원회"} 등록 내역`;
+      return `<article class="award-card" data-copyright-record><p class="eyebrow">${escapeHtml(project.title)}</p><h3>${escapeHtml(record.title)}</h3><p>컴퓨터프로그램 저작권 등록<br />${escapeHtml(record.number)} · ${escapeHtml(record.registeredAt)}<br />${escapeHtml(record.issuer || "한국저작권위원회")}${record.author ? `<br />저작자 ${escapeHtml(record.author)}` : ""}${record.rightsHolder ? ` · 권리자 ${escapeHtml(record.rightsHolder)}` : ""}</p>${record.evidence ? `<button class="secondary-button compact" type="button" data-open-image="${escapeAttribute(record.evidence)}" data-image-caption="${escapeAttribute(caption)}">등록 내역 보기</button>` : ""}</article>`;
+    }).join("");
   }
 
   function syncProjectRoute() {

@@ -27,6 +27,12 @@ assert.strictEqual(input.projects[0].localPath, "/private/work");
 const awardBackup = { profile: {}, projects: [{ id: "award", title: "수상 사례", awards: [{ title: "최우수상", certificate: "./scan.jpg", certificatePdf: "./scan.pdf" }] }] };
 const awardRoundTrip = d.validateImport(JSON.parse(JSON.stringify(d.publicData(awardBackup))));
 assert.strictEqual(awardRoundTrip.projects[0].awards[0].certificatePdf, "./scan.pdf");
+// Copyright registrations remain separate from patent filings through export/import.
+const ipBackup = {profile:{},projects:[{id:"ip",title:"프로그램",patents:[{number:"10-2026-0061383",status:"특허출원 접수"}],copyrights:[{title:"장사OS",number:"C-2026-018420",registeredAt:"2026.04.10",author:"정성재",rightsHolder:"정성재",evidence:"./registry.png"}]}]};
+const ipRoundTrip = d.validateImport(JSON.parse(JSON.stringify(d.publicData(ipBackup))));
+assert.deepStrictEqual(ipRoundTrip.projects[0].copyrights, ipBackup.projects[0].copyrights);
+assert.strictEqual(ipRoundTrip.projects[0].patents[0].status,"특허출원 접수");
+assert.throws(()=>d.validateImport({profile:{},projects:[{id:"invalid-ip",title:"자료",copyrights:[null]}]}));
 assert.throws(() => d.validateImport({ unrelated: true }));
 assert.throws(() => d.validateImport({ profile: { awards: "invalid" }, projects: [] }));
 assert.throws(() => d.validateImport({ profile: {}, projects: [{ id: "case", title: "A", links: [null] }] }));
