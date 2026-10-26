@@ -1,5 +1,29 @@
 (function () {
-  const STORAGE_KEY = "sungjae-portfolio-v12";
+  const STORAGE_KEY = "sungjae-portfolio-v13";
+  const LEGACY_KEY = "sungjae-portfolio-v12";
+  let draftNotice = "";
+
+  // --- domain (pure rules: assets/portfolio-domain.js) ---
+  const {
+    normalizeData, parsePairLines, pairLines, publicData, validateImport,
+    layoutClass,
+    projectSort,
+    fileNameFromPath,
+    extractYoutubeId,
+    youtubeEmbedUrl,
+    parseYoutubeSource,
+    parseYoutubeTime,
+    youtubeThumb,
+    splitLines,
+    splitComma,
+    normalizeCasePairs,
+    flattenCasePairs,
+    slugify,
+    escapeHtml,
+    escapeAttribute,
+    publicProjects,
+    filterProjects
+  } = window.PortfolioDomain;
 
   const seed = window.PORTFOLIO_SEED || { profile: {}, domains: ["All"], projects: [] };
   const studioEnabled = isStudioEnabled();
@@ -7,7 +31,8 @@
     data: loadData(),
     filter: "All",
     search: "",
-    editingId: null
+    editingId: null,
+    detailId: null
   };
 
   const $ = (selector, root = document) => root.querySelector(selector);
@@ -53,71 +78,51 @@
     render();
     bindEvents();
     refreshIcons();
+    $("[data-studio]").inert = true;
+    if (studioEnabled) {
+      $("[data-draft-notice]").textContent = draftNotice || "공개 사이트 원본을 불러왔습니다. 편집 내용은 이 브라우저에 초안으로 저장됩니다.";
+      try { $("[data-import-legacy]").hidden = !localStorage.getItem(LEGACY_KEY); } catch {}
+    }
+    syncProjectRoute();
   }
 
   function loadData() {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) return normalizeData(JSON.parse(saved));
-    } catch (error) {
-      console.warn("Portfolio data load failed", error);
+    // Visitors always see the published seed. Studio alone uses browser drafts.
+    if (studioEnabled) {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+          const draft = JSON.parse(saved);
+          const data = validateImport(draft.data || draft);
+          draftNotice = draft.seedRevision === seed.profile?.updatedAt
+            ? "이 브라우저의 편집 초안을 불러왔습니다. 공개 화면과는 별도로 저장됩니다."
+            : "이 초안은 이전 공개 버전에서 만들었습니다. 전체 백업 후 최신 공개본과 비교하세요. 공개본 불러오기는 초안을 교체합니다.";
+          return data;
+        }
+      } catch (error) {
+        console.warn("Portfolio draft could not be loaded", error);
+        draftNotice = "저장된 초안을 읽지 못해 공개 원본을 표시합니다. 기존 저장 자료는 그대로 보존되어 있습니다.";
+      }
     }
     return normalizeData(clone(seed));
   }
 
-  function normalizeData(data) {
-    const next = {
-      version: data.version || 1,
-      profile: data.profile || {},
-      domains: data.domains && data.domains.length ? data.domains : ["All"],
-      projects: Array.isArray(data.projects) ? data.projects : []
-    };
-
-    next.projects = next.projects.map((project, index) => ({
-      id: project.id || slugify(project.title || `project-${index + 1}`),
-      title: project.title || "Untitled",
-      subtitle: project.subtitle || "",
-      domain: project.domain || "Product",
-      visibility: project.visibility || "public",
-      maturity: project.maturity || "Case study",
-      featured: Boolean(project.featured),
-      priority: Number.isFinite(Number(project.priority)) ? Number(project.priority) : index + 1,
-      tests: Number.isFinite(Number(project.tests)) ? Number(project.tests) : 0,
-      image: project.image || "",
-      imageFit: project.imageFit || "",
-      visual: project.visual || "",
-      video: project.video || project.videoUrl || "",
-      videoPoster: project.videoPoster || "",
-      gallery: Array.isArray(project.gallery) ? project.gallery : splitLines(project.gallery),
-      youtubeUrl: project.youtubeUrl || "",
-      summary: project.summary || "",
-      problem: project.problem || "",
-      architecture: Array.isArray(project.architecture) ? project.architecture : splitLines(project.architecture),
-      buildSteps: Array.isArray(project.buildSteps) ? project.buildSteps : splitLines(project.buildSteps),
-      challenges: normalizeCasePairs(project.challenges),
-      evidence: normalizeCasePairs(project.evidence),
-      metrics: normalizeCasePairs(project.metrics),
-      rolePoints: Array.isArray(project.rolePoints) ? project.rolePoints : splitLines(project.rolePoints),
-      scopeNotes: Array.isArray(project.scopeNotes) ? project.scopeNotes : splitLines(project.scopeNotes),
-      results: Array.isArray(project.results) ? project.results : splitLines(project.results),
-      stack: Array.isArray(project.stack) ? project.stack : splitComma(project.stack),
-      links: Array.isArray(project.links) ? project.links : [],
-      localPath: project.localPath || ""
-    }));
-
-    const domains = new Set(["All", ...next.domains, ...next.projects.map((project) => project.domain)]);
-    next.domains = Array.from(domains).filter(Boolean);
-    return next;
-  }
-
   function saveData() {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state.data));
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ seedRevision: seed.profile?.updatedAt, data: state.data }));
+      $("[data-draft-notice]").textContent = "브라우저 초안 저장 완료. 공개 반영에는 배포용 파일 내보내기가 필요합니다.";
+      return true;
+    } catch {
+      showToast("브라우저에 저장하지 못했습니다. 전체 백업으로 파일을 보관하세요.");
+      return false;
+    }
   }
 
   function render() {
     renderProfile();
     renderFilters();
     renderProjects();
+    renderRecognitions();
     renderStacks();
     renderStudio();
     refreshIcons();
@@ -127,6 +132,7 @@
     const profile = state.data.profile || {};
     document.title = `${profile.name || "Portfolio"} | ${profile.role || "Portfolio"}`;
     els.profileSummary.textContent = profile.summary || "";
+    $("[data-education-summary]").textContent = profile.education || "";
     els.lastUpdated.textContent = profile.updatedAt ? `Updated ${profile.updatedAt}` : "";
     els.resumeLink.href = profile.resume || "#";
     if (profile.resume) {
@@ -150,7 +156,7 @@
 
     const publicProjects = getPublicProjects();
     els.statProjects.textContent = publicProjects.length.toString();
-    els.statTests.textContent = sum(publicProjects.map((project) => project.tests)).toString();
+    els.statTests.textContent = publicProjects.filter((project) => project.featured).length.toString();
     els.statDomains.textContent = new Set(publicProjects.map((project) => project.domain)).size.toString();
     renderPdfLinks(profile.pdfs || []);
   }
@@ -208,6 +214,7 @@
 
   function createProjectCard(project, index) {
     const card = document.createElement("article");
+    card.dataset.projectId = project.id;
     card.className = `project-card ${layoutClass(index)}${project.featured ? " featured" : ""}`;
     if (project.imageFit) {
       card.dataset.imageFit = project.imageFit;
@@ -315,11 +322,11 @@
 
     const links = document.createElement("div");
     links.className = "project-links";
-    const detailButton = document.createElement("button");
-    detailButton.type = "button";
+    const detailButton = document.createElement("a");
+    detailButton.href = projectUrl(project.id);
     detailButton.className = "project-link project-link-primary";
     detailButton.innerHTML = `<i data-lucide="panel-top-open"></i>상세 보기`;
-    detailButton.addEventListener("click", () => openProjectDetail(project.id));
+    detailButton.addEventListener("click", (event) => { event.preventDefault(); openProjectDetail(project.id); });
     links.append(detailButton);
 
     project.links.forEach((link) => {
@@ -354,21 +361,6 @@
 
     card.append(media, body);
     return card;
-  }
-
-  function layoutClass(index) {
-    const pattern = [
-      "layout-hero",
-      "layout-side",
-      "layout-third",
-      "layout-third",
-      "layout-third",
-      "layout-half",
-      "layout-half",
-      "layout-third",
-      "layout-wide"
-    ];
-    return pattern[index % pattern.length];
   }
 
   function renderStacks() {
@@ -429,6 +421,7 @@
       return;
     }
     els.studioList.innerHTML = "";
+    $("[data-profile-awards]").value = (state.data.profile.awards || []).map((a) => [a.title, a.issuer, a.date, a.scope, a.certificate].join(" | ")).join("\n");
     const projects = [...state.data.projects].sort(projectSort);
     projects.forEach((project) => {
       const item = document.createElement("div");
@@ -454,6 +447,16 @@
   }
 
   function bindEvents() {
+    document.addEventListener("keydown", (event) => {
+      if (!els.studio.classList.contains("is-open") || els.projectDialog.open) return;
+      if (event.key === "Escape") closeStudio();
+      if (event.key === "Tab") {
+        const controls = [...els.studio.querySelectorAll("button, a, input")].filter((el) => !el.hidden && el.getClientRects().length);
+        const first = controls[0], last = controls.at(-1);
+        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
+        if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
+      }
+    });
     window.addEventListener("scroll", () => {
       els.header.classList.toggle("is-scrolled", window.scrollY > 8);
     });
@@ -468,7 +471,18 @@
       button.addEventListener("click", () => openVideo(button.dataset.heroVideoUrl, "youtube"));
     });
 
+    $$("[data-open-project]").forEach((button) => button.addEventListener("click", () => openProjectDetail(button.dataset.openProject)));
+    window.addEventListener("hashchange", syncProjectRoute);
     if (studioEnabled) {
+      $("[data-export-deploy]").addEventListener("click", exportDeploy);
+      $("[data-import-legacy]").addEventListener("click", importLegacy);
+      $("[data-profile-awards-form]").addEventListener("submit", (event) => {
+        event.preventDefault();
+        state.data.profile.awards = parseAwardInput($("[data-profile-awards]").value);
+        const saved = saveData();
+        render();
+        if (saved) showToast("개인 수상·표창 초안을 저장했습니다.");
+      });
       $("[data-studio-toggle]").addEventListener("click", openStudio);
       $("[data-studio-close]").addEventListener("click", closeStudio);
       els.scrim.addEventListener("click", closeStudio);
@@ -498,10 +512,19 @@
     }
 
     $("[data-detail-close]").addEventListener("click", closeProjectDetail);
+    $("[data-awards-grid]").addEventListener("click", (event) => {
+      const button = event.target.closest("[data-open-image]");
+      if (button) openImage(button.dataset.openImage, button.dataset.imageCaption || "");
+    });
     els.detailDialog.addEventListener("close", () => {
+      if (location.hash.startsWith("#project/")) history.replaceState(null, "", `${location.pathname}${location.search}#projects`);
+      state.detailId = null;
       els.detailContent.innerHTML = "";
     });
     els.detailContent.addEventListener("click", (event) => {
+      if (event.target.closest("[data-share-project]")) {
+        copyToClipboard(projectUrl(state.detailId), "프로젝트 주소를 복사했습니다.");
+      }
       const videoButton = event.target.closest("[data-detail-video]");
       const localVideoButton = event.target.closest("[data-detail-local-video]");
       const copyButton = event.target.closest("[data-detail-copy]");
@@ -534,17 +557,21 @@
   }
 
   function openStudio() {
+    els.studio.inert = false;
     els.studio.classList.add("is-open");
     els.studio.setAttribute("aria-hidden", "false");
     els.scrim.hidden = false;
     document.body.classList.add("studio-open");
+    $("[data-studio-close]").focus();
   }
 
   function closeStudio() {
+    els.studio.inert = true;
     els.studio.classList.remove("is-open");
     els.studio.setAttribute("aria-hidden", "true");
     els.scrim.hidden = true;
     document.body.classList.remove("studio-open");
+    $("[data-studio-toggle]").focus();
   }
 
   function openProjectDialog(project) {
@@ -560,6 +587,16 @@
     form.elements.maturity.value = project.maturity || "Case study";
     form.elements.subtitle.value = project.subtitle || "";
     form.elements.summary.value = project.summary || "";
+    for (const key of ["problem", "period", "collaboration", "learning", "limitations", "nextSteps"]) form.elements[key].value = project[key] || "";
+    for (const key of ["architecture", "buildSteps"]) form.elements[key].value = (project[key] || []).join("\n");
+    for (const key of ["challenges", "evidence", "metrics"]) form.elements[key].value = pairLines(project[key]);
+    form.elements.priority.value = project.priority;
+    form.elements.awards.value = (project.awards || []).map((a) => [a.title, a.issuer, a.date, a.scope, a.certificate].join(" | ")).join("\n");
+    form.elements.patents.value = (project.patents || []).map((a) => [a.title, a.number, a.status].join(" | ")).join("\n");
+    form.elements.mediaNotes.value = (project.mediaNotes || []).map((m) => [m.src, m.caption, m.capturedAt, m.version].map((v) => v || "").join(" | ")).join("\n");
+    form.elements.links.value = (project.links || []).map((l) => `${l.label || "Link"} | ${l.url}`).join("\n");
+    if (![...form.elements.maturity.options].some((o) => o.value === project.maturity)) form.elements.maturity.add(new Option(project.maturity, project.maturity));
+    form.elements.maturity.value = project.maturity;
     form.elements.rolePoints.value = (project.rolePoints || []).join("\n");
     form.elements.scopeNotes.value = (project.scopeNotes || []).join("\n");
     form.elements.results.value = (project.results || []).join("\n");
@@ -571,7 +608,6 @@
     form.elements.videoPoster.value = project.videoPoster || "";
     form.elements.image.value = project.image || "";
     form.elements.gallery.value = (project.gallery || []).join("\n");
-    form.elements.repo.value = firstRepo(project);
     form.elements.localPath.value = project.localPath || "";
 
     els.projectDialog.showModal();
@@ -584,7 +620,9 @@
 
   function openProjectDetail(id) {
     const project = findProject(id);
-    if (!project) return;
+    if (!project || project.visibility !== "public") return;
+    state.detailId = id;
+    if (location.hash !== `#project/${encodeURIComponent(id)}`) history.pushState(null, "", `#project/${encodeURIComponent(id)}`);
 
     const youtubeId = extractYoutubeId(project.youtubeUrl);
     const localVideo = project.video || "";
@@ -606,6 +644,13 @@
           ${renderDetailActions(project, links, youtubeId, localVideo)}
         </div>
       </div>
+      <div class="case-context">
+        ${project.period ? `<span>기간 · ${escapeHtml(project.period)}</span>` : ""}
+        ${project.collaboration ? `<span>참여 · ${escapeHtml(project.collaboration)}</span>` : ""}
+      </div>
+      ${renderDetailListSection("내가 맡은 일", project.rolePoints)}
+      ${project.awards?.length ? `<div class="award-grid">${renderAwardCards(project)}</div>` : ""}
+      ${project.patents?.length ? `<div class="award-grid">${renderPatentCards(project)}</div>` : ""}
       ${renderMetricStrip(project.metrics)}
       ${renderProblemSection(project.problem)}
       ${renderArchitectureFlow(project.architecture)}
@@ -615,7 +660,9 @@
         ${renderEvidenceSection(project.evidence)}
       </div>
       <div class="detail-grid">
-        ${renderDetailListSection("나의 역할", project.rolePoints)}
+        ${renderTextSection("배운 점", project.learning)}
+        ${renderTextSection("현재 한계", project.limitations)}
+        ${renderTextSection("다음 검증", project.nextSteps)}
         ${renderDetailListSection("구현 범위", project.scopeNotes)}
         ${renderDetailListSection("검증 포인트", project.results)}
         <div class="detail-section">
@@ -626,7 +673,8 @@
         </div>
       </div>
     `;
-    els.detailDialog.showModal();
+    if (!els.detailDialog.open) els.detailDialog.showModal();
+    els.detailDialog.scrollTop = 0;
     refreshIcons();
   }
 
@@ -637,6 +685,8 @@
   function renderDetailActions(project, links, youtubeId, localVideo) {
     return `
       <div class="detail-actions">
+        <button class="secondary-button compact" type="button" data-share-project><i data-lucide="link"></i>주소 복사</button>
+        <a class="secondary-button compact" href="./summary.html?projects=${encodeURIComponent(project.id)}${studioEnabled ? "&draft=1" : ""}" target="_blank" rel="noopener"><i data-lucide="file-text"></i>요약 / 인쇄</a>
         ${links
           .map(
             (link) => `
@@ -790,9 +840,10 @@
             class="gallery-slide"
             type="button"
             data-open-image="${escapeAttribute(image)}"
-            data-image-caption="${escapeAttribute(`${project.title} ${index + 1}`)}"
+            data-image-caption="${escapeAttribute(mediaCaption(project, image, index))}"
           >
-            <img src="${escapeAttribute(image)}" alt="${escapeAttribute(`${project.title} preview ${index + 1}`)}" loading="${index === 0 ? "eager" : "lazy"}" />
+            <img src="${escapeAttribute(image)}" alt="${escapeAttribute(mediaCaption(project, image, index))}" loading="${index === 0 ? "eager" : "lazy"}" />
+            <span class="gallery-caption">${escapeHtml(mediaCaption(project, image, index))}</span>
           </button>
         `
       )
@@ -897,9 +948,9 @@
     event.preventDefault();
     const form = els.projectForm;
     const id = form.elements.id.value || slugify(form.elements.title.value);
-    const repo = form.elements.repo.value.trim();
     const previous = findProject(id);
     const project = {
+      ...previous,
       id,
       title: form.elements.title.value.trim(),
       domain: form.elements.domain.value,
@@ -907,12 +958,26 @@
       maturity: form.elements.maturity.value,
       subtitle: form.elements.subtitle.value.trim(),
       summary: form.elements.summary.value.trim(),
-      problem: previous?.problem || "",
-      architecture: previous?.architecture || [],
-      buildSteps: previous?.buildSteps || [],
-      challenges: previous?.challenges || [],
-      evidence: previous?.evidence || [],
-      metrics: previous?.metrics || [],
+      problem: form.elements.problem.value.trim(),
+      period: form.elements.period.value.trim(),
+      collaboration: form.elements.collaboration.value.trim(),
+      learning: form.elements.learning.value.trim(),
+      limitations: form.elements.limitations.value.trim(),
+      nextSteps: form.elements.nextSteps.value.trim(),
+      mediaNotes: splitLines(form.elements.mediaNotes.value).map((line) => {
+        const [src, caption = "", capturedAt = "", version = ""] = line.split(" | ");
+        return { src: src.trim(), caption: caption.trim(), capturedAt: capturedAt.trim(), version: version.trim() };
+      }),
+      awards: parseAwardInput(form.elements.awards.value),
+      patents: splitLines(form.elements.patents.value).map((line) => {
+        const [title, number = "", status = "특허출원 접수"] = line.split(" | ");
+        return { title: title.trim(), number: number.trim(), status: status.trim() };
+      }),
+      architecture: splitLines(form.elements.architecture.value),
+      buildSteps: splitLines(form.elements.buildSteps.value),
+      challenges: parsePairLines(form.elements.challenges.value),
+      evidence: parsePairLines(form.elements.evidence.value),
+      metrics: parsePairLines(form.elements.metrics.value),
       rolePoints: splitLines(form.elements.rolePoints.value),
       scopeNotes: splitLines(form.elements.scopeNotes.value),
       results: splitLines(form.elements.results.value),
@@ -927,8 +992,8 @@
       visual: previous?.visual || "",
       gallery: splitLines(form.elements.gallery.value),
       localPath: form.elements.localPath.value.trim(),
-      links: repo ? [{ label: "Link", url: repo, icon: repo.includes("github") ? "code-2" : "external-link" }] : [],
-      priority: findProject(id)?.priority || state.data.projects.length + 1
+      links: parsePairLines(form.elements.links.value).filter((l) => l.value).map((l) => ({ label: l.label, url: l.value, icon: l.value.includes("github.com") ? "code-2" : "external-link" })),
+      priority: Number(form.elements.priority.value) || state.data.projects.length + 1
     };
 
     const index = state.data.projects.findIndex((item) => item.id === id);
@@ -939,15 +1004,15 @@
     }
 
     state.data = normalizeData(state.data);
-    saveData();
+    const saved = saveData();
     render();
     closeProjectDialog();
-    showToast("프로젝트가 저장됐습니다.");
+    if (saved) showToast("편집 초안을 저장했습니다. 공개 반영은 배포용 파일로 진행하세요.");
   }
 
   function deleteCurrentProject() {
     const id = els.projectForm.elements.id.value;
-    if (!id) return;
+    if (!id || !confirm("이 프로젝트를 초안에서 삭제할까요? 전체 백업 후 진행하는 것을 권장합니다.")) return;
     state.data.projects = state.data.projects.filter((project) => project.id !== id);
     saveData();
     render();
@@ -965,13 +1030,16 @@
   }
 
   function exportData(includeHidden) {
-    const data = clone(state.data);
-    if (!includeHidden) {
-      data.projects = data.projects.filter((project) => project.visibility === "public");
-    }
-    const filename = includeHidden ? "portfolio-backup.json" : "portfolio-public.json";
-    downloadJson(filename, data);
+    const data = includeHidden ? clone(state.data) : publicData(state.data);
+    downloadJson(includeHidden ? "portfolio-backup.json" : "portfolio-public.json", data);
     showToast(includeHidden ? "전체 백업을 내보냈습니다." : "공개 프로젝트만 내보냈습니다.");
+  }
+
+  function exportDeploy() {
+    const data = publicData(state.data);
+    data.profile.updatedAt = new Date().toLocaleDateString("sv-SE", { timeZone: "Asia/Seoul" });
+    downloadFile("portfolio-data.js", `window.PORTFOLIO_SEED = ${JSON.stringify(data, null, 2)};\n`, "text/javascript");
+    showToast("assets/portfolio-data.js를 이 파일로 교체한 뒤 사이트를 배포하세요.");
   }
 
   function importData(event) {
@@ -980,28 +1048,97 @@
     const reader = new FileReader();
     reader.onload = () => {
       try {
-        state.data = normalizeData(JSON.parse(String(reader.result)));
-        saveData();
+        const data = validateImport(JSON.parse(String(reader.result)));
+        if (!confirm("현재 편집 초안을 가져온 자료로 교체할까요? 기존 자료는 먼저 전체 백업으로 보관하세요.")) return;
+        state.data = data;
+        const saved = saveData();
         render();
-        showToast("포트폴리오 데이터를 가져왔습니다.");
+        if (saved) showToast("자료를 편집 초안으로 가져왔습니다.");
       } catch (error) {
-        console.error(error);
-        showToast("JSON을 읽지 못했습니다.");
-      } finally {
-        event.target.value = "";
-      }
+        showToast(error.message || "JSON을 읽지 못했습니다.");
+      } finally { event.target.value = ""; }
     };
     reader.readAsText(file);
   }
 
+  function importLegacy() {
+    try {
+      const data = validateImport(JSON.parse(localStorage.getItem(LEGACY_KEY)));
+      if (!confirm("이전 버전의 브라우저 자료로 현재 초안을 교체할까요? 이전 원본은 삭제하지 않습니다.")) return;
+      state.data = data;
+      const saved = saveData();
+      render();
+      if (saved) showToast("이전 자료를 불러왔습니다. 최신 공개본과 비교해 편집하세요.");
+    } catch { showToast("이전 자료를 읽지 못했습니다. 기존 저장 자료는 그대로 보존했습니다."); }
+  }
+
   function resetSeed() {
-    localStorage.removeItem(STORAGE_KEY);
+    if (!confirm("현재 편집 초안을 최신 공개본으로 교체할까요? 기존 초안은 먼저 전체 백업으로 보관하세요.")) return;
     state.data = normalizeData(clone(seed));
+    const saved = saveData();
     state.filter = "All";
     state.search = "";
     els.searchInput.value = "";
     render();
-    showToast("초기 데이터로 되돌렸습니다.");
+    if (saved) showToast("최신 공개본을 편집 초안으로 불러왔습니다.");
+  }
+
+  function projectUrl(id) {
+    const url = new URL(location.href);
+    url.search = "";
+    url.hash = `project/${encodeURIComponent(id)}`;
+    return url.href;
+  }
+
+  function renderAwardCards(project) {
+    return (project.awards || []).map((award) => {
+      const caption = [award.title, award.issuer, award.date, award.scope].filter(Boolean).join(" · ");
+      return `<article class="award-card"><p class="eyebrow">${escapeHtml(project.title)}</p><h3>${escapeHtml(award.title)}</h3><p>${escapeHtml([award.issuer, award.date, award.scope].filter(Boolean).join(" · "))}</p>${award.certificate ? `<button type="button" class="secondary-button compact" data-open-image="${escapeAttribute(award.certificate)}" data-image-caption="${escapeAttribute(caption)}">상장 보기</button>` : ""}</article>`;
+    }).join("");
+  }
+
+  function renderRecognitions() {
+    const html = getPublicProjects().filter((p) => p.awards?.length || p.patents?.length).map((p) => renderAwardCards(p) + renderPatentCards(p)).join("") + renderAwardCards({ title: "개인 수상·표창", awards: state.data.profile.awards || [] });
+    $("[data-recognition]").hidden = !html;
+    $("[data-awards-grid]").innerHTML = html;
+  }
+
+  function parseAwardInput(value) {
+    return splitLines(value).map((line) => {
+      const [title, issuer = "", date = "", scope = "", certificate = ""] = line.split(" | ");
+      return { title: title.trim(), issuer: issuer.trim(), date: date.trim(), scope: scope.trim(), certificate: certificate.trim() };
+    }).filter((a) => a.title);
+  }
+
+  function renderPatentCards(project) {
+    return (project.patents || []).map((p) => `<article class="award-card"><p class="eyebrow">${escapeHtml(project.title)}</p><h3>${escapeHtml(p.title)}</h3><p>${escapeHtml(p.status)} · ${escapeHtml(p.number)}</p></article>`).join("");
+  }
+
+  function syncProjectRoute() {
+    if (!location.hash.startsWith("#project/")) {
+      if (els.detailDialog.open) els.detailDialog.close();
+      return;
+    }
+    try {
+      const id = decodeURIComponent(location.hash.slice(9));
+      const project = findProject(id);
+      if (!project || project.visibility !== "public") {
+        if (els.detailDialog.open) els.detailDialog.close();
+        showToast("공개된 프로젝트를 찾지 못했습니다.");
+        return;
+      }
+      openProjectDetail(id);
+    } catch { showToast("프로젝트 주소를 확인하세요."); }
+  }
+
+  function mediaCaption(project, image, index) {
+    const note = (project.mediaNotes || []).find((item) => item.src === image);
+    if (!note) return `${project.title} · 이미지 ${index + 1}`;
+    return [note.caption, note.capturedAt, note.version].filter(Boolean).join(" · ");
+  }
+
+  function renderTextSection(title, text) {
+    return text ? `<div class="detail-section"><h3>${escapeHtml(title)}</h3><p class="detail-paragraph">${escapeHtml(text)}</p></div>` : "";
   }
 
   function openVideo(source, type = "youtube") {
@@ -1080,39 +1217,11 @@
   }
 
   function getPublicProjects() {
-    return state.data.projects
-      .filter((project) => project.visibility === "public")
-      .sort(projectSort);
+    return publicProjects(state.data.projects);
   }
 
   function getFilteredProjects() {
-    return getPublicProjects().filter((project) => {
-      const matchesFilter = state.filter === "All" || project.domain === state.filter;
-      const haystack = [
-        project.title,
-        project.subtitle,
-        project.summary,
-        project.problem,
-        project.domain,
-        project.maturity,
-        ...(project.architecture || []),
-        ...(project.buildSteps || []),
-        ...flattenCasePairs(project.challenges),
-        ...flattenCasePairs(project.evidence),
-        ...flattenCasePairs(project.metrics),
-        ...(project.rolePoints || []),
-        ...(project.scopeNotes || []),
-        ...(project.stack || []),
-        ...(project.results || [])
-      ]
-        .join(" ")
-        .toLowerCase();
-      return matchesFilter && (!state.search || haystack.includes(state.search));
-    });
-  }
-
-  function projectSort(a, b) {
-    return a.priority - b.priority || a.title.localeCompare(b.title);
+    return filterProjects(state.data.projects, { filter: state.filter, search: state.search });
   }
 
   function findProject(id) {
@@ -1162,60 +1271,11 @@
     }
   }
 
-  function fileNameFromPath(path) {
-    return String(path || "portfolio.pdf").split("/").filter(Boolean).pop() || "portfolio.pdf";
-  }
-
-  function extractYoutubeId(url) {
-    return parseYoutubeSource(url).id;
-  }
-
-  function youtubeEmbedUrl(source) {
-    const video = parseYoutubeSource(source);
-    if (!video.id) return "";
-    const params = new URLSearchParams({
-      autoplay: "1",
-      rel: "0",
-      modestbranding: "1"
-    });
-    if (video.start > 0) params.set("start", String(video.start));
-    return `https://www.youtube.com/embed/${video.id}?${params.toString()}`;
-  }
-
-  function parseYoutubeSource(source) {
-    if (!source) return { id: "", start: 0 };
-    try {
-      const parsed = new URL(source);
-      let id = "";
-      if (parsed.hostname.includes("youtu.be")) id = parsed.pathname.split("/").filter(Boolean)[0] || "";
-      else if (parsed.pathname.startsWith("/shorts/")) id = parsed.pathname.split("/")[1] || "";
-      else if (parsed.pathname.startsWith("/embed/")) id = parsed.pathname.split("/")[1] || "";
-      else id = parsed.searchParams.get("v") || "";
-
-      const start = parseYoutubeTime(parsed.searchParams.get("t") || parsed.searchParams.get("start"));
-      return { id, start };
-    } catch {
-      return { id: String(source || "").trim(), start: 0 };
-    }
-  }
-
-  function parseYoutubeTime(value) {
-    if (!value) return 0;
-    const text = String(value).trim().toLowerCase();
-    if (/^\d+$/.test(text)) return Number(text);
-    const match = text.match(/(?:(\d+)h)?(?:(\d+)m)?(?:(\d+)s)?/);
-    if (!match) return 0;
-    return Number(match[1] || 0) * 3600 + Number(match[2] || 0) * 60 + Number(match[3] || 0);
-  }
-
   function isStudioEnabled() {
     const params = new URLSearchParams(window.location.search);
+    if (params.get("view") === "public") return false;
     const localHosts = new Set(["localhost", "127.0.0.1", "::1", "[::1]", ""]);
     return localHosts.has(window.location.hostname) || params.get("studio") === "1";
-  }
-
-  function youtubeThumb(id) {
-    return `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
   }
 
   function refreshIcons() {
@@ -1232,57 +1292,24 @@
   }
 
   function downloadJson(filename, data) {
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
+    downloadFile(filename, JSON.stringify(data, null, 2), "application/json");
+  }
+
+  function downloadFile(filename, content, type) {
+    const url = URL.createObjectURL(new Blob([content], { type }));
     const anchor = document.createElement("a");
     anchor.href = url;
     anchor.download = filename;
     document.body.append(anchor);
     anchor.click();
     anchor.remove();
-    URL.revokeObjectURL(url);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
 
   function htmlToElement(html) {
     const template = document.createElement("template");
     template.innerHTML = html.trim();
     return template.content.firstElementChild;
-  }
-
-  function splitLines(value) {
-    if (!value) return [];
-    return String(value)
-      .split(/\n+/)
-      .map((item) => item.trim())
-      .filter(Boolean);
-  }
-
-  function splitComma(value) {
-    if (!value) return [];
-    return String(value)
-      .split(",")
-      .map((item) => item.trim())
-      .filter(Boolean);
-  }
-
-  function normalizeCasePairs(items) {
-    if (!items) return [];
-    const source = Array.isArray(items) ? items : splitLines(items);
-    return source
-      .map((item) => {
-        if (typeof item === "string") {
-          return { label: item, value: "" };
-        }
-        return {
-          label: item.label || item.problem || item.title || "",
-          value: item.value || item.solution || item.body || ""
-        };
-      })
-      .filter((item) => item.label || item.value);
-  }
-
-  function flattenCasePairs(items) {
-    return (Array.isArray(items) ? items : []).flatMap((item) => [item.label, item.value].filter(Boolean));
   }
 
   function sum(values) {
@@ -1297,24 +1324,4 @@
     return JSON.parse(JSON.stringify(value));
   }
 
-  function slugify(value) {
-    return String(value || "project")
-      .toLowerCase()
-      .trim()
-      .replace(/[^a-z0-9가-힣]+/g, "-")
-      .replace(/^-+|-+$/g, "");
-  }
-
-  function escapeHtml(value) {
-    return String(value ?? "")
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;")
-      .replaceAll('"', "&quot;")
-      .replaceAll("'", "&#039;");
-  }
-
-  function escapeAttribute(value) {
-    return escapeHtml(value).replaceAll("`", "&#096;");
-  }
 })();
