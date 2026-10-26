@@ -10,11 +10,11 @@
     <title>정성재 | AI · Robotics · Smart Factory</title>
     <link rel="preconnect" href="https://img.youtube.com" />
     <link rel="preconnect" href="https://www.youtube.com" />
-    <link rel="stylesheet" href="./assets/styles.css?v=20261026-final" />
+    <link rel="stylesheet" href="./assets/styles.css?v=20261026-overview" />
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
-    <script src="./assets/portfolio-data.js?v=20261026-ip" defer></script>
-    <script src="./assets/portfolio-domain.js?v=20261026-ip" defer></script>
-    <script src="./assets/app.js?v=20261026-ip" defer></script>
+    <script src="./assets/portfolio-data.js?v=20261026-overview" defer></script>
+    <script src="./assets/portfolio-domain.js?v=20261026-overview" defer></script>
+    <script src="./assets/app.js?v=20261026-overview" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#projects">프로젝트로 바로가기</a>
@@ -24,6 +24,7 @@
         <span class="brand-text">정성재</span>
       </a>
       <nav class="nav-links" aria-label="주요 메뉴">
+        <a href="#overview">Profile</a>
         <a href="#projects">Projects</a>
         <a href="#stack">Stack</a>
         <a href="#recognition">Records</a>
@@ -41,13 +42,13 @@
           <h1 id="hero-title">현장의 문제를<br />서비스와 로봇으로<br />풀어갑니다</h1>
           <p class="hero-lede" data-profile-summary></p>
           <div class="hero-actions">
-            <a class="primary-button" href="#projects">
+            <a class="primary-button" href="#overview">
               <i data-lucide="play-circle"></i>
-              프로젝트 살펴보기
+              약력 한눈에 보기
             </a>
-          <a class="secondary-button" href="#resume">
+          <a class="secondary-button" href="#projects">
             <i data-lucide="file-down"></i>
-              PDF / 링크
+              프로젝트 살펴보기
             </a>
           </div>
         </div>
@@ -88,6 +89,13 @@
         </div>
       </section>
 
+      <section id="overview" class="section-shell overview-section" aria-labelledby="overview-title">
+        <div class="overview-heading">
+          <div><p class="eyebrow">At a Glance</p><h2 id="overview-title">한눈에 보는 정성재</h2></div>
+          <a class="project-link" href="#recognition">수상·출원 증빙 보기 <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="overview-grid" data-overview-content></div>
+      </section>
       <section id="projects" class="section-shell projects-section" aria-labelledby="projects-title">
         <div class="section-heading">
           <div>
@@ -190,6 +198,15 @@
       </div>
 
       <div class="studio-list" data-studio-list></div>
+      <details class="studio-note"><summary>약력 관리</summary><form data-overview-form>
+        <label>약력 한 줄 소개<input name="headline" /></label>
+        <label>학력·학위<input name="degree" /></label>
+        <label>대학교 기간<input name="degreePeriod" /></label>
+        <label>교육기관·과정<input name="training" /></label>
+        <label>교육 기간<input name="trainingPeriod" /></label>
+        <label>교육 상세<input name="trainingDetail" /></label>
+        <button class="secondary-button compact" type="submit">약력 초안 저장</button>
+      </form></details>
       <details class="studio-note"><summary>개인 수상·표창 관리</summary><form data-profile-awards-form><label>프로젝트 외 수상·표창<textarea data-profile-awards rows="5" placeholder="상명 | 수여기관 | 날짜 | 개인/팀 | 이미지 경로"></textarea></label><button class="secondary-button compact" type="submit">개인 기록 저장</button></form></details>
     </aside>
 

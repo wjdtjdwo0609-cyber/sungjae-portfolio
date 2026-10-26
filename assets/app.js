@@ -120,6 +120,7 @@
 
   function render() {
     renderProfile();
+    renderOverview();
     renderFilters();
     renderProjects();
     renderRecognitions();
@@ -159,6 +160,39 @@
     els.statTests.textContent = publicProjects.filter((project) => project.featured).length.toString();
     els.statDomains.textContent = new Set(publicProjects.map((project) => project.domain)).size.toString();
     renderPdfLinks(profile.pdfs || []);
+  }
+
+  function renderOverview() {
+    const profile = state.data.profile;
+    const overview = profile.overview || {};
+    const projects = getPublicProjects();
+    const highlights = (overview.projects || []).map((entry) => ({ ...entry, project: projects.find((p) => p.id === entry.id) })).filter((entry) => entry.project);
+    const awards = projects.flatMap((p) => p.awards || []).concat(profile.awards || []).sort((a, b) => (b.date || "").localeCompare(a.date || ""));
+    const patents = projects.flatMap((p) => (p.patents || []).map((entry) => ({ ...entry, projectId: p.id })));
+    const fact = (label, title, detail) => title ? `<div><dt>${escapeHtml(label)}</dt><dd>${escapeHtml(title)}${detail ? `<span>${escapeHtml(detail)}</span>` : ""}</dd></div>` : "";
+    $("[data-overview-content]").innerHTML = `
+      <div class="overview-column">
+        <h3>학력·교육</h3>
+        ${overview.headline ? `<p class="overview-intro">${escapeHtml(overview.headline)}</p>` : ""}
+        <dl class="overview-facts">
+          ${fact("학력", overview.degree, overview.degreePeriod)}
+          ${fact("AI 교육", overview.training, [overview.trainingPeriod, overview.trainingDetail].filter(Boolean).join(" · "))}
+        </dl>
+      </div>
+      <div class="overview-column">
+        <h3>대표 경험 · 내가 맡은 일</h3>
+        <div class="overview-projects">${highlights.map(({ id, label, role, project }) => `
+          <a class="overview-project" href="#project/${encodeURIComponent(id)}" data-overview-project="${escapeAttribute(id)}">
+            <div><strong>${escapeHtml(label || project.title)}</strong><span aria-hidden="true">↗</span></div>
+            <p>${escapeHtml(role || project.rolePoints[0] || project.subtitle)}</p>
+            <small>${escapeHtml([project.collaboration, project.period].filter(Boolean).join(" · "))}</small>
+          </a>`).join("")}</div>
+      </div>
+      <div class="overview-column">
+        <h3>수상·표창 <span class="overview-count">${awards.length}건</span></h3>
+        <ol class="overview-records">${awards.map((award) => `<li><time>${escapeHtml((award.date || "").slice(0, 7))}</time><a href="#recognition">${escapeHtml(award.title)}${award.scope?.includes("팀") ? '<span class="overview-scope">팀</span>' : ""}</a></li>`).join("")}</ol>
+        ${patents.length ? `<div class="overview-patents"><h3>특허출원 접수 <span class="overview-count">${patents.length}건</span></h3>${patents.map((patent) => `<a href="#project/${encodeURIComponent(patent.projectId)}" data-overview-project="${escapeAttribute(patent.projectId)}"><strong>${escapeHtml(patent.title)}</strong><span>${escapeHtml(patent.number)}</span></a>`).join("")}</div>` : ""}
+      </div>`;
   }
 
   function renderPdfLinks(pdfs) {
@@ -421,6 +455,9 @@
       return;
     }
     els.studioList.innerHTML = "";
+    for (const key of ["headline", "degree", "degreePeriod", "training", "trainingPeriod", "trainingDetail"]) {
+      $("[data-overview-form]").elements[key].value = state.data.profile.overview?.[key] || "";
+    }
     $("[data-profile-awards]").value = (state.data.profile.awards || []).map((a) => [a.title, a.issuer, a.date, a.scope, a.certificate].join(" | ")).join("\n");
     const projects = [...state.data.projects].sort(projectSort);
     projects.forEach((project) => {
@@ -447,6 +484,10 @@
   }
 
   function bindEvents() {
+    $("[data-overview-content]").addEventListener("click", (event) => {
+      const link = event.target.closest("[data-overview-project]");
+      if (link) { event.preventDefault(); openProjectDetail(link.dataset.overviewProject); }
+    });
     document.addEventListener("keydown", (event) => {
       if (!els.studio.classList.contains("is-open") || els.projectDialog.open) return;
       if (event.key === "Escape") closeStudio();
@@ -476,6 +517,16 @@
     if (studioEnabled) {
       $("[data-export-deploy]").addEventListener("click", exportDeploy);
       $("[data-import-legacy]").addEventListener("click", importLegacy);
+      $("[data-overview-form]").addEventListener("submit", (event) => {
+        event.preventDefault();
+        const form = event.currentTarget;
+        const overview = { ...state.data.profile.overview };
+        for (const key of ["headline", "degree", "degreePeriod", "training", "trainingPeriod", "trainingDetail"]) overview[key] = form.elements[key].value.trim();
+        state.data.profile.overview = overview;
+        state.data.profile.education = [overview.training, overview.trainingPeriod, overview.trainingDetail].filter(Boolean).join(" · ");
+        const saved = saveData(); render();
+        if (saved) showToast("약력 편집 초안을 저장했습니다.");
+      });
       $("[data-profile-awards-form]").addEventListener("submit", (event) => {
         event.preventDefault();
         state.data.profile.awards = parseAwardInput($("[data-profile-awards]").value);
