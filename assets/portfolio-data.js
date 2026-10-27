@@ -57,7 +57,7 @@ window.PORTFOLIO_SEED = {
       }
     ],
     "education": "대한상공회의소 부산인력개발원 · [인텔] AI 융합 DX 마스터 클래스(5회차) · 2025.11.13~2026.05.22 · 900시간 수료",
-    "revision": "2026-10-27-copyright-registration",
+    "revision": "2026-10-27-grovebound-3d",
     "overview": {
       "headline": "서비스를 직접 만들고, 팀과 현장 시스템을 연결해 왔습니다.",
       "degree": "동아대학교 유전공학과 · 이학사",
@@ -1236,6 +1236,141 @@ window.PORTFOLIO_SEED = {
           "icon": "code-2"
         }
       ]
+    },
+    {
+      "id": "grovebound-3d",
+      "title": "Grovebound 3D",
+      "subtitle": "물리 기반 전투와 4개 지역 탐험을 연결한 3D 액션 RPG 프로토타입",
+      "domain": "Game",
+      "visibility": "public",
+      "maturity": "Local prototype",
+      "featured": false,
+      "priority": 19.4,
+      "tests": 0,
+      "image": "./assets/images/grovebound-3d/meadow-20261027.webp",
+      "imageFit": "contain",
+      "visual": "",
+      "video": "",
+      "videoPoster": "",
+      "gallery": [
+        "./assets/images/grovebound-3d/forest-20261027.webp",
+        "./assets/images/grovebound-3d/arena-20261027.webp"
+      ],
+      "youtubeUrl": "",
+      "summary": "클래식 온라인 RPG의 점프·밧줄·포탈·전투 흐름을 자유 회전 카메라와 3D 공간으로 옮겼습니다. Three.js 렌더링에 Rapier 물리를 연결하고, 직업 전환·성장·보스 패턴·합성 사운드까지 하나의 플레이 루프로 구성했습니다.",
+      "problem": "물리엔진이 담당할 충돌·발사체·넉백과 직접 제어할 이동감·등반·스킬 판정을 구분하고, 두 방식을 같은 게임에서 비교할 수 있는 강의 시연물을 만들고자 했습니다.",
+      "period": "2026.09 · 강의 시연용 프로토타입",
+      "collaboration": "개인 프로젝트",
+      "learning": "강체 물리만으로 원하는 조작감이 나오지는 않았습니다. 캐릭터 이동은 키네마틱 컨트롤러로 제어하고, 화살·넉백·소품에는 물리를 적용하는 방식으로 역할을 나눴습니다.",
+      "limitations": "데스크톱 키보드·마우스를 사용하는 로컬 시연 단계입니다. 모바일 조작, 장비·인벤토리, 온라인 멀티플레이는 구현 범위에 포함되지 않습니다.",
+      "nextSteps": "모바일 입력과 장비 시스템을 보강하고, 보스 패턴과 게임 진행을 확장할 수 있습니다.",
+      "mediaNotes": [
+        {
+          "src": "./assets/images/grovebound-3d/meadow-20261027.webp",
+          "caption": "초원 지역: 3D 캐릭터·발판·밧줄·미니맵과 물리 실험 패널",
+          "capturedAt": "2026-10-27",
+          "version": "로컬 실행 · Three.js / Rapier"
+        },
+        {
+          "src": "./assets/images/grovebound-3d/forest-20261027.webp",
+          "caption": "숲 지역: 수직 발판·등반 구조와 마법 계열 직업",
+          "capturedAt": "2026-10-27",
+          "version": "로컬 실행 · 직업 전환"
+        },
+        {
+          "src": "./assets/images/grovebound-3d/arena-20261027.webp",
+          "caption": "보스 아레나: 보스 체력 바와 전투 공간",
+          "capturedAt": "2026-10-27",
+          "version": "로컬 실행 · 보스 지역"
+        }
+      ],
+      "architecture": [
+        "키보드·마우스 입력",
+        "캐릭터·전투 상태",
+        "Rapier 고정 스텝",
+        "보간·Three.js 렌더링",
+        "HUD·Web Audio"
+      ],
+      "buildSteps": [
+        "초원·숲·동굴·보스 아레나의 4개 지역을 포탈로 연결하고, 밧줄·점프대·안전지대 배치",
+        "궁수·마법 계열 2개 직업과 총 6개 스킬, 자동 조준·유도 발사체·광역 임펄스 구현",
+        "HP·MP·경험치, 레벨업, AP/SP 배분, 사망·부활을 전투 루프에 연결",
+        "보스의 예고 동작·내려찍기·포자·소환·광폭화 상태와 플레이어 피격 연결",
+        "Web Audio로 효과음과 지역별 BGM을 합성하고, 중력·시간 배속·탄성을 조절하는 실험 UI 구성"
+      ],
+      "challenges": [
+        {
+          "label": "물리엔진의 움직임과 게임에서 원하는 조작감이 달랐음",
+          "value": "캐릭터는 키네마틱 컨트롤러와 더블점프·등반 상태로 제어하고, 발사체·몹·소품은 강체 물리로 처리했습니다."
+        },
+        {
+          "label": "물리 업데이트와 화면 주사율 차이로 이동이 떨릴 수 있음",
+          "value": "60Hz 고정 물리 스텝의 직전·현재 위치를 보간해 캐릭터와 카메라를 렌더링하도록 구성했습니다."
+        },
+        {
+          "label": "백그라운드 탭의 타이머 제한으로 전투 검증이 어려웠음",
+          "value": "시뮬레이션 갱신을 렌더 루프에서 분리하고, 쿨다운·발사체 수명·애니메이션 락을 dt 기준으로 관리했습니다."
+        }
+      ],
+      "evidence": [
+        {
+          "label": "실제 실행 화면 3장",
+          "value": "2026.10.27 로컬 브라우저에서 초원·숲·보스 아레나를 실행해 직접 캡처했습니다."
+        },
+        {
+          "label": "게임 구현 코드",
+          "value": "월드·캐릭터·전투·발사체·몹·사운드를 모듈로 분리한 JavaScript 소스와 Vite 빌드 산출물이 있습니다."
+        },
+        {
+          "label": "엔진·모델 사용 범위",
+          "value": "렌더링은 Three.js, 물리는 Rapier, 캐릭터 모델은 KayKit(CC0)을 사용했습니다. 배경·몹·연출은 코드 기반 3D 도형으로 구성했습니다."
+        }
+      ],
+      "metrics": [
+        {
+          "label": "World",
+          "value": "4개 지역"
+        },
+        {
+          "label": "Class",
+          "value": "2개 직업"
+        },
+        {
+          "label": "Skills",
+          "value": "6개 스킬"
+        },
+        {
+          "label": "Physics",
+          "value": "60Hz 고정 스텝"
+        }
+      ],
+      "rolePoints": [
+        "강의 시연 목적에 맞춰 3D RPG의 이동·전투·성장 흐름 기획 및 통합",
+        "Three.js와 Rapier를 연결하고 캐릭터 이동·발사체·물리 실험 UI 구성",
+        "기존 물리 예제 코드와 CC0 캐릭터 모델을 재사용해 게임 시스템과 애니메이션 연결"
+      ],
+      "scopeNotes": [
+        "클래식 RPG의 조작·성장 구조를 참고한 개인 학습·강의 시연 프로젝트",
+        "엔진과 CC0 모델을 사용했으며 물리엔진·캐릭터 모델 자체 제작으로 표기하지 않음",
+        "로컬 실행 가능한 프로토타입이며 공개 플레이 서비스나 상용 출시 이력은 없음"
+      ],
+      "results": [
+        "지역 탐험·직업 전환·전투·성장을 연결한 3D 게임 프로토타입 구성",
+        "발사체·넉백·소품 상호작용과 중력·배속 조절을 같은 장면에서 시연",
+        "실제 로컬 실행 화면과 구현 소스를 포트폴리오 증빙으로 정리"
+      ],
+      "stack": [
+        "JavaScript",
+        "Three.js",
+        "Rapier3D",
+        "Vite",
+        "Web Audio API",
+        "Skeletal Animation"
+      ],
+      "links": [],
+      "awards": [],
+      "patents": [],
+      "copyrights": []
     },
     {
       "id": "game-prototypes",
