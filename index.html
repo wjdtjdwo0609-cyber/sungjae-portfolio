@@ -10,11 +10,11 @@
     <title>정성재 | AI · Robotics · Smart Factory</title>
     <link rel="preconnect" href="https://img.youtube.com" />
     <link rel="preconnect" href="https://www.youtube.com" />
-    <link rel="stylesheet" href="./assets/styles.css?v=20261027-layout" />
+    <link rel="stylesheet" href="./assets/styles.css?v=20261101-videos" />
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
-    <script src="./assets/portfolio-data.js?v=20261027-grovebound" defer></script>
+    <script src="./assets/portfolio-data.js?v=20261101-videos" defer></script>
     <script src="./assets/portfolio-domain.js?v=20261027-layout" defer></script>
-    <script src="./assets/app.js?v=20261027-layout" defer></script>
+    <script src="./assets/app.js?v=20261101-videos" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#projects">프로젝트로 바로가기</a>
@@ -101,7 +101,7 @@
           <div>
             <p class="eyebrow">Selected Work</p>
             <h2 id="projects-title">직접 만들고, 확인한 것들</h2>
-            <p class="section-intro">문제와 나의 역할, 시도와 개선 과정을 프로젝트별로 정리했습니다.</p>
+            <p class="section-intro">문제와 나의 역할, 시도와 개선 과정을 프로젝트별로 정리했습니다. <a href="#development-videos">추가 개발 영상 보기 ↗</a></p>
           </div>
           <div class="toolbar">
             <div class="segmented-control" role="tablist" aria-label="프로젝트 필터" data-filter-bar></div>
@@ -112,6 +112,11 @@
           </div>
         </div>
         <div class="project-grid" data-project-grid></div>
+        <section id="development-videos" class="development-videos" aria-labelledby="development-videos-title" data-development-videos hidden>
+          <h3 id="development-videos-title">실습·초기 개발 영상</h3>
+          <p>프로젝트별 대표 시연 외에, 구현 과정과 초기 실험을 기록한 영상입니다.</p>
+          <div class="development-video-grid" data-development-video-grid></div>
+        </section>
       </section>
 
       <section id="recognition" class="section-shell" aria-labelledby="recognition-title" data-recognition hidden>
@@ -376,6 +381,7 @@
         ></iframe>
         <video data-video-player title="프로젝트 영상" controls playsinline hidden></video>
       </div>
+      <a class="video-external-link" data-video-external target="_blank" rel="noopener noreferrer" hidden>YouTube에서 보기 ↗</a>
     </dialog>
 
     <dialog class="image-dialog" data-image-dialog>

@@ -20,7 +20,7 @@ window.PORTFOLIO_SEED = {
         "file": "./assets/docs/sungjae-portfolio-c.pdf"
       }
     ],
-    "updatedAt": "2026-10-27",
+    "updatedAt": "2026-11-01",
     "website": "https://wjdtjdwo0609-cyber.github.io/sungjae-portfolio/",
     "awards": [
       {
@@ -57,7 +57,7 @@ window.PORTFOLIO_SEED = {
       }
     ],
     "education": "대한상공회의소 부산인력개발원 · [인텔] AI 융합 DX 마스터 클래스(5회차) · 2025.11.13~2026.05.22 · 900시간 수료",
-    "revision": "2026-10-27-grovebound-3d",
+    "revision": "2026-11-01-project-videos",
     "overview": {
       "headline": "서비스를 직접 만들고, 팀과 현장 시스템을 연결해 왔습니다.",
       "degree": "동아대학교 유전공학과 · 이학사",
@@ -82,7 +82,34 @@ window.PORTFOLIO_SEED = {
           "role": "기획·PM · 음성 모듈 개발·통합"
         }
       ]
-    }
+    },
+    "developmentVideos": [
+      {
+        "title": "디지털 트윈 1 · SpeedTag부터",
+        "url": "https://www.youtube.com/watch?v=x00UB7xu6R0",
+        "note": "2026.04 · 공정 화면과 태그 구성 과정 · 44분 40초"
+      },
+      {
+        "title": "디지털 트윈 2 · OPC 연결",
+        "url": "https://www.youtube.com/watch?v=9tzQ6rBRO7s",
+        "note": "2026.04 · OPC 연동 과정 기록 · 36분 58초"
+      },
+      {
+        "title": "디지털 트윈 3 · 공정 화면 실습",
+        "url": "https://www.youtube.com/watch?v=JhAMNFPAvIo",
+        "note": "2026.04 · 탱크·모터 공정 화면과 PLC 실습 · 12분 36초"
+      },
+      {
+        "title": "PLC 공정제어 프로젝트",
+        "url": "https://www.youtube.com/watch?v=mNetv5Yt61Q",
+        "note": "2025.12 · MELSEC-Q 기반 공정제어 실습 · 2분 10초"
+      },
+      {
+        "title": "Multi-file Manager · 초기 시연",
+        "url": "https://www.youtube.com/watch?v=KwbpI4_ig5E",
+        "note": "2026.03 · 파일 관리·키워드 화면 데모 · 31초"
+      }
+    ]
   },
   "domains": [
     "All",
@@ -219,9 +246,14 @@ window.PORTFOLIO_SEED = {
       ],
       "links": [
         {
-          "label": "서비스",
+          "label": "장사OS 바로가기",
           "url": "https://jangsaos.com/",
           "icon": "external-link"
+        },
+        {
+          "label": "초기 UI 영상 · 15초",
+          "url": "https://www.youtube.com/watch?v=8kV2QTenvTw",
+          "icon": "play-circle"
         }
       ],
       "patents": [
@@ -440,7 +472,7 @@ window.PORTFOLIO_SEED = {
         "./assets/images/vla-dataset-contact-sheet.png",
         "./assets/images/vla-motion-dataset-sequence.jpg"
       ],
-      "youtubeUrl": "",
+      "youtubeUrl": "https://www.youtube.com/watch?v=i0eg4IzEV6U",
       "summary": "책상 위 물건을 음성으로 요청하는 로봇 비서를 팀으로 구현했습니다. 기획·PM과 음성 모듈을 맡아 일상 발화를 작업 명령으로 바꾸고, VLA 추론과 로봇 실행 흐름에 연결했습니다.",
       "problem": "사용자의 “배고파”, “목마르다” 같은 일상 표현은 학습 모델이 실행하는 작업 명령과 다릅니다. 말의 의도를 물체·작업으로 바꾸고 로봇 실행 단계에 전달하는 흐름이 필요했습니다.",
       "period": "2026.05 · 12일 프로젝트",

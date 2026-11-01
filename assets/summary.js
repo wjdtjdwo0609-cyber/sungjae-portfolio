@@ -59,6 +59,7 @@
       const note = (p.mediaNotes || []).find((m) => m.src === p.image);
       const caption = note ? [note.caption, note.capturedAt, note.version].filter(Boolean).join(" · ") : p.title;
       const links = (p.links || []).filter((l) => safeLink(l.url));
+      if (p.youtubeUrl && safeLink(p.youtubeUrl)) links.push({label: "시연 영상 (YouTube)", url: p.youtubeUrl});
       const detail = `${data.profile.website || new URL('./', location.href).href}#project/${encodeURIComponent(p.id)}`;
       return `<article class="print-case">
         <header class="case-header"><span>정성재 · 프로젝트 포트폴리오</span><span>${e(data.profile.updatedAt || "")} · ${index + 1} / ${included.length}</span></header>

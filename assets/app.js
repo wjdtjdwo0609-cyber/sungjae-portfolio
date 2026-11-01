@@ -123,6 +123,7 @@
     renderOverview();
     renderFilters();
     renderProjects();
+    renderDevelopmentVideos();
     renderRecognitions();
     renderStacks();
     renderStudio();
@@ -248,6 +249,20 @@
     projects.forEach((project, index) => {
       els.projectGrid.append(createProjectCard(project, index));
     });
+  }
+
+  function renderDevelopmentVideos() {
+    const videos = (state.data.profile.developmentVideos || []).filter((video) =>
+      video.title && /^https:\/\/(www\.)?(youtube\.com|youtu\.be)\//.test(video.url || "")
+    );
+    const section = $("[data-development-videos]");
+    section.hidden = !videos.length;
+    $("[data-development-video-grid]").innerHTML = videos.map((video) => `
+      <a class="development-video-link" href="${escapeAttribute(video.url)}" target="_blank" rel="noopener noreferrer">
+        <i data-lucide="play-circle" aria-hidden="true"></i>
+        <span><strong>${escapeHtml(video.title)}</strong><small>${escapeHtml(video.note || "")}</small></span>
+        <span aria-hidden="true">↗</span>
+      </a>`).join("");
   }
 
   function createProjectCard(project, index) {
@@ -1227,6 +1242,10 @@
     els.videoIframe.removeAttribute("src");
     els.videoPlayer.pause();
     els.videoPlayer.removeAttribute("src");
+    const externalLink = $("[data-video-external]");
+    externalLink.hidden = type !== "youtube";
+    if (type === "youtube") externalLink.href = source;
+    else externalLink.removeAttribute("href");
 
     if (type === "local") {
       els.videoIframe.hidden = true;
