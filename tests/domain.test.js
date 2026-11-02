@@ -21,6 +21,10 @@ assert.strictEqual(p.visibility, "public");
 assert.strictEqual(p.domain, "Product");
 assert.ok(p.id.includes("한글"));
 assert.ok(Array.isArray(p.stack) && Array.isArray(p.gallery));
+// 카드 미리보기 영상은 시연 영상(video)과 따로 보존된다
+const withPreview = d.publicData({ projects: [{ title: "미리보기", previewVideo: "./assets/videos/previews/a.mp4", youtubeUrl: "https://youtu.be/X" }] }).projects[0];
+assert.strictEqual(withPreview.previewVideo, "./assets/videos/previews/a.mp4");
+assert.strictEqual(withPreview.video, "");
 assert.ok(data.domains.includes("All"));
 
 // 공개 필터 + 정렬 (priority → title)

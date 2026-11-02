@@ -2276,3 +2276,7 @@ textarea:focus {
 /* Korean type remains readable as headings wrap on narrow screens. */
 :lang(ko) { word-break:keep-all; overflow-wrap:break-word; }
 :lang(ko) :is(h1,h2,h3,h4) { letter-spacing:-.01em; text-wrap:balance; }
+
+/* 카드 사진 넘김 */
+.project-media img { transition: opacity .18s ease; }
+.project-media img.is-switching { opacity: 0; }

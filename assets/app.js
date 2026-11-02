@@ -278,6 +278,7 @@
 
     const youtubeId = extractYoutubeId(project.youtubeUrl);
     const localVideo = project.video || "";
+    const hoverVideo = project.previewVideo || localVideo;
     const image = project.videoPoster || project.image || (youtubeId ? youtubeThumb(youtubeId) : "");
     const initials = project.title
       .split(/\s+/)
@@ -291,9 +292,9 @@
     media.className = "project-media";
     if (project.visual === "game-prototypes") {
       media.append(htmlToElement(renderGamePrototypeVisual()));
-    } else if (localVideo) {
+    } else if (hoverVideo) {
       const video = document.createElement("video");
-      video.src = localVideo;
+      video.src = hoverVideo;
       video.poster = image || "";
       video.muted = true;
       video.loop = true;
@@ -309,6 +310,8 @@
       img.alt = `${project.title} preview`;
       img.loading = "lazy";
       media.append(img);
+      const slides = [...new Set([image, ...(project.gallery || [])])].filter((src) => /^(\.\/|https?:\/\/)/.test(src));
+      if (slides.length > 1) attachHoverSlideshow(media, img, slides);
     } else {
       const fallback = document.createElement("div");
       fallback.className = "media-fallback";
@@ -678,6 +681,7 @@
     form.elements.youtubeUrl.value = project.youtubeUrl || "";
     form.elements.video.value = project.video || "";
     form.elements.videoPoster.value = project.videoPoster || "";
+    form.elements.previewVideo.value = project.previewVideo || "";
     form.elements.image.value = project.image || "";
     form.elements.gallery.value = (project.gallery || []).join("\n");
     form.elements.localPath.value = project.localPath || "";
@@ -759,7 +763,7 @@
     return `
       <div class="detail-actions">
         <button class="secondary-button compact" type="button" data-share-project><i data-lucide="link"></i>주소 복사</button>
-        <a class="secondary-button compact" href="./summary.html?projects=${encodeURIComponent(project.id)}${studioEnabled ? "&draft=1" : ""}" target="_blank" rel="noopener"><i data-lucide="file-text"></i>요약 / 인쇄</a>
+        <a class="secondary-button compact" href="./summary.html?projects=${encodeURIComponent(project.id)}${studioEnabled ? "&draft=1" : ""}"><i data-lucide="file-text"></i>요약 / 인쇄</a>
         ${links
           .map(
             (link) => `
@@ -1064,6 +1068,7 @@
       youtubeUrl: form.elements.youtubeUrl.value.trim(),
       video: form.elements.video.value.trim(),
       videoPoster: form.elements.videoPoster.value.trim(),
+      previewVideo: form.elements.previewVideo.value.trim(),
       image: form.elements.image.value.trim(),
       imageFit: previous?.imageFit || "",
       visual: previous?.visual || "",
@@ -1369,6 +1374,29 @@
       stack: [],
       links: []
     };
+  }
+
+  // 마우스를 올린 동안 카드 사진을 갤러리 순서대로 넘긴다. 터치 기기와 움직임 줄이기 설정에서는 넘기지 않는다.
+  function attachHoverSlideshow(media, img, slides) {
+    if (!window.matchMedia("(hover: hover)").matches || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let timer = null;
+    let index = 0;
+    const show = (next) => {
+      index = next;
+      img.classList.add("is-switching");
+      setTimeout(() => {
+        img.src = slides[index];
+        img.classList.remove("is-switching");
+      }, 180);
+    };
+    media.addEventListener("mouseenter", () => {
+      slides.slice(1).forEach((src) => { new Image().src = src; });
+      timer = setInterval(() => show((index + 1) % slides.length), 1400);
+    });
+    media.addEventListener("mouseleave", () => {
+      clearInterval(timer);
+      if (index !== 0) show(0);
+    });
   }
 
   function firstRepo(project) {

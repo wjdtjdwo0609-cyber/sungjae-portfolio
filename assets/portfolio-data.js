@@ -53,7 +53,7 @@ window.PORTFOLIO_SEED = {
       }
     ],
     "education": "대한상공회의소 부산인력개발원 · [인텔] AI 융합 DX 마스터 클래스(5회차) · 2025.11.13~2026.05.22 · 900시간 수료",
-    "revision": "2026-11-02-training-certificate",
+    "revision": "2026-11-02-media-cleanup",
     "overview": {
       "headline": "서비스를 직접 만들고, 팀과 현장 시스템을 연결해 왔습니다.",
       "degree": "동아대학교 유전공학과 · 이학사",
@@ -306,8 +306,7 @@ window.PORTFOLIO_SEED = {
         "./assets/images/vision-r2-quality-detection-original.jpg",
         "./assets/images/vision-depth-pose-original.jpg",
         "./assets/images/intel5-vision-robot-gui-summary.jpg",
-        "./assets/images/smart-factory-digital-twin-user-capture.png",
-        "./assets/images/digital-twin-v4.png"
+        "./assets/images/smart-factory-digital-twin-user-capture.png"
       ],
       "youtubeUrl": "https://www.youtube.com/watch?v=2opqmbzk43I",
       "summary": "비전 모델 학습으로 대상 인식 흐름을 만들고, 로봇 티칭과 PLC 신호 연동, 웹 기반 대시보드·디지털 트윈 화면을 묶어 실제 공정을 시연한 스마트팩토리 프로젝트입니다.",
@@ -460,7 +459,8 @@ window.PORTFOLIO_SEED = {
           "certificate": "./assets/images/records/scans-20261027/factory-project-20260522.jpg",
           "certificatePdf": "./assets/docs/awards/factory-project-20260522.pdf"
         }
-      ]
+      ],
+      "previewVideo": "./assets/videos/previews/vision-robot-plc-preview.mp4"
     },
     {
       "id": "robot-vla-pipeline",
@@ -611,7 +611,8 @@ window.PORTFOLIO_SEED = {
           "certificate": "./assets/images/records/scans-20261027/intel-vla-project-20260522.jpg",
           "certificatePdf": "./assets/docs/awards/intel-vla-project-20260522.pdf"
         }
-      ]
+      ],
+      "previewVideo": "./assets/videos/previews/robot-vla-preview.mp4"
     },
     {
       "id": "plc-ai-copilot",
@@ -629,9 +630,7 @@ window.PORTFOLIO_SEED = {
       "video": "",
       "videoPoster": "",
       "gallery": [
-        "./assets/images/plcanalyze-home.png",
-        "./assets/images/mes-opcua-bridge.png",
-        "./assets/images/smart-factory-plc-addresses.png"
+        "./assets/images/plcanalyze-home.png"
       ],
       "youtubeUrl": "",
       "summary": "자연어 시나리오를 PLC 로직으로 바꾸고, 기존 PLC 코드를 구역별로 분석해 현장 엔지니어가 이해 가능한 설명으로 돌려주는 라이브 웹 서비스입니다.",
@@ -772,9 +771,7 @@ window.PORTFOLIO_SEED = {
       "videoPoster": "./assets/images/factoryio-robot-process-poster.jpg",
       "gallery": [
         "./assets/images/factoryio-robot-process-poster.jpg",
-        "./assets/images/smart-factory-web-twin-io.png",
-        "./assets/images/smart-factory-dashboard.png",
-        "./assets/images/smart-factory-plc-addresses.png"
+        "./assets/images/smart-factory-web-twin-io.png"
       ],
       "youtubeUrl": "https://www.youtube.com/watch?v=xNjqt9xNdQY",
       "summary": "Factory I/O로 로봇 공정을 구성하고, PLC 신호 흐름과 웹 화면 표현을 연결해 제조 공정 상태를 설명 가능하게 보여주는 프로젝트입니다.",
@@ -868,7 +865,8 @@ window.PORTFOLIO_SEED = {
           "url": "https://github.com/wjdtjdwo0609-cyber/smart-factory-dashboard-portfolio",
           "icon": "code-2"
         }
-      ]
+      ],
+      "previewVideo": "./assets/videos/previews/factory-io-preview.mp4"
     },
     {
       "id": "mes-opcua-bridge",
@@ -887,7 +885,6 @@ window.PORTFOLIO_SEED = {
       "videoPoster": "",
       "gallery": [
         "./assets/images/mes-opcua-bridge.png",
-        "./assets/images/smart-factory-digital-twin-user-capture.png",
         "./assets/images/smart-factory-dashboard.png",
         "./assets/images/smart-factory-quality-analysis.png"
       ],
@@ -1036,7 +1033,8 @@ window.PORTFOLIO_SEED = {
         "DDD"
       ],
       "links": [],
-      "awards": []
+      "awards": [],
+      "previewVideo": "./assets/videos/previews/kdsis-preview.mp4"
     },
     {
       "id": "local-agent-ai",
@@ -1054,8 +1052,7 @@ window.PORTFOLIO_SEED = {
       "video": "",
       "videoPoster": "",
       "gallery": [
-        "./assets/images/local-agent-ai-run.png",
-        "./assets/images/local-agent-ai.png"
+        "./assets/images/local-agent-ai-run.png"
       ],
       "youtubeUrl": "",
       "summary": "FastAPI, WebSocket, SQLite, Vanilla JS 기반 GUI에서 Ollama와 MLX 백엔드를 전환하며 4개 역할형 에이전트가 세션 단위로 협업하는 로컬 AI 앱입니다.",
@@ -1233,9 +1230,7 @@ window.PORTFOLIO_SEED = {
       "video": "",
       "videoPoster": "",
       "gallery": [
-        "./assets/images/ai-army-dashboard.png",
-        "./assets/images/local-agent-ai-run.png",
-        "./assets/images/knowledge-os-control.png"
+        "./assets/images/ai-army-dashboard.png"
       ],
       "youtubeUrl": "",
       "summary": "PM, Architect, Developer, QA 에이전트를 세션, 태스크 보드, 이벤트 스트림, 팀 모드로 조율해 장시간 개발 작업을 계획·실행·검증하는 멀티 에이전트 협업 시스템입니다.",
@@ -1452,7 +1447,7 @@ window.PORTFOLIO_SEED = {
       "title": "Game Prototypes",
       "subtitle": "4인 로컬 멀티플레이, 모바일 턴제 사격, pygame 아케이드까지 직접 구현한 게임 로직 프로토타입",
       "domain": "Game",
-      "visibility": "public",
+      "visibility": "hidden",
       "maturity": "Local prototype",
       "featured": false,
       "priority": 19.5,
@@ -1661,7 +1656,6 @@ window.PORTFOLIO_SEED = {
       "video": "",
       "videoPoster": "./assets/images/dockerros-web-simulator-poster.jpg",
       "gallery": [
-        "./assets/images/dockerros-web-simulator-overview.jpg",
         "./assets/images/dockerros-web-simulator-poster.jpg"
       ],
       "youtubeUrl": "https://www.youtube.com/watch?v=3c9PQeWwu58&t=463s",
@@ -1754,7 +1748,8 @@ window.PORTFOLIO_SEED = {
           "url": "https://github.com/wjdtjdwo0609-cyber/DockerRos",
           "icon": "code-2"
         }
-      ]
+      ],
+      "previewVideo": "./assets/videos/previews/dockerros-preview.mp4"
     },
     {
       "id": "pickline-toolkit",

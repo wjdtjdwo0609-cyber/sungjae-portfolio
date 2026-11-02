@@ -34,6 +34,7 @@
       visual: project.visual || "",
       video: project.video || project.videoUrl || "",
       videoPoster: project.videoPoster || "",
+      previewVideo: project.previewVideo || "",
       gallery: Array.isArray(project.gallery) ? project.gallery : splitLines(project.gallery),
       youtubeUrl: project.youtubeUrl || "",
       summary: project.summary || "",
