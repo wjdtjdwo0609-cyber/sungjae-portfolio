@@ -53,7 +53,7 @@ window.PORTFOLIO_SEED = {
       }
     ],
     "education": "대한상공회의소 부산인력개발원 · [인텔] AI 융합 DX 마스터 클래스(5회차) · 2025.11.13~2026.05.22 · 900시간 수료",
-    "revision": "2026-11-03-links",
+    "revision": "2026-11-03-keyword",
     "overview": {
       "headline": "서비스를 직접 만들고, 팀과 현장 시스템을 연결해 왔습니다.",
       "degree": "동아대학교 유전공학과 · 이학사",
@@ -137,7 +137,12 @@ window.PORTFOLIO_SEED = {
       "videoPoster": "./assets/images/jangsaos-analysis-route-20261102.jpg",
       "gallery": [
         "./assets/images/jangsaos-analysis-brief-20261102.jpg",
-        "./assets/images/jangsaos-current-home-20261025.png"
+        "./assets/images/jangsaos-current-home-20261025.png",
+        "./assets/images/jangsaos-keyword/keyword-result-20261103.jpg",
+        "./assets/images/jangsaos-keyword/keyword-report-preview-20261103.jpg",
+        "./assets/images/jangsaos-keyword/keyword-report-pdf-p1-20261103.jpg",
+        "./assets/images/jangsaos-keyword/keyword-report-pdf-p2-20261103.jpg",
+        "./assets/images/jangsaos-keyword/keyword-report-pdf-p3-20261103.jpg"
       ],
       "youtubeUrl": "",
       "summary": "창업을 준비하는 사람이 지역과 업종을 검토할 수 있도록 상권분석 서비스를 개발했습니다. 공공데이터와 지도, 분석 화면을 연결하고, 입력부터 결과 확인까지 하나의 서비스로 구성해 왔습니다.",
@@ -171,6 +176,36 @@ window.PORTFOLIO_SEED = {
           "caption": "장사OS 공개 홈 화면",
           "capturedAt": "2026-10-25",
           "version": "공개 서비스"
+        },
+        {
+          "src": "./assets/images/jangsaos-keyword/keyword-result-20261103.jpg",
+          "caption": "키워드 상세 분석 · 탕후루 판정, 월간 검색량, 경쟁 블로그 수, 검색 추세",
+          "capturedAt": "2026-11-03",
+          "version": "공개 서비스 · 관리자 계정 실행"
+        },
+        {
+          "src": "./assets/images/jangsaos-keyword/keyword-report-preview-20261103.jpg",
+          "caption": "키워드 전략 리포트 미리보기 · 판정 회피, 황금키워드 지수 0.0",
+          "capturedAt": "2026-11-03",
+          "version": "공개 서비스 · 관리자 계정 실행"
+        },
+        {
+          "src": "./assets/images/jangsaos-keyword/keyword-report-pdf-p1-20261103.jpg",
+          "caption": "완본 리포트 PDF 1쪽 · 판정과 검색 트렌드 분석",
+          "capturedAt": "2026-11-03",
+          "version": "공개 서비스 · 관리자 계정 실행"
+        },
+        {
+          "src": "./assets/images/jangsaos-keyword/keyword-report-pdf-p2-20261103.jpg",
+          "caption": "완본 리포트 PDF 2쪽 · 검색량과 경쟁도",
+          "capturedAt": "2026-11-03",
+          "version": "공개 서비스 · 관리자 계정 실행"
+        },
+        {
+          "src": "./assets/images/jangsaos-keyword/keyword-report-pdf-p3-20261103.jpg",
+          "caption": "완본 리포트 PDF 3쪽 · 기회 지도와 황금키워드 지수",
+          "capturedAt": "2026-11-03",
+          "version": "공개 서비스 · 관리자 계정 실행"
         }
       ],
       "architecture": [
@@ -216,6 +251,10 @@ window.PORTFOLIO_SEED = {
         {
           "label": "특허로 접수내역 화면",
           "value": "2026.04.04 접수, 해당 출원번호와 접수완료 표시를 2026-05-31 저장 화면에서 확인할 수 있습니다."
+        },
+        {
+          "label": "키워드 분석 시연",
+          "value": "2026-11-03 공개 서비스에서 \"탕후루\" 키워드를 분석하고, 키워드 전략 리포트를 생성해 완본 리포트를 PDF로 출력한 화면입니다. 리포트 생성 대기 약 48초는 영상에서 8배속으로 줄였습니다. PDF 4쪽 중 다른 창작자의 썸네일이 들어 있는 4쪽은 싣지 않았습니다."
         }
       ],
       "metrics": [
@@ -264,6 +303,11 @@ window.PORTFOLIO_SEED = {
           "label": "장사OS 바로가기",
           "url": "https://jangsaos.com/",
           "icon": "external-link"
+        },
+        {
+          "label": "키워드 분석 영상",
+          "url": "./assets/videos/jangsaos-keyword-report-20261103.mp4",
+          "icon": "play-circle"
         }
       ],
       "patents": [
