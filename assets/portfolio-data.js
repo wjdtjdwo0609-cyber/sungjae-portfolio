@@ -53,7 +53,7 @@ window.PORTFOLIO_SEED = {
       }
     ],
     "education": "대한상공회의소 부산인력개발원 · [인텔] AI 융합 DX 마스터 클래스(5회차) · 2025.11.13~2026.05.22 · 900시간 수료",
-    "revision": "2026-11-02-media-refresh",
+    "revision": "2026-11-02-public-links",
     "overview": {
       "headline": "서비스를 직접 만들고, 팀과 현장 시스템을 연결해 왔습니다.",
       "degree": "동아대학교 유전공학과 · 이학사",
@@ -440,7 +440,7 @@ window.PORTFOLIO_SEED = {
       "links": [
         {
           "label": "Dashboard",
-          "url": "https://github.com/wjdtjdwo0609-cyber/smart-factory-dashboard",
+          "url": "https://github.com/wjdtjdwo0609-cyber/smart-factory-dashboard-portfolio",
           "icon": "code-2"
         },
         {
@@ -863,7 +863,7 @@ window.PORTFOLIO_SEED = {
       "links": [
         {
           "label": "GitHub",
-          "url": "https://github.com/wjdtjdwo0609-cyber/smart-factory-dashboard",
+          "url": "https://github.com/wjdtjdwo0609-cyber/smart-factory-dashboard-portfolio",
           "icon": "code-2"
         }
       ]
@@ -981,7 +981,7 @@ window.PORTFOLIO_SEED = {
       "links": [
         {
           "label": "GitHub",
-          "url": "https://github.com/wjdtjdwo0609-cyber/smart-factory-dashboard",
+          "url": "https://github.com/wjdtjdwo0609-cyber/smart-factory-dashboard-portfolio",
           "icon": "code-2"
         }
       ]
@@ -1033,13 +1033,7 @@ window.PORTFOLIO_SEED = {
         "Gemini",
         "DDD"
       ],
-      "links": [
-        {
-          "label": "GitHub",
-          "url": "https://github.com/wjdtjdwo0609-cyber/KoreaArmyQualitySearching",
-          "icon": "code-2"
-        }
-      ],
+      "links": [],
       "awards": []
     },
     {
