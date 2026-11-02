@@ -53,7 +53,7 @@ window.PORTFOLIO_SEED = {
       }
     ],
     "education": "대한상공회의소 부산인력개발원 · [인텔] AI 융합 DX 마스터 클래스(5회차) · 2025.11.13~2026.05.22 · 900시간 수료",
-    "revision": "2026-11-02-media-cleanup",
+    "revision": "2026-11-02-knowledge-os",
     "overview": {
       "headline": "서비스를 직접 만들고, 팀과 현장 시스템을 연결해 왔습니다.",
       "degree": "동아대학교 유전공학과 · 이학사",
@@ -1551,46 +1551,116 @@ window.PORTFOLIO_SEED = {
     {
       "id": "knowledge-os-control",
       "title": "Knowledge OS Control",
-      "subtitle": "지식 파이프라인 명령을 운영자가 누를 수 있는 GUI로 전환",
+      "subtitle": "명령어로만 돌던 개인 지식 저장소 파이프라인을 버튼 9개짜리 로컬 GUI와 텔레그램 에이전트로 운영",
       "domain": "Document AI",
       "visibility": "public",
       "maturity": "Case study",
       "featured": false,
       "priority": 21,
       "tests": 0,
-      "image": "./assets/images/knowledge-os-control.png",
+      "image": "./assets/images/knowledge-os/kos-dashboard-20261102.png",
       "imageFit": "contain",
       "visual": "",
       "video": "",
       "videoPoster": "",
-      "gallery": [],
+      "gallery": [
+        "./assets/images/knowledge-os/kos-dashboard-20261102.png",
+        "./assets/images/knowledge-os/kos-command-whitelist-20261102.png",
+        "./assets/images/knowledge-os/kos-retrieval-eval-20261102.png",
+        "./assets/images/knowledge-os/kos-status-run-log-20261102.png",
+        "./assets/images/knowledge-os/kos-inventory-20261102.png"
+      ],
       "youtubeUrl": "",
-      "summary": "문서 수집, ingest 계획, 그래프 재생성, 중복 탐지, 검색 평가를 버튼형 운영 도구로 묶어 지식 저장소 상태를 관리하는 로컬 컨트롤 패널입니다.",
-      "problem": "",
+      "summary": "문서 1,109개, 그래프 노드 11,115개 규모의 개인 지식 저장소(Antigravity Knowledge OS)를 운영하는 도구입니다. 수집·색인·그래프·검색 평가 파이프라인(knowledgectl, 하위 명령 17개)을 허용된 명령 9개만 누를 수 있는 로컬 GUI로 묶고, 같은 백엔드를 텔레그램 에이전트와 매일 아침 자동 보고로도 쓸 수 있게 연결했습니다.",
+      "problem": "지식 저장소의 수집·색인·그래프 재생성·중복 탐지·검색 평가를 명령어로만 실행해야 해서 상태 확인과 재실행이 번거로웠고, 중복 파일 정리처럼 파일을 옮기는 명령을 실수로 실행할 위험이 있었습니다.",
       "period": "",
       "collaboration": "",
       "learning": "",
-      "limitations": "",
+      "limitations": "Status는 마지막 재빌드 때 만든 리포트를 모아 보여 주므로 화면의 숫자는 실시간으로 다시 센 값이 아닙니다. GUI의 실행 로그는 브라우저에만 남고 파일로 저장되지 않습니다. 검색 적중률은 BM25 엔진과 45문항 평가 세트 기준입니다.",
       "nextSteps": "",
-      "mediaNotes": [],
-      "architecture": [],
+      "mediaNotes": [
+        {
+          "src": "./assets/images/knowledge-os/kos-dashboard-20261102.png",
+          "caption": "상태 카드 8개와 운영 명령 9개를 한 화면에 둔 첫 화면",
+          "capturedAt": "2026-11-02",
+          "version": "로컬 실행 · Status만 실행"
+        },
+        {
+          "src": "./assets/images/knowledge-os/kos-command-whitelist-20261102.png",
+          "caption": "CLI 하위 명령 17개 중 9개만 버튼으로 노출 · 파일을 옮기는 작업만 빨간 카드로 2중 확인",
+          "capturedAt": "2026-11-02",
+          "version": "로컬 실행 · Status만 실행"
+        },
+        {
+          "src": "./assets/images/knowledge-os/kos-retrieval-eval-20261102.png",
+          "caption": "검색 평가 리포트 · BM25 Top-5, 45문항 중 44문항 적중(97.78%), MRR 0.8070",
+          "capturedAt": "2026-11-02",
+          "version": "로컬 실행 · Status만 실행"
+        },
+        {
+          "src": "./assets/images/knowledge-os/kos-status-run-log-20261102.png",
+          "caption": "그래프 리포트와 Status 실행 로그(ok, 0.06초)",
+          "capturedAt": "2026-11-02",
+          "version": "로컬 실행 · Status만 실행"
+        },
+        {
+          "src": "./assets/images/knowledge-os/kos-inventory-20261102.png",
+          "caption": "시스템 인벤토리 · 원본 1,130개 파일, 1.6GB, 확장자별 분포",
+          "capturedAt": "2026-11-02",
+          "version": "로컬 실행 · Status만 실행"
+        }
+      ],
+      "architecture": [
+        "원본 문서(md·docx·pdf·txt)는 Obsidian vault에 두고, 청크·그래프·벡터·리포트 같은 기계용 산출물은 .knowledge 폴더에만 씁니다.",
+        "knowledgectl이 ingest → bridge → scan → graph → eval 순서로 파이프라인을 돌리고 리포트를 JSON과 한글 문서로 남깁니다. 매주 일요일 03:00에 launchd가 전체 재빌드를 실행합니다.",
+        "책상에서는 로컬 GUI 버튼으로, 밖에서는 텔레그램 봇(Hermes 에이전트)으로 같은 백엔드를 운영합니다. 두 창구 모두 허용 목록에 있는 명령만 실행합니다."
+      ],
       "buildSteps": [],
       "challenges": [],
       "evidence": [],
-      "metrics": [],
-      "rolePoints": [],
-      "scopeNotes": [],
+      "metrics": [
+        {
+          "label": "문서",
+          "value": "1,109개"
+        },
+        {
+          "label": "그래프",
+          "value": "노드 11,115 · 엣지 17,278"
+        },
+        {
+          "label": "검색 적중",
+          "value": "97.78% (BM25 · 45문항)"
+        },
+        {
+          "label": "노출 명령",
+          "value": "9 / 17"
+        }
+      ],
+      "rolePoints": [
+        "CLI 하위 명령 17개 중 운영에 필요한 9개만 버튼으로 노출하는 허용 목록 GUI 설계·구현",
+        "파일을 옮기는 중복 정리(Archive Duplicates)에만 브라우저 확인과 서버 confirm 2중 안전장치 적용",
+        "같은 백엔드를 MCP 서버(도구 11개)로 감싸 텔레그램 에이전트와 매일 09:00 상태 보고에 연결"
+      ],
+      "scopeNotes": [
+        "GUI는 127.0.0.1에서만 실행되는 개인 로컬 도구이며 공개 서비스가 아님",
+        "텔레그램은 GUI에 붙은 기능이 아니라 같은 백엔드에 연결된 별도 창구(Hermes 에이전트)",
+        "화면 수치는 2026-11-02 status 실행 기준"
+      ],
       "results": [
-        "명령어 기반 파이프라인을 제한된 GUI 액션으로 전환",
-        "문서, 청크, 그래프 노드, 그래프 엣지 상태를 한 화면에서 확인",
-        "검색 평가와 로그를 운영 화면에 남겨 재실행 가능성 개선"
+        "문서 1,109 · 청크 2,498 · 그래프 노드 11,115 / 엣지 17,278 · 끊긴 엣지 0 (2026-11-02 status 기준)",
+        "검색 평가: BM25 Top-5 기준 45문항 중 44문항 적중(97.78%), MRR 0.8070 (2026-11-01 리포트)",
+        "텔레그램 세션 14개에서 지식 OS 도구 70회 실행(2026-06-04~11-01 에이전트 로그), 매일 09:00 상태 보고 147회분 누적",
+        "외부 패키지 없이 표준 라이브러리만 쓴 971줄, DDD 컨텍스트 2개, 테스트 19개 통과"
       ],
       "stack": [
-        "Python",
-        "HTML",
-        "CSS",
+        "Python (표준 라이브러리)",
+        "HTML/CSS/JS",
         "Knowledge Graph",
-        "RAG"
+        "BM25",
+        "MCP",
+        "Hermes Agent",
+        "Telegram Bot API",
+        "launchd"
       ],
       "links": []
     },
@@ -1603,7 +1673,7 @@ window.PORTFOLIO_SEED = {
       "maturity": "Case study",
       "featured": false,
       "priority": 22,
-      "tests": 14,
+      "tests": 25,
       "image": "./assets/images/notebooklm-automation.png",
       "imageFit": "contain",
       "visual": "",
@@ -1761,12 +1831,18 @@ window.PORTFOLIO_SEED = {
       "featured": false,
       "priority": 24,
       "tests": 77,
-      "image": "./assets/images/pickline-preview.png",
+      "image": "./assets/images/pickline/notes-p01-cover.jpg",
       "imageFit": "contain",
       "visual": "",
       "video": "",
       "videoPoster": "",
-      "gallery": [],
+      "gallery": [
+        "./assets/images/pickline/notes-p01-cover.jpg",
+        "./assets/images/pickline/notes-p04-architecture.jpg",
+        "./assets/images/pickline/notes-p13-hand-eye-calibration.jpg",
+        "./assets/images/pickline/notes-p15-pixel-to-robot.jpg",
+        "./assets/images/pickline/notes-p17-picking-workflow.jpg"
+      ],
       "youtubeUrl": "",
       "summary": "Intel5 릴레이 소켓 검사·픽킹 프로젝트에서 비전, 캘리브레이션, 로봇 제어, PLC 연동, 픽 사이클을 bounded context로 추출한 모듈형 라이브러리입니다.",
       "problem": "",
@@ -1775,7 +1851,38 @@ window.PORTFOLIO_SEED = {
       "learning": "",
       "limitations": "",
       "nextSteps": "",
-      "mediaNotes": [],
+      "mediaNotes": [
+        {
+          "src": "./assets/images/pickline/notes-p01-cover.jpg",
+          "caption": "학습노트 표지 · YOLOv11-OBB, RealSense D435, Hand-Eye Calibration",
+          "capturedAt": "Indy7 Smart Cell 비전 빈피킹 학습노트 v1.0",
+          "version": "PDF 21쪽 중 발췌"
+        },
+        {
+          "src": "./assets/images/pickline/notes-p04-architecture.jpg",
+          "caption": "전체 시스템 아키텍처 · Sensing → Perception → Action 3계층",
+          "capturedAt": "Indy7 Smart Cell 비전 빈피킹 학습노트 v1.0",
+          "version": "PDF 21쪽 중 발췌"
+        },
+        {
+          "src": "./assets/images/pickline/notes-p13-hand-eye-calibration.jpg",
+          "caption": "Hand-Eye Calibration · ArUco 마커로 카메라–로봇 변환 구하기",
+          "capturedAt": "Indy7 Smart Cell 비전 빈피킹 학습노트 v1.0",
+          "version": "PDF 21쪽 중 발췌"
+        },
+        {
+          "src": "./assets/images/pickline/notes-p15-pixel-to-robot.jpg",
+          "caption": "좌표 변환 · 픽셀 → 카메라 3D → 로봇 베이스",
+          "capturedAt": "Indy7 Smart Cell 비전 빈피킹 학습노트 v1.0",
+          "version": "PDF 21쪽 중 발췌"
+        },
+        {
+          "src": "./assets/images/pickline/notes-p17-picking-workflow.jpg",
+          "caption": "빈피킹 실행 워크플로우 · 검출부터 집기·안전 확인까지",
+          "capturedAt": "Indy7 Smart Cell 비전 빈피킹 학습노트 v1.0",
+          "version": "PDF 21쪽 중 발췌"
+        }
+      ],
       "architecture": [],
       "buildSteps": [],
       "challenges": [],
@@ -1801,6 +1908,11 @@ window.PORTFOLIO_SEED = {
           "label": "GitHub",
           "url": "https://github.com/wjdtjdwo0609-cyber/pickline-toolkit",
           "icon": "code-2"
+        },
+        {
+          "label": "학습노트 PDF",
+          "url": "./assets/docs/pickline-indy7-vision-binpicking-notes.pdf",
+          "icon": "file-text"
         }
       ]
     }
