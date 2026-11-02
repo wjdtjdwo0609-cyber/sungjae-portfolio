@@ -53,7 +53,7 @@ window.PORTFOLIO_SEED = {
       }
     ],
     "education": "대한상공회의소 부산인력개발원 · [인텔] AI 융합 DX 마스터 클래스(5회차) · 2025.11.13~2026.05.22 · 900시간 수료",
-    "revision": "2026-11-02-knowledge-os",
+    "revision": "2026-11-02-plc-demo",
     "overview": {
       "headline": "서비스를 직접 만들고, 팀과 현장 시스템을 연결해 왔습니다.",
       "degree": "동아대학교 유전공학과 · 이학사",
@@ -627,10 +627,13 @@ window.PORTFOLIO_SEED = {
       "image": "./assets/images/plcanalyze-home.png",
       "imageFit": "contain",
       "visual": "",
-      "video": "",
-      "videoPoster": "",
+      "video": "./assets/videos/plc-copilot-demo-20261102.mp4",
+      "videoPoster": "./assets/images/plc-copilot/plc-copilot-st-code-poster-20261102.jpg",
       "gallery": [
-        "./assets/images/plcanalyze-home.png"
+        "./assets/images/plcanalyze-home.png",
+        "./assets/images/plc-copilot/plc-copilot-input-20261102.jpg",
+        "./assets/images/plc-copilot/plc-copilot-analysis-20261102.jpg",
+        "./assets/images/plc-copilot/plc-copilot-st-code-20261102.jpg"
       ],
       "youtubeUrl": "",
       "summary": "자연어 시나리오를 PLC 로직으로 바꾸고, 기존 PLC 코드를 구역별로 분석해 현장 엔지니어가 이해 가능한 설명으로 돌려주는 라이브 웹 서비스입니다.",
@@ -638,9 +641,40 @@ window.PORTFOLIO_SEED = {
       "period": "",
       "collaboration": "",
       "learning": "",
-      "limitations": "",
+      "limitations": "AI가 만든 PLC 코드는 현장 적용 전에 엔지니어 검토가 필요합니다. 2026-11-02 시연에서 ST 코드는 요청대로 생성됐지만, 같은 결과의 래더 뷰어와 타이밍 차트에는 ST 코드와 맞지 않는 회로가 표시돼 영상에서는 그 구간을 뺐습니다. 요청하지 않은 비상정지·과부하 입력도 함께 추가됐습니다.",
       "nextSteps": "",
-      "mediaNotes": [],
+      "mediaNotes": [
+        {
+          "src": "./assets/images/plc-copilot/plc-copilot-st-code-poster-20261102.jpg",
+          "caption": "생성된 ST 코드 · 자기유지 회로(PROGRAM MAIN)",
+          "capturedAt": "2026-11-02",
+          "version": "plcanalyze.xyz · 비로그인 실행"
+        },
+        {
+          "src": "./assets/images/plcanalyze-home.png",
+          "caption": "PLC Copilot 홈 · 코드 생성과 코드 해석",
+          "capturedAt": "",
+          "version": "plcanalyze.xyz"
+        },
+        {
+          "src": "./assets/images/plc-copilot/plc-copilot-input-20261102.jpg",
+          "caption": "자연어 요청 입력 · 시작 X0, 정지 X1, 모터 Y0 자기유지 회로",
+          "capturedAt": "2026-11-02",
+          "version": "분석 + 생성 한번에"
+        },
+        {
+          "src": "./assets/images/plc-copilot/plc-copilot-analysis-20261102.jpg",
+          "caption": "적합성 분석 · AI가 해석한 시나리오와 공정 설명",
+          "capturedAt": "2026-11-02",
+          "version": "plcanalyze.xyz · 비로그인 실행"
+        },
+        {
+          "src": "./assets/images/plc-copilot/plc-copilot-st-code-20261102.jpg",
+          "caption": "ST 코드 탭 · 자기유지와 출력 제어",
+          "capturedAt": "2026-11-02",
+          "version": "plcanalyze.xyz · 비로그인 실행"
+        }
+      ],
       "architecture": [
         "React UI",
         "PLC Pattern Library",
@@ -667,6 +701,10 @@ window.PORTFOLIO_SEED = {
         }
       ],
       "evidence": [
+        {
+          "label": "시연 영상",
+          "value": "2026-11-02 로그인 없이 자기유지 회로(시작 X0 · 정지 X1 · 모터 Y0)를 자연어로 요청해 분석과 ST 코드 생성까지 한 번에 실행한 화면입니다. 생성 대기 약 207초는 영상에서 30배속으로 줄였습니다."
+        },
         {
           "label": "실행 화면",
           "value": "plcanalyze.xyz 홈/기능 화면을 직접 실행 캡처로 제공"
