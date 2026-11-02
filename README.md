@@ -104,3 +104,9 @@ The JangsaOS demo in `assets/videos/` is a real guest run on the public service:
 DocScope images were captured from a local run on a copied demo folder, so the original workspace was not changed. The earlier blank-canvas captures were removed.
 
 `assets/docs/sungjae-portfolio.pdf`, `sungjae-records.pdf` and `sungjae-third-hand-vla.pdf` are printed from `summary.html`, `summary.html?projects=&records=1` and `summary.html?projects=robot-vla-pipeline`. Print them again when those pages change. Company-specific PDFs do not belong in this public folder; keep them in the job application folder.
+
+### Readable first page (2026-11-02)
+
+`assets/docs/sungjae-portfolio.pdf` now opens with a one-page profile summary built by `buildProfileBrief` in `assets/portfolio-domain.js`. It uses only public data, keeps each representative project's limitations, separates team awards from individual commendations, and states patents as filings. In print, case sections use one column so text extractors read each heading before its body. `summary.html` shows the summary by default and leaves it out when `?projects=` is set, unless `brief=1` is added.
+
+`index.html` and `summary.html` also carry the same facts as static text for readers that do not run JavaScript. Blocks marked `<!-- static:name -->` are generated, and `app.js` or `summary.js` replaces the visible ones when they run. After replacing `assets/portfolio-data.js`, run `node tools/build-static.js`, reprint the PDFs and run `node tests/run-all.js`, which fails if the generated blocks no longer match the data. No text is hidden for AI readers.

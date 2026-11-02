@@ -16,6 +16,16 @@
   const requested = params.has("projects") ? params.get("projects").split(",") : projects.filter((p) => p.featured).map((p) => p.id);
   const selected = new Set(requested);
   let includeRecords = params.get("records") === "1";
+  let includeBrief = params.has("brief") ? params.get("brief") === "1" : !params.has("projects");
+  const briefToggle = document.querySelector("[data-brief-toggle]");
+  briefToggle.checked = includeBrief;
+  briefToggle.addEventListener("change", () => {
+    includeBrief = briefToggle.checked;
+    const url = new URL(location.href);
+    url.searchParams.set("brief", includeBrief ? "1" : "0");
+    history.replaceState(null, "", url.href);
+    render();
+  });
   const recordsToggle = document.querySelector("[data-records-toggle]");
   recordsToggle.checked = includeRecords;
   recordsToggle.addEventListener("change", () => {
@@ -42,6 +52,7 @@
       input.checked ? selected.add(project.id) : selected.delete(project.id);
       const url = new URL(location.href);
       url.searchParams.set("projects", projects.filter((p) => selected.has(p.id)).map((p) => p.id).join(","));
+      url.searchParams.set("brief", includeBrief ? "1" : "0");
       history.replaceState(null, "", url.href);
       render();
     });
@@ -51,11 +62,11 @@
 
   function render() {
     const included = projects.filter((p) => selected.has(p.id));
-    if (!included.length && !includeRecords) {
+    if (!included.length && !includeRecords && !includeBrief) {
       root.innerHTML = '<p class="empty">표시할 프로젝트가 없습니다. 프로젝트 선택에서 사례를 추가하세요.</p>';
       return;
     }
-    root.innerHTML = included.map((p, index) => {
+    root.innerHTML = (includeBrief ? briefPage() : "") + included.map((p, index) => {
       const note = (p.mediaNotes || []).find((m) => m.src === p.image);
       const caption = note ? [note.caption, note.capturedAt, note.version].filter(Boolean).join(" · ") : p.title;
       const links = (p.links || []).filter((l) => safeLink(l.url));
@@ -83,6 +94,9 @@
         <footer><p>${e((p.stack || []).join(" · "))}</p><a href="${e(detail)}">웹 상세와 증빙</a>${links.map((l) => ` · <a href="${e(new URL(l.url, data.profile.website || location.href).href)}">${e(l.label || l.url)}</a>`).join("")}</footer>
       </article>`;
     }).join("") + (includeRecords ? recordPage() : "");
+  }
+  function briefPage() {
+    return `<article class="print-case profile-brief">${d.renderProfileBriefHtml(d.buildProfileBrief(data))}</article>`;
   }
   function recordPage() {
     const allAwards = projects.flatMap((p) => (p.awards || []).map((a) => ({...a, project: p.title}))).concat((data.profile.awards || []).map((a) => ({...a, project: "수상·표창"})));

@@ -1,7 +1,7 @@
 // ==========================================================================
 // Portfolio Domain — 순수 규칙 모듈 (DOM/localStorage/window 상태 접근 금지)
 // 프로젝트 정규화, 공개/검색 필터, 정렬, YouTube URL 해석(t= 보존), 레이아웃
-// 패턴, 텍스트 분해, HTML 이스케이프 규칙을 담는다. (UMD: 브라우저+Node)
+// 패턴, 텍스트 분해, HTML 이스케이프, 첫 장 요약 규칙을 담는다. (UMD: 브라우저+Node)
 // ==========================================================================
 (function attachPortfolioDomain(root, factory) {
   const api = factory();
@@ -240,7 +240,102 @@
     });
   }
 
+  function absoluteUrl(url, base) {
+    try {
+      return new URL(url, base).href;
+    } catch {
+      return url;
+    }
+  }
+  function isSafeLink(url) {
+    return /^(https?:\/\/|\.\/)/i.test(url || "");
+  }
+
+  // 첫 장 요약: 공개 데이터의 사실만 모아 PDF와 정적 HTML이 같은 내용을 쓰게 한다
+  function buildProfileBrief(data) {
+    const clean = publicData(data);
+    const profile = clean.profile;
+    const overview = profile.overview || {};
+    const projects = clean.projects;
+    const toLink = (label, url) => ({ label, url: absoluteUrl(url, profile.website) });
+    const detailLink = (id) => toLink("상세", `./#project/${encodeURIComponent(id)}`);
+    const highlights = (overview.projects || [])
+      .map((entry) => ({ entry, project: projects.find((p) => p.id === entry.id) }))
+      .filter((item) => item.project)
+      .map(({ entry, project }) => ({
+        id: project.id,
+        title: project.title,
+        role: entry.role || project.rolePoints[0] || project.subtitle,
+        context: [project.collaboration, project.period].filter(Boolean).join(" · "),
+        summary: project.summary,
+        limitation: project.limitations,
+        stack: project.stack,
+        links: [
+          detailLink(project.id),
+          ...project.links.filter((l) => isSafeLink(l.url)).map((l) => toLink(l.label || l.url, l.url)),
+          ...(isSafeLink(project.youtubeUrl) ? [toLink("시연 영상 (YouTube)", project.youtubeUrl)] : []),
+          ...(isSafeLink(project.video) ? [toLink("시연 영상", project.video)] : [])
+        ]
+      }));
+    const highlightIds = new Set(highlights.map((item) => item.id));
+    const stackCounts = new Map();
+    projects.forEach((p) => p.stack.forEach((s) => stackCounts.set(s, (stackCounts.get(s) || 0) + 1)));
+    return {
+      name: profile.name || "",
+      role: profile.role || "",
+      summary: profile.summary || "",
+      headline: overview.headline || "",
+      updatedAt: profile.updatedAt || "",
+      stats: {
+        projects: projects.length,
+        featured: projects.filter((p) => p.featured).length,
+        domains: Array.from(new Set(projects.map((p) => p.domain)))
+      },
+      highlights,
+      education: [
+        { label: "학력", title: overview.degree, detail: overview.degreePeriod },
+        { label: "AI 교육", title: overview.training, detail: [overview.trainingPeriod, overview.trainingDetail].filter(Boolean).join(" · ") }
+      ].filter((item) => item.title),
+      awards: projects.flatMap((p) => p.awards).concat(profile.awards || []).sort((a, b) => (b.date || "").localeCompare(a.date || "")),
+      patents: projects.flatMap((p) => p.patents),
+      copyrights: projects.flatMap((p) => p.copyrights),
+      stack: Array.from(stackCounts).sort((a, b) => b[1] - a[1]).slice(0, 15).map(([name]) => name),
+      others: projects.filter((p) => !highlightIds.has(p.id)).map((p) => ({ title: p.title, domain: p.domain, link: detailLink(p.id) })),
+      documents: [
+        ...(isSafeLink(profile.website) ? [toLink("웹 포트폴리오", profile.website)] : []),
+        ...(isSafeLink(profile.github) ? [toLink("GitHub", profile.github)] : []),
+        ...(isSafeLink(profile.resume) ? [toLink("대표 PDF", profile.resume)] : []),
+        ...(profile.pdfs || []).filter((pdf) => isSafeLink(pdf.file)).map((pdf) => toLink(pdf.label || "PDF", pdf.file))
+      ]
+    };
+  }
+  function renderProfileBriefHtml(brief, { titleTag = "h1" } = {}) {
+    const e = escapeHtml;
+    const anchors = (links) => links.map((l) => `<a href="${escapeAttribute(l.url)}">${e(l.label)}</a>`).join(" · ");
+    const labeled = (label, value) => (value ? `<p><strong>${e(label)}</strong> ${e(value)}</p>` : "");
+    const list = (title, items) => (items.length ? `<section><h3>${e(title)}</h3><ul>${items.map((item) => `<li>${item}</li>`).join("")}</ul></section>` : "");
+    const joined = (...parts) => e(parts.filter(Boolean).join(" · "));
+    const otherDomains = Array.from(new Set(brief.others.map((p) => p.domain)));
+    return `<p class="eyebrow">Profile Summary · 기준일 ${e(brief.updatedAt)}</p>
+<${titleTag} class="brief-name">${e(brief.name)} · ${e(brief.role)}</${titleTag}>
+<p class="intro">${e(brief.summary)}</p>
+<p class="brief-scope">공개 프로젝트 ${brief.stats.projects}개 · 핵심 도메인 ${brief.stats.domains.length}개(${e(brief.stats.domains.join(", "))})</p>
+<section><h3>대표 경험 · 내가 맡은 일</h3>${brief.highlights.map((item) => `<div class="brief-project"><h4>${e(item.title)}</h4>
+<p><strong>맡은 일</strong> ${e(item.role)}${item.context ? ` <strong>참여</strong> ${e(item.context)}` : ""}</p>${labeled("요약", item.summary)}${labeled("현재 한계", item.limitation)}${labeled("기술", item.stack.join(", "))}<p>${anchors(item.links)}</p></div>`).join("")}</section>
+${list("학력·교육", brief.education.map((item) => `<strong>${e(item.label)}</strong> ${joined(item.title, item.detail)}`))}
+${list(`수상·표창 ${brief.awards.length}건`, brief.awards.map((a) => joined(a.title, a.issuer, a.date, a.scope)))}
+${list(`지식재산 · 특허출원 접수 ${brief.patents.length}건, 프로그램 저작권 등록 ${brief.copyrights.length}건`, [
+  ...brief.patents.map((a) => joined(a.status, a.title, a.number, a.filedAt)),
+  ...brief.copyrights.map((a) => joined("컴퓨터프로그램 저작권 등록", a.title, a.number, a.registeredAt))
+])}
+${brief.stack.length ? `<section><h3>자주 쓴 기술</h3><p>${e(brief.stack.join(", "))}</p></section>` : ""}
+${list(`그 외 공개 프로젝트 ${brief.others.length}개`, otherDomains.map((domain) => `<strong>${e(domain)}</strong> ${brief.others.filter((p) => p.domain === domain).map((p) => `<a href="${escapeAttribute(p.link.url)}">${e(p.title)}</a>`).join(", ")}`))}
+${brief.documents.length ? `<section><h3>자료</h3><p>${anchors(brief.documents)}</p></section>` : ""}`;
+  }
+
   return {
+    buildProfileBrief,
+    renderProfileBriefHtml,
     normalizeData,
     layoutClass,
     projectSort,
