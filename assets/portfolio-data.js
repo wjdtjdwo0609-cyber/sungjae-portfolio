@@ -53,7 +53,7 @@ window.PORTFOLIO_SEED = {
       }
     ],
     "education": "대한상공회의소 부산인력개발원 · [인텔] AI 융합 DX 마스터 클래스(5회차) · 2025.11.13~2026.05.22 · 900시간 수료",
-    "revision": "2026-11-02-vla-grove",
+    "revision": "2026-11-03-links",
     "overview": {
       "headline": "서비스를 직접 만들고, 팀과 현장 시스템을 연결해 왔습니다.",
       "degree": "동아대학교 유전공학과 · 이학사",
@@ -1098,7 +1098,13 @@ window.PORTFOLIO_SEED = {
         "Gemini",
         "DDD"
       ],
-      "links": [],
+      "links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/wjdtjdwo0609-cyber/KoreaArmyQualitySearching",
+          "icon": "code-2"
+        }
+      ],
       "awards": [],
       "previewVideo": "./assets/videos/previews/kdsis-preview.mp4"
     },
@@ -1393,7 +1399,7 @@ window.PORTFOLIO_SEED = {
         "./assets/images/grovebound-3d/forest-20261027.webp",
         "./assets/images/grovebound-3d/arena-20261027.webp"
       ],
-      "youtubeUrl": "",
+      "youtubeUrl": "https://www.youtube.com/watch?v=q3dl5on5Vnw",
       "summary": "클래식 온라인 RPG의 점프·밧줄·포탈·전투 흐름을 자유 회전 카메라와 3D 공간으로 옮겼습니다. Three.js 렌더링에 Rapier 물리를 연결하고, 직업 전환·성장·보스 패턴·합성 사운드까지 하나의 플레이 루프로 구성했습니다.",
       "problem": "물리엔진이 담당할 충돌·발사체·넉백과 직접 제어할 이동감·등반·스킬 판정을 구분하고, 두 방식을 같은 게임에서 비교할 수 있는 강의 시연물을 만들고자 했습니다.",
       "period": "2026.09 · 강의 시연용 프로토타입",
@@ -1456,6 +1462,10 @@ window.PORTFOLIO_SEED = {
         }
       ],
       "evidence": [
+        {
+          "label": "시연 영상",
+          "value": "2026-11-02 로컬 빌드를 직접 플레이해 녹화한 75초 영상입니다. 헤네시스, 개미굴, 보스 아레나(머쉬맘 처치), 엘리니아 4개 지역과 궁수·비숍 스킬을 보여 줍니다."
+        },
         {
           "label": "실제 실행 화면 3장",
           "value": "2026.10.27 로컬 브라우저에서 초원·숲·보스 아레나를 실행해 직접 캡처했습니다."
