@@ -48,12 +48,12 @@ window.PORTFOLIO_SEED = {
         "issuer": "동아대학교 생명자원과학대학장",
         "date": "2015.11.06",
         "scope": "수상자 정성재",
-        "certificate": "",
-        "certificatePdf": ""
+        "certificate": "./assets/images/records/scans-20261027/bio-leaders-20151106.jpg",
+        "certificatePdf": "./assets/docs/awards/bio-leaders-20151106.pdf"
       }
     ],
     "education": "대한상공회의소 부산인력개발원 · [인텔] AI 융합 DX 마스터 클래스(5회차) · 2025.11.13~2026.05.22 · 900시간 수료",
-    "revision": "2026-11-02-public-links",
+    "revision": "2026-11-02-bio-leaders-scan",
     "overview": {
       "headline": "서비스를 직접 만들고, 팀과 현장 시스템을 연결해 왔습니다.",
       "degree": "동아대학교 유전공학과 · 이학사",
