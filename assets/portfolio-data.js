@@ -5,22 +5,18 @@ window.PORTFOLIO_SEED = {
     "role": "Full-stack AI · Robotics · Industrial DX Builder",
     "summary": "상권분석 서비스 장사OS와 비전·로봇·PLC 프로젝트를 만들었습니다. 필요한 기술을 배우고, 직접 실행하며 만난 문제와 개선 과정을 기록합니다.",
     "github": "https://github.com/wjdtjdwo0609-cyber",
-    "resume": "./assets/docs/sungjae-portfolio-a.pdf",
+    "resume": "./assets/docs/sungjae-portfolio.pdf",
     "pdfs": [
       {
-        "label": "Document AI / FDE",
-        "file": "./assets/docs/sungjae-portfolio-a.pdf"
+        "label": "수상·교육·지식재산 기록",
+        "file": "./assets/docs/sungjae-records.pdf"
       },
       {
-        "label": "Smart Factory / Robotics",
-        "file": "./assets/docs/sungjae-portfolio-b.pdf"
-      },
-      {
-        "label": "Product / Automation",
-        "file": "./assets/docs/sungjae-portfolio-c.pdf"
+        "label": "제3의 손 · VLA 요약",
+        "file": "./assets/docs/sungjae-third-hand-vla.pdf"
       }
     ],
-    "updatedAt": "2026-11-01",
+    "updatedAt": "2026-11-02",
     "website": "https://wjdtjdwo0609-cyber.github.io/sungjae-portfolio/",
     "awards": [
       {
@@ -57,7 +53,7 @@ window.PORTFOLIO_SEED = {
       }
     ],
     "education": "대한상공회의소 부산인력개발원 · [인텔] AI 융합 DX 마스터 클래스(5회차) · 2025.11.13~2026.05.22 · 900시간 수료",
-    "revision": "2026-11-01-project-videos",
+    "revision": "2026-11-02-media-refresh",
     "overview": {
       "headline": "서비스를 직접 만들고, 팀과 현장 시스템을 연결해 왔습니다.",
       "degree": "동아대학교 유전공학과 · 이학사",
@@ -135,9 +131,10 @@ window.PORTFOLIO_SEED = {
       "image": "./assets/images/jangsaos-current-input-20261025.png",
       "imageFit": "contain",
       "visual": "",
-      "video": "",
-      "videoPoster": "",
+      "video": "./assets/videos/jangsaos-analysis-demo-20261102.mp4",
+      "videoPoster": "./assets/images/jangsaos-analysis-route-20261102.jpg",
       "gallery": [
+        "./assets/images/jangsaos-analysis-brief-20261102.jpg",
         "./assets/images/jangsaos-current-home-20261025.png"
       ],
       "youtubeUrl": "",
@@ -149,6 +146,18 @@ window.PORTFOLIO_SEED = {
       "limitations": "화면과 구현 자료는 기능의 근거입니다. 분석의 예측 정확도나 고객의 매출 개선 효과는 별도의 평가로 확인해야 합니다.",
       "nextSteps": "실제 창업 준비자가 후보 지역을 비교하는 과정을 관찰하고, 결과를 이해하기 어려운 지점과 반복해서 쓰는 기능을 확인하고자 합니다.",
       "mediaNotes": [
+        {
+          "src": "./assets/images/jangsaos-analysis-route-20261102.jpg",
+          "caption": "분석 결과의 이동 동선 지도 · 서울 성동구 성수동1가 · 카페/디저트",
+          "capturedAt": "2026-11-02",
+          "version": "공개 서비스 · 비회원 실행"
+        },
+        {
+          "src": "./assets/images/jangsaos-analysis-brief-20261102.jpg",
+          "caption": "AI 브리핑과 이번 주 할 일 · 서울 성동구 성수동1가 · 카페/디저트",
+          "capturedAt": "2026-11-02",
+          "version": "공개 서비스 · 비회원 실행"
+        },
         {
           "src": "./assets/images/jangsaos-current-input-20261025.png",
           "caption": "상권분석 입력·지도 선택 화면",
@@ -186,6 +195,10 @@ window.PORTFOLIO_SEED = {
         }
       ],
       "evidence": [
+        {
+          "label": "분석 시연 영상",
+          "value": "2026-11-02 공개 서비스에서 비회원으로 서울 성동구 성수동1가와 카페/디저트를 선택해 결과까지 확인한 실행 화면입니다. 대기 구간만 약 9배속했으며, 이 실행의 데이터 확보는 7개 항목 중 6개(경쟁 장소 검색 제외)입니다."
+        },
         {
           "label": "현재 입력 화면",
           "value": "2026-10-25 공개 화면에서 주소·지도 선택과 키워드 분석 진입을 확인할 수 있습니다."
@@ -228,7 +241,7 @@ window.PORTFOLIO_SEED = {
       ],
       "scopeNotes": [
         "공개 URL: jangsaos.com",
-        "현재 대표 이미지는 2026-10-25 공개 화면",
+        "시연 영상과 결과 화면은 2026-11-02, 입력·홈 화면은 2026-10-25 공개 서비스 기준",
         "과거 장사 시뮬레이터 자료와 현재 상권분석 서비스는 구분"
       ],
       "results": [
@@ -249,11 +262,6 @@ window.PORTFOLIO_SEED = {
           "label": "장사OS 바로가기",
           "url": "https://jangsaos.com/",
           "icon": "external-link"
-        },
-        {
-          "label": "초기 UI 영상 · 15초",
-          "url": "https://www.youtube.com/watch?v=8kV2QTenvTw",
-          "icon": "play-circle"
         }
       ],
       "patents": [
@@ -1100,16 +1108,18 @@ window.PORTFOLIO_SEED = {
       "featured": false,
       "priority": 18,
       "tests": 5,
-      "image": "./assets/images/docscope-document-split.png",
+      "image": "./assets/images/docscope-tree-memo-20261102.png",
       "imageFit": "contain",
       "visual": "",
       "video": "",
       "videoPoster": "",
       "gallery": [
-        "./assets/images/docscope-document-split.png",
-        "./assets/images/docscope-probe.png",
-        "./assets/images/docscope-tree-try.png",
-        "./assets/images/docscope-viewport.png"
+        "./assets/images/docscope-tree-memo-20261102.png",
+        "./assets/images/docscope-mindmap-20261102.png",
+        "./assets/images/docscope-flowchart-20261102.png",
+        "./assets/images/docscope-backlinks-20261102.png",
+        "./assets/images/docscope-overview-20261102.png",
+        "./assets/images/docscope-source-20261102.png"
       ],
       "youtubeUrl": "",
       "summary": "폴더를 열면 문서를 자동 수집해 트리, 마인드맵, 플로우차트로 변환하고, PDF Learn Code 흐름으로 OCR·문서 분류·청킹·JSONL 생성까지 연결하는 문서 AI 프로젝트입니다.",
@@ -1117,9 +1127,46 @@ window.PORTFOLIO_SEED = {
       "period": "",
       "collaboration": "",
       "learning": "",
-      "limitations": "",
+      "limitations": "전체 보기는 문서별 영역 크기가 고정되어 있어, 노드가 많은 문서는 옆 문서와 일부 겹칠 수 있습니다.",
       "nextSteps": "",
-      "mediaNotes": [],
+      "mediaNotes": [
+        {
+          "src": "./assets/images/docscope-tree-memo-20261102.png",
+          "caption": "같은 문서의 트리 구조와 노드 메모 · 마크다운·[[링크]]·#태그 집계",
+          "capturedAt": "2026-11-02",
+          "version": "로컬 실행 · 데모 문서 사본"
+        },
+        {
+          "src": "./assets/images/docscope-mindmap-20261102.png",
+          "caption": "트리와 같은 노드를 펼친 마인드맵 구조",
+          "capturedAt": "2026-11-02",
+          "version": "로컬 실행 · 데모 문서 사본"
+        },
+        {
+          "src": "./assets/images/docscope-flowchart-20261102.png",
+          "caption": "문서 절차를 판단 분기까지 추출한 플로우차트",
+          "capturedAt": "2026-11-02",
+          "version": "로컬 실행 · 로컬 LLM 변환 결과"
+        },
+        {
+          "src": "./assets/images/docscope-backlinks-20261102.png",
+          "caption": "다른 문서의 메모가 이 노드를 참조하는 백링크",
+          "capturedAt": "2026-11-02",
+          "version": "로컬 실행 · 데모 문서 사본"
+        },
+        {
+          "src": "./assets/images/docscope-overview-20261102.png",
+          "caption": "워크스페이스 문서 4개를 한 캔버스에서 보는 전체 보기",
+          "capturedAt": "2026-11-02",
+          "version": "로컬 실행 · 데모 문서 사본"
+        },
+        {
+          "src": "./assets/images/docscope-source-20261102.png",
+          "caption": "구조도와 원본 문서를 나란히 확인하는 원본 뷰어",
+          "capturedAt": "2026-11-02",
+          "version": "로컬 실행 · 데모 문서 사본"
+        }
+      ],
       "architecture": [
         "PDF / DOCX / URL",
         "OCR",
@@ -1139,7 +1186,7 @@ window.PORTFOLIO_SEED = {
       "evidence": [
         {
           "label": "실행 화면",
-          "value": "문서 분할, 탐색, 트리 시도, viewport 화면을 직접 실행 캡처로 제공"
+          "value": "같은 문서의 트리·마인드맵·플로우차트, 노드 메모와 백링크, 원본 뷰어, 전체 보기를 2026-11-02 로컬 실행으로 캡처했습니다."
         },
         {
           "label": "학습 데이터",

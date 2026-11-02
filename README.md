@@ -96,3 +96,11 @@ An original 2026-05-31 screenshot of the Patent-ro filing list was located and c
 Studio's **약력 관리** edits `profile.overview`; project highlights remain in its `projects` list in JSON. The new hero shortcut and Profile navigation open the overview; its project links open the existing project details. Editing the training summary also updates the education field used by the printable records page.
 
 Project bodies use a vertical flex layout with the action row at the bottom. Footer actions share available width, are centered, and keep the same 20px body padding on both sides and below. This was checked at 320, 390, 768 and 1440px.
+
+### Media and PDF refresh (2026-11-02)
+
+The JangsaOS demo in `assets/videos/` is a real guest run on the public service: 서울 성동구 성수동1가, 카페/디저트. It replaces the 2026-02-10 clip, which reached a 404 after sign-in. The wait is sped up about 9x and labeled in the video; the recording stops before the footer, which shows business contact details. That run collected 6 of 7 data items (no competitor search result), as stated in the project evidence.
+
+DocScope images were captured from a local run on a copied demo folder, so the original workspace was not changed. The earlier blank-canvas captures were removed.
+
+`assets/docs/sungjae-portfolio.pdf`, `sungjae-records.pdf` and `sungjae-third-hand-vla.pdf` are printed from `summary.html`, `summary.html?projects=&records=1` and `summary.html?projects=robot-vla-pipeline`. Print them again when those pages change. Company-specific PDFs do not belong in this public folder; keep them in the job application folder.

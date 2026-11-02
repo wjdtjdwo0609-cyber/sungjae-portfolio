@@ -60,6 +60,7 @@
       const caption = note ? [note.caption, note.capturedAt, note.version].filter(Boolean).join(" · ") : p.title;
       const links = (p.links || []).filter((l) => safeLink(l.url));
       if (p.youtubeUrl && safeLink(p.youtubeUrl)) links.push({label: "시연 영상 (YouTube)", url: p.youtubeUrl});
+      if (p.video && safeLink(p.video)) links.push({label: "시연 영상", url: p.video});
       const detail = `${data.profile.website || new URL('./', location.href).href}#project/${encodeURIComponent(p.id)}`;
       return `<article class="print-case">
         <header class="case-header"><span>정성재 · 프로젝트 포트폴리오</span><span>${e(data.profile.updatedAt || "")} · ${index + 1} / ${included.length}</span></header>
@@ -79,7 +80,7 @@
           ${text("배운 점", p.learning)}
           ${text("현재 한계", p.limitations)}
         </div>
-        <footer><p>${e((p.stack || []).join(" · "))}</p><a href="${e(detail)}">웹 상세와 증빙</a>${links.map((l) => ` · <a href="${e(l.url)}">${e(l.label || l.url)}</a>`).join("")}</footer>
+        <footer><p>${e((p.stack || []).join(" · "))}</p><a href="${e(detail)}">웹 상세와 증빙</a>${links.map((l) => ` · <a href="${e(new URL(l.url, data.profile.website || location.href).href)}">${e(l.label || l.url)}</a>`).join("")}</footer>
       </article>`;
     }).join("") + (includeRecords ? recordPage() : "");
   }
