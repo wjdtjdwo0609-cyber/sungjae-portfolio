@@ -53,7 +53,7 @@ window.PORTFOLIO_SEED = {
       }
     ],
     "education": "대한상공회의소 부산인력개발원 · [인텔] AI 융합 DX 마스터 클래스(5회차) · 2025.11.13~2026.05.22 · 900시간 수료",
-    "revision": "2026-11-02-plc-demo",
+    "revision": "2026-11-02-vla-grove",
     "overview": {
       "headline": "서비스를 직접 만들고, 팀과 현장 시스템을 연결해 왔습니다.",
       "degree": "동아대학교 유전공학과 · 이학사",
@@ -478,6 +478,10 @@ window.PORTFOLIO_SEED = {
       "video": "",
       "videoPoster": "",
       "gallery": [
+        "./assets/images/vla-deck/vla-deck-14-system-architecture.jpg",
+        "./assets/images/vla-deck/vla-deck-18-vla-policy.jpg",
+        "./assets/images/vla-deck/vla-deck-22-troubleshooting.jpg",
+        "./assets/images/vla-deck/vla-deck-27-limitations.jpg",
         "./assets/images/vla-motion-action-sequence.png",
         "./assets/images/vla-dataset-contact-sheet.png",
         "./assets/images/vla-motion-dataset-sequence.jpg"
@@ -514,6 +518,30 @@ window.PORTFOLIO_SEED = {
           "caption": "로봇 동작·데이터 수집 기록",
           "capturedAt": "원본 촬영일 미상",
           "version": "데이터 수집"
+        },
+        {
+          "src": "./assets/images/vla-deck/vla-deck-14-system-architecture.jpg",
+          "caption": "전체 파이프라인 · 음성 → Qwen2.5-ASR → Qwen3 명령 → 카메라 + π0 VLA → DOBOT 실행",
+          "capturedAt": "2026.05 발표",
+          "version": "팀 발표자료 14쪽 · 사진 속 얼굴은 모자이크"
+        },
+        {
+          "src": "./assets/images/vla-deck/vla-deck-18-vla-policy.jpg",
+          "caption": "VLA 행동 정책 · π0 파인튜닝 입력·출력과 학습 설정",
+          "capturedAt": "2026.05 발표",
+          "version": "팀 발표자료 18쪽"
+        },
+        {
+          "src": "./assets/images/vla-deck/vla-deck-22-troubleshooting.jpg",
+          "caption": "트러블슈팅 4건 · 팀 발표자료의 해결 전후 정리",
+          "capturedAt": "2026.05 발표",
+          "version": "팀 발표자료 22쪽"
+        },
+        {
+          "src": "./assets/images/vla-deck/vla-deck-27-limitations.jpg",
+          "caption": "한계 · π0-FAST 실패와 π0 전환, 더 큰 모델은 GPU 메모리로 시도 못 함",
+          "capturedAt": "2026.05 발표",
+          "version": "팀 발표자료 27쪽"
         }
       ],
       "architecture": [
@@ -1359,8 +1387,9 @@ window.PORTFOLIO_SEED = {
       "imageFit": "contain",
       "visual": "",
       "video": "",
-      "videoPoster": "",
+      "videoPoster": "./assets/images/grovebound-3d/boss-arena-20261102.jpg",
       "gallery": [
+        "./assets/images/grovebound-3d/boss-arena-20261102.jpg",
         "./assets/images/grovebound-3d/forest-20261027.webp",
         "./assets/images/grovebound-3d/arena-20261027.webp"
       ],
@@ -1390,6 +1419,12 @@ window.PORTFOLIO_SEED = {
           "caption": "보스 아레나: 보스 체력 바와 전투 공간",
           "capturedAt": "2026-10-27",
           "version": "로컬 실행 · 보스 지역"
+        },
+        {
+          "src": "./assets/images/grovebound-3d/boss-arena-20261102.jpg",
+          "caption": "보스 아레나 · 머쉬맘 보스전(궁수)",
+          "capturedAt": "2026-11-02",
+          "version": "로컬 빌드 실행"
         }
       ],
       "architecture": [
@@ -1478,7 +1513,8 @@ window.PORTFOLIO_SEED = {
       "links": [],
       "awards": [],
       "patents": [],
-      "copyrights": []
+      "copyrights": [],
+      "previewVideo": "./assets/videos/previews/grovebound-3d-preview.mp4"
     },
     {
       "id": "game-prototypes",
