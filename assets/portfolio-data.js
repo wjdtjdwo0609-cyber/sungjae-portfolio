@@ -53,7 +53,7 @@ window.PORTFOLIO_SEED = {
       }
     ],
     "education": "대한상공회의소 부산인력개발원 · [인텔] AI 융합 DX 마스터 클래스(5회차) · 2025.11.13~2026.05.22 · 900시간 수료",
-    "revision": "2026-11-02-bio-leaders-scan",
+    "revision": "2026-11-02-training-certificate",
     "overview": {
       "headline": "서비스를 직접 만들고, 팀과 현장 시스템을 연결해 왔습니다.",
       "degree": "동아대학교 유전공학과 · 이학사",
@@ -61,6 +61,8 @@ window.PORTFOLIO_SEED = {
       "training": "대한상공회의소 부산인력개발원 · [인텔] AI 융합 DX 마스터 클래스",
       "trainingPeriod": "2025.11.13~2026.05.22",
       "trainingDetail": "6개월 · 900시간 수료",
+      "trainingCertificate": "./assets/images/records/scans-20261027/intel-dx-course-20260522.jpg",
+      "trainingCertificatePdf": "./assets/docs/awards/intel-dx-course-20260522.pdf",
       "projects": [
         {
           "id": "jangsa-simulator",

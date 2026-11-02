@@ -13,9 +13,9 @@
     <link rel="stylesheet" href="./assets/styles.css?v=20261102-brief" />
     <!-- static:json-ld --><script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"정성재","jobTitle":"Full-stack AI · Robotics · Industrial DX Builder","description":"상권분석 서비스 장사OS와 비전·로봇·PLC 프로젝트를 만들었습니다. 필요한 기술을 배우고, 직접 실행하며 만난 문제와 개선 과정을 기록합니다.","url":"https://wjdtjdwo0609-cyber.github.io/sungjae-portfolio/","sameAs":["https://github.com/wjdtjdwo0609-cyber"],"knowsAbout":["Python","React","PLC","RAG","Playwright","DDD","FastAPI","TypeScript","OpenCV","OPC UA","Node.js","Ollama","MLX","JavaScript","Three.js"],"award":["제5회 AI·공공데이터 활용 및 창업 경진대회 공모전 장려상 · 2026.06.18","2026 K-디지털 트레이닝 프로젝트발표회 최우수상 · 2026.05.22","2026 인텔 엣지 AI 실무 프로젝트발표회 최우수상 · 2026.05.22","생명자원소재 아이디어공모전 우수상 · 2021.01.26","부산지방경찰청장 표창 · 2016.08.22","제1회 BIO Leaders 경진대회 입상 · 2015.11.06"]}</script><!-- /static:json-ld -->
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
-    <script src="./assets/portfolio-data.js?v=20261102-bio" defer></script>
+    <script src="./assets/portfolio-data.js?v=20261102-training" defer></script>
     <script src="./assets/portfolio-domain.js?v=20261102-brief" defer></script>
-    <script src="./assets/app.js?v=20261101-videos" defer></script>
+    <script src="./assets/app.js?v=20261102-training" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#projects">프로젝트로 바로가기</a>
@@ -134,7 +134,7 @@
       </section>
 
       <section id="recognition" class="section-shell" aria-labelledby="recognition-title" data-recognition hidden>
-        <div class="section-heading"><div><p class="eyebrow">Recognition &amp; Intellectual Property</p><h2 id="recognition-title">수상·표창과 지식재산 기록</h2></div></div>
+        <div class="section-heading"><div><p class="eyebrow">Recognition &amp; Intellectual Property</p><h2 id="recognition-title">수상·교육·지식재산 기록</h2></div></div>
         <div class="recognition-groups" data-awards-grid></div>
       </section>
       <section id="stack" class="section-shell stack-section" aria-labelledby="stack-title">
@@ -224,6 +224,8 @@
         <label>교육기관·과정<input name="training" /></label>
         <label>교육 기간<input name="trainingPeriod" /></label>
         <label>교육 상세<input name="trainingDetail" /></label>
+        <label>수료증 이미지 경로<input name="trainingCertificate" placeholder="./assets/images/records/certificate.jpg" /></label>
+        <label>수료증 PDF 경로<input name="trainingCertificatePdf" placeholder="./assets/docs/awards/certificate.pdf" /></label>
         <button class="secondary-button compact" type="submit">약력 초안 저장</button>
       </form></details>
       <details class="studio-note"><summary>개인 수상·표창 관리</summary><form data-profile-awards-form><label>프로젝트 외 수상·표창<textarea data-profile-awards rows="5" placeholder="상명 | 수여기관 | 날짜 | 개인/팀 | 이미지 경로 | PDF 경로"></textarea></label><button class="secondary-button compact" type="submit">개인 기록 저장</button></form></details>

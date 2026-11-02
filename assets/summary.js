@@ -102,8 +102,12 @@
     const allAwards = projects.flatMap((p) => (p.awards || []).map((a) => ({...a, project: p.title}))).concat((data.profile.awards || []).map((a) => ({...a, project: "수상·표창"})));
     const patents = projects.flatMap((p) => (p.patents || []).map((a) => ({...a, project: p.title})));
     const copyrights = projects.flatMap((p) => (p.copyrights || []).map((a) => ({...a, project: p.title})));
-    return `<article class="print-case"><header class="case-header"><span>정성재 · 수상·교육·지식재산 기록</span><span>${e(data.profile.updatedAt || "")}</span></header><p class="eyebrow">Records</p><h1>수상·표창과 지식재산 기록</h1>
-      ${data.profile.education ? text("교육", data.profile.education) : ""}
+    const overview = data.profile.overview || {};
+    const trainingLinks = [[overview.trainingCertificate, "수료증 보기"], [overview.trainingCertificatePdf, "수료증 PDF"]]
+      .filter(([url]) => safeLink(url))
+      .map(([url, label]) => `<a href="${e(new URL(url, data.profile.website || location.href).href)}">${label}</a>`).join(" · ");
+    return `<article class="print-case"><header class="case-header"><span>정성재 · 수상·교육·지식재산 기록</span><span>${e(data.profile.updatedAt || "")}</span></header><p class="eyebrow">Records</p><h1>수상·교육·지식재산 기록</h1>
+      ${data.profile.education ? `<section><h3>교육</h3><p>${e(data.profile.education)}${trainingLinks ? `<br />${trainingLinks}` : ""}</p></section>` : ""}
       <section><h3>수상·표창</h3>${allAwards.map((a) => `<p><strong>${e(a.title)}</strong><br />${e([a.issuer, a.date, a.scope].filter(Boolean).join(" · "))}<br /><span class="context">${e(a.project)}</span>${a.certificate && safeLink(a.certificate) ? ` · <a href="${e(new URL(a.certificate, data.profile.website || location.href).href)}">상장 보기</a>` : ""}${a.certificatePdf && safeLink(a.certificatePdf) ? ` · <a href="${e(new URL(a.certificatePdf, data.profile.website || location.href).href)}">상장 PDF</a>` : ""}</p>`).join("")}</section>
       <section><h3>지식재산 활동</h3>${patents.map((a) => `<p><strong>${e(a.title)}</strong><br />${e(a.status)} · ${e(a.number)}${a.filedAt ? ` · 접수일 ${e(a.filedAt)}` : ""}<br /><span class="context">${e(a.project)}</span>${a.evidence && safeLink(a.evidence) ? ` · <a href="${e(new URL(a.evidence, data.profile.website || location.href).href)}">접수 화면 보기</a>` : ""}</p>`).join("")}${copyrights.map((a) => `<p><strong>${e(a.title)}</strong><br />컴퓨터프로그램 저작권 등록 · ${e(a.number)} · ${e(a.registeredAt)}<br /><span class="context">${e(a.issuer)} · 저작자 ${e(a.author)} · 등록권리자 ${e(a.rightsHolder)}</span>${a.evidence && safeLink(a.evidence) ? ` · <a href="${e(new URL(a.evidence, data.profile.website || location.href).href)}">등록 내역 보기</a>` : ""}</p>`).join("")}</section>
       <footer><a href="${e((data.profile.website || new URL('./', location.href).href)+'#recognition')}">웹 기록과 증빙</a></footer></article>`;

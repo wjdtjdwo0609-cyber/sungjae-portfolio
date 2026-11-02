@@ -26,6 +26,7 @@
   } = window.PortfolioDomain;
 
   const seed = window.PORTFOLIO_SEED || { profile: {}, domains: ["All"], projects: [] };
+  const OVERVIEW_KEYS = ["headline", "degree", "degreePeriod", "training", "trainingPeriod", "trainingDetail", "trainingCertificate", "trainingCertificatePdf"];
   const studioEnabled = isStudioEnabled();
   const state = {
     data: loadData(),
@@ -474,7 +475,7 @@
       return;
     }
     els.studioList.innerHTML = "";
-    for (const key of ["headline", "degree", "degreePeriod", "training", "trainingPeriod", "trainingDetail"]) {
+    for (const key of OVERVIEW_KEYS) {
       $("[data-overview-form]").elements[key].value = state.data.profile.overview?.[key] || "";
     }
     $("[data-profile-awards]").value = (state.data.profile.awards || []).map((a) => [a.title, a.issuer, a.date, a.scope, a.certificate, a.certificatePdf].join(" | ")).join("\n");
@@ -540,7 +541,7 @@
         event.preventDefault();
         const form = event.currentTarget;
         const overview = { ...state.data.profile.overview };
-        for (const key of ["headline", "degree", "degreePeriod", "training", "trainingPeriod", "trainingDetail"]) overview[key] = form.elements[key].value.trim();
+        for (const key of OVERVIEW_KEYS) overview[key] = form.elements[key].value.trim();
         state.data.profile.overview = overview;
         state.data.profile.education = [overview.training, overview.trainingPeriod, overview.trainingDetail].filter(Boolean).join(" · ");
         const saved = saveData(); render();
@@ -1181,14 +1182,24 @@
     const awards = projects.flatMap((p) => (p.awards || []).map((award) => ({ title: p.title, award })))
       .concat((state.data.profile.awards || []).map((award) => ({ title: "수상·표창", award })))
       .sort((a, b) => (b.award.date || "").localeCompare(a.award.date || ""));
+    const trainingCard = renderTrainingCard(state.data.profile.overview || {});
     const groups = [
       { id: "award-records", title: "수상·표창", count: awards.length, cards: awards.map(({ title, award }) => renderAwardCards({ title, awards: [award] }, 4)).join("") },
+      { id: "training-records", title: "교육 수료증", count: trainingCard ? 1 : 0, cards: trainingCard },
       { id: "patent-records", title: "특허출원 접수", count: projects.reduce((sum, p) => sum + (p.patents || []).length, 0), cards: projects.map((p) => renderPatentCards(p, 4)).join("") },
       { id: "copyright-records", title: "프로그램 저작권 등록", count: projects.reduce((sum, p) => sum + (p.copyrights || []).length, 0), cards: projects.map((p) => renderCopyrightCards(p, 4)).join("") }
     ];
     const html = groups.filter((group) => group.count).map((group) => `<section id="${group.id}" class="recognition-group" aria-labelledby="${group.id}-title"><div class="recognition-group-heading"><h3 id="${group.id}-title">${group.title} <span class="overview-count">${group.count}건</span></h3></div><div class="recognition-cards">${group.cards}</div></section>`).join("");
     $("[data-recognition]").hidden = !html;
     $("[data-awards-grid]").innerHTML = html;
+  }
+
+  function renderTrainingCard(overview) {
+    const pdf = /^(https?:\/\/|\.\/)/i.test(overview.trainingCertificatePdf || "") ? overview.trainingCertificatePdf : "";
+    if (!overview.training || (!overview.trainingCertificate && !pdf)) return "";
+    const detail = [overview.trainingPeriod, overview.trainingDetail].filter(Boolean).join(" · ");
+    const caption = [overview.training, "수료증", detail].filter(Boolean).join(" · ");
+    return `<article class="award-card"><p class="eyebrow">AI 교육</p><h4>${escapeHtml(overview.training)}</h4><p>${escapeHtml(detail)}</p><div class="award-actions">${overview.trainingCertificate ? `<button type="button" class="secondary-button compact" data-open-image="${escapeAttribute(overview.trainingCertificate)}" data-image-caption="${escapeAttribute(caption)}">수료증 보기</button>` : ""}${pdf ? `<a class="secondary-button compact" href="${escapeAttribute(pdf)}" target="_blank" rel="noopener">수료증 PDF</a>` : ""}</div></article>`;
   }
 
   function parseAwardInput(value) {
