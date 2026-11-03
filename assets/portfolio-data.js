@@ -53,7 +53,7 @@ window.PORTFOLIO_SEED = {
       }
     ],
     "education": "대한상공회의소 부산인력개발원 · [인텔] AI 융합 DX 마스터 클래스(5회차) · 2025.11.13~2026.05.22 · 900시간 수료",
-    "revision": "2026-11-03-media",
+    "revision": "2026-11-03-records",
     "overview": {
       "headline": "서비스를 직접 만들고, 팀과 현장 시스템을 연결해 왔습니다.",
       "degree": "동아대학교 유전공학과 · 이학사",

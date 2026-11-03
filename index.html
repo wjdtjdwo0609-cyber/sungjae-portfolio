@@ -10,13 +10,15 @@
     <title>정성재 | AI · Robotics · Smart Factory</title>
     <link rel="preconnect" href="https://img.youtube.com" />
     <link rel="preconnect" href="https://www.youtube.com" />
-    <link rel="stylesheet" href="./assets/styles.css?v=2026-11-03-media" />
+    <link rel="stylesheet" href="./assets/styles.css?v=2026-11-03-records" />
     <!-- static:json-ld --><script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"정성재","jobTitle":"Full-stack AI · Robotics · Industrial DX Builder","description":"상권분석 서비스 장사OS와 비전·로봇·PLC 프로젝트를 만들었습니다. 필요한 기술을 배우고, 직접 실행하며 만난 문제와 개선 과정을 기록합니다.","url":"https://wjdtjdwo0609-cyber.github.io/sungjae-portfolio/","sameAs":["https://github.com/wjdtjdwo0609-cyber"],"knowsAbout":["Python","React","PLC","Playwright","DDD","FastAPI","TypeScript","OpenCV","RAG","BM25","OPC UA","Node.js","Ollama","MLX","Three.js"],"award":["제5회 AI·공공데이터 활용 및 창업 경진대회 공모전 장려상 · 2026.06.18","2026 K-디지털 트레이닝 프로젝트발표회 최우수상 · 2026.05.22","2026 인텔 엣지 AI 실무 프로젝트발표회 최우수상 · 2026.05.22","생명자원소재 아이디어공모전 우수상 · 2021.01.26","부산지방경찰청장 표창 · 2016.08.22","제1회 BIO Leaders 경진대회 입상 · 2015.11.06"]}</script><!-- /static:json-ld -->
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
-    <script src="./assets/portfolio-data.js?v=2026-11-03-media" defer></script>
+    <script src="./assets/portfolio-data.js?v=2026-11-03-records" defer></script>
     <script src="./assets/portfolio-domain.js?v=20261102-preview" defer></script>
     <script src="./assets/media-preview.js?v=20261103-media" defer></script>
-    <script src="./assets/app.js?v=20261103-media" defer></script>
+    <script src="./assets/record-image-variants.js?v=20261103-records" defer></script>
+    <script src="./assets/image-loader.js?v=20261103-records" defer></script>
+    <script src="./assets/app.js?v=20261103-records" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#projects">프로젝트로 바로가기</a>
@@ -410,8 +412,16 @@
         <button class="ghost-button icon-button image-close" type="button" data-image-close aria-label="이미지 닫기">
           <i data-lucide="x"></i>
         </button>
-        <img data-image-viewer alt="" />
+        <div class="image-canvas" data-image-canvas aria-busy="false">
+          <img data-image-viewer alt="" hidden />
+          <p class="image-load-status" data-image-status role="status" hidden></p>
+        </div>
         <p data-image-caption></p>
+        <div class="image-actions">
+          <span data-image-quality hidden>빠른 보기 · 고해상도 공개본은 원본 보기</span>
+          <button class="secondary-button compact" type="button" data-image-retry hidden>다시 시도</button>
+          <a class="secondary-button compact" data-image-original target="_blank" rel="noopener noreferrer" hidden>고해상도 원본 보기 ↗</a>
+        </div>
       </div>
     </dialog>
 

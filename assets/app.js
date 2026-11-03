@@ -69,11 +69,24 @@
     imageDialog: $("[data-image-dialog]"),
     imageViewer: $("[data-image-viewer]"),
     imageCaption: $("[data-image-caption]"),
+    imageCanvas: $("[data-image-canvas]"),
+    imageStatus: $("[data-image-status]"),
+    imageRetry: $("[data-image-retry]"),
+    imageOriginal: $("[data-image-original]"),
+    imageQuality: $("[data-image-quality]"),
     toast: $("[data-toast]")
   };
 
   const previews = window.PortfolioMedia.createPreviewController({ document, window });
   const heroPreviewCleanups = [];
+  const imageLoader = window.PortfolioImages.createImageLoader({ Image: window.Image, maxEntries: 12 });
+  const recordImages = window.PORTFOLIO_RECORD_IMAGES || {};
+  let imageRequest = 0;
+  let selectedImage = null;
+  let recordObserver = null;
+  const recordWarmQueue = [];
+  const recordWarmQueued = new Set();
+  let recordWarmActive = 0;
 
   init();
 
@@ -674,10 +687,25 @@
     });
 
     $("[data-image-close]").addEventListener("click", closeImage);
+    els.imageRetry.addEventListener("click", () => {
+      if (selectedImage) openImage(selectedImage.source, selectedImage.caption);
+    });
+    ["pointerover", "focusin"].forEach((type) => document.addEventListener(type, (event) => {
+      const button = event.target.closest?.("[data-open-image]");
+      if (button) queueRecordImage(button.dataset.openImage);
+    }));
     els.imageDialog.addEventListener("close", () => {
+      imageRequest += 1;
+      selectedImage = null;
       els.imageViewer.removeAttribute("src");
       els.imageViewer.alt = "";
+      els.imageViewer.hidden = true;
       els.imageCaption.textContent = "";
+      els.imageCanvas.setAttribute("aria-busy", "false");
+      els.imageStatus.hidden = true;
+      els.imageRetry.hidden = true;
+      els.imageOriginal.hidden = true;
+      els.imageQuality.hidden = true;
     });
   }
 
@@ -1259,6 +1287,7 @@
     const html = groups.filter((group) => group.count).map((group) => `<section id="${group.id}" class="recognition-group" aria-labelledby="${group.id}-title"><div class="recognition-group-heading"><h3 id="${group.id}-title">${group.title} <span class="overview-count">${group.count}건</span></h3></div><div class="recognition-cards">${group.cards}</div></section>`).join("");
     $("[data-recognition]").hidden = !html;
     $("[data-awards-grid]").innerHTML = html;
+    observeRecordImages();
   }
 
   function renderTrainingCard(overview) {
@@ -1357,13 +1386,83 @@
     els.videoPlayer.removeAttribute("src");
   }
 
-  function openImage(source, caption = "") {
+  function queueRecordImage(source) {
+    const variant = recordImages[source];
+    const connection = navigator.connection;
+    if (!variant || connection?.saveData || /(^|-)2g$/.test(connection?.effectiveType || "")) return;
+    if (recordWarmQueued.has(variant.display)) return;
+    recordWarmQueued.add(variant.display);
+    recordWarmQueue.push(variant.display);
+    const drain = () => {
+      while (recordWarmActive < 2 && recordWarmQueue.length) {
+        const next = recordWarmQueue.shift();
+        recordWarmActive += 1;
+        imageLoader.warm(next).finally(() => {
+          recordWarmQueued.delete(next);
+          recordWarmActive -= 1;
+          drain();
+        });
+      }
+    };
+    drain();
+  }
+
+  function observeRecordImages() {
+    recordObserver?.disconnect();
+    if (!window.IntersectionObserver) return;
+    recordObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        queueRecordImage(entry.target.dataset.openImage);
+        recordObserver.unobserve(entry.target);
+      });
+    }, { rootMargin: "240px" });
+    $$("[data-open-image]", $("[data-awards-grid]")).forEach((button) => {
+      if (recordImages[button.dataset.openImage]) recordObserver.observe(button);
+    });
+  }
+
+  async function openImage(source, caption = "") {
     if (!source) return;
     previews.pauseAll();
-    els.imageViewer.src = source;
-    els.imageViewer.alt = caption || "Project image";
+    const request = ++imageRequest;
+    const variant = recordImages[source];
+    selectedImage = { source, caption };
+    els.imageViewer.hidden = true;
+    els.imageViewer.removeAttribute("src");
+    els.imageCanvas.style.aspectRatio = variant ? `${variant.width} / ${variant.height}` : "16 / 10";
+    els.imageCanvas.setAttribute("aria-busy", "true");
+    els.imageStatus.textContent = "이미지를 불러오는 중…";
+    els.imageStatus.hidden = false;
+    els.imageRetry.hidden = true;
+    els.imageQuality.hidden = !variant;
+    els.imageOriginal.hidden = true;
+    try {
+      const original = new URL(source, location.href);
+      if (["http:", "https:"].includes(original.protocol)) {
+        els.imageOriginal.href = original.href;
+        els.imageOriginal.hidden = false;
+      }
+    } catch {}
     els.imageCaption.textContent = caption;
-    els.imageDialog.showModal();
+    if (!els.imageDialog.open) els.imageDialog.showModal();
+    try {
+      const image = await imageLoader.load(variant?.display || source);
+      if (request !== imageRequest || !els.imageDialog.open) return;
+      els.imageViewer.src = image.src;
+      els.imageViewer.alt = caption || "Project image";
+      if (image.naturalWidth && image.naturalHeight) {
+        els.imageCanvas.style.aspectRatio = `${image.naturalWidth} / ${image.naturalHeight}`;
+      }
+      els.imageViewer.hidden = false;
+      els.imageStatus.hidden = true;
+    } catch {
+      if (request !== imageRequest || !els.imageDialog.open) return;
+      els.imageStatus.textContent = "이미지를 불러오지 못했습니다. 다시 시도하거나 원본을 열어주세요.";
+      els.imageRetry.hidden = false;
+    } finally {
+      if (request === imageRequest) els.imageCanvas.setAttribute("aria-busy", "false");
+    }
   }
 
   function closeImage() {
