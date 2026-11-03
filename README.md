@@ -118,3 +118,11 @@ DocScope images were captured from a local run on a copied demo folder, so the o
 - 감독자 전달 검증: 수집기 `npm test` 36개 및 syntax 검사 통과, 저장 HTTP URL 27개/중복 0개, 서체 가독성 디자인 카드 29개 중 오류 7개/선택 가능 22개. URL 수는 본문 수집 성공 수가 아니며 실패 소스 일괄삭제는 미지원입니다.
 - 포트폴리오 회귀 검사는 연결 경로·파일 헤더·한계 문구·공개 데이터의 로컬 경로 누출을 확인합니다. 영상 전체 재생·PDF 29쪽 내용 검수 및 최종 배포 검수는 감독자 담당이며, 헤더 검사만으로 이를 검증했다고 간주하지 않습니다.
 - Relay가 데이터·캐시·회귀 테스트를 반영하고 정적 생성 및 전체 6개 테스트 파일을 실행했습니다. 감독자는 원본 16개 중 공개 15개라는 테스트 기대값을 바로잡고 Grovebound YouTube ID 보존 검사를 추가했습니다. CUA로 NotebookLM 24초 완주, 모바일 390px 재생, Telegram 영상 및 Grovebound YouTube(1분 16초) 재생을 확인했습니다. GUI 촬영·PDF 재인쇄·최종 검수는 Relay 자체의 컴퓨터 제어 기능이 아닙니다.
+
+### Hover and embedded-browser gallery fixes (2026-11-03)
+
+- The three hero previews and all ten video project cards now use `assets/media-preview.js`. Hover anywhere on a card or focus it with the keyboard for a muted preview; leaving restores the poster. Only one preview plays, and opening a dialog, leaving the viewport or hiding the page stops previews. Touch-only and reduced-motion environments retain explicit video buttons.
+- Photos remain photos for the five projects without a demo video. No synthetic demo or additional YouTube upload was created.
+- Detail gallery images load eagerly while the dialog is open, with visible loading/error/retry states. The gallery track has an explicit containing box for embedded WebKit layout. Thumbnail navigation scrolls only the track; the redundant Demo overlay no longer covers thumbnails. Opening a project resets the actual `.detail-panel` scroller.
+- CUA verification: desktop hero previews 3/3 and card previews 10/10 played muted and stopped; 15 project galleries / 65 slides loaded and could be selected. The 390px view had no horizontal page overflow. All 68 referenced image files decoded and their public responses matched local bytes. The user's widespread broken-image report was not reproduced as failed image downloads; the confirmed overlay/navigation issues were fixed without claiming the browser itself was faulty.
+- `node tests/run-all.js` includes preview lifecycle/race tests and gallery integration tests. This targeted follow-up was coded and browser-tested by the supervising Codex session; it is not a claim of Relay computer-control support. PDF content is unchanged and was not reprinted.

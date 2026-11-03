@@ -368,6 +368,33 @@ h3 {
   transform: scale(1.025);
 }
 
+.hero-preview-frame {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.hero-video-main .hero-preview-frame {
+  position: absolute;
+  inset: 0;
+}
+
+.hero-preview-frame video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.hero-video[data-preview-state="playing"] video {
+  opacity: 1;
+}
+
 .hero-video-main {
   min-height: 306px;
   aspect-ratio: 16 / 9;
@@ -425,6 +452,12 @@ h3 {
 }
 
 .hero-video-compact img {
+  height: 72px;
+  border-radius: 7px;
+}
+
+.hero-video-compact .hero-preview-frame {
+  display: block;
   height: 72px;
   border-radius: 7px;
 }
@@ -712,10 +745,37 @@ h3 {
 }
 
 .project-media video {
+  position: absolute;
+  inset: 0;
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.project-card[data-preview-state="playing"] .project-media video {
+  opacity: 1;
+}
+
+.preview-hint {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 6px 9px;
+  border-radius: 6px;
+  color: #fff;
+  background: rgba(29, 29, 31, .78);
+  font-size: 12px;
+  pointer-events: none;
+}
+
+.preview-hint::after { content: "마우스를 올려 미리보기"; }
+[data-preview-state="playing"] .preview-hint::after { content: "무음 미리보기"; }
+[data-preview-state="unavailable"] .preview-hint::after { content: "미리보기 불가 · 영상 보기로 재생"; }
+@media (hover: none), (prefers-reduced-motion: reduce) {
+  .preview-hint { display: none; }
 }
 
 .project-card[data-image-fit="contain"] .project-media img,
@@ -1292,6 +1352,8 @@ dialog::backdrop {
 }
 
 .gallery-track {
+  position: absolute;
+  inset: 0;
   display: flex;
   width: 100%;
   height: 100%;
@@ -1319,11 +1381,26 @@ dialog::backdrop {
 }
 
 .gallery-slide img {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: contain;
   background: #f7f8fa;
 }
+
+.gallery-image-status {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  padding: 32px;
+  color: #4b535f;
+  background: #eef1f5;
+  font-size: 14px;
+  line-height: 1.6;
+}
+.gallery-slide[data-image-state="ready"] .gallery-image-status { display: none; }
+.gallery-slide[data-image-state="error"] img { visibility: hidden; }
 
 .gallery-hint {
   position: absolute;

@@ -72,6 +72,9 @@
     toast: $("[data-toast]")
   };
 
+  const previews = window.PortfolioMedia.createPreviewController({ document, window });
+  const heroPreviewCleanups = [];
+
   init();
 
   function init() {
@@ -121,6 +124,7 @@
 
   function render() {
     renderProfile();
+    renderHeroPreviews();
     renderOverview();
     renderFilters();
     renderProjects();
@@ -237,7 +241,9 @@
 
   function renderProjects() {
     const projects = getFilteredProjects();
+    previews.pauseAll();
     els.projectGrid.innerHTML = "";
+    previews.prune();
 
     if (!projects.length) {
       const empty = document.createElement("div");
@@ -249,6 +255,39 @@
 
     projects.forEach((project, index) => {
       els.projectGrid.append(createProjectCard(project, index));
+    });
+  }
+
+  function createPreviewVideo(source, poster, title) {
+    const video = document.createElement("video");
+    video.src = source;
+    video.poster = poster || "";
+    video.preload = "metadata";
+    video.setAttribute("aria-label", `${title} 무음 미리보기`);
+    return video;
+  }
+
+  function renderHeroPreviews() {
+    heroPreviewCleanups.splice(0).forEach((cleanup) => cleanup());
+    $$(".hero-video[data-open-project]").forEach((button) => {
+      const project = findProject(button.dataset.openProject);
+      const source = project?.previewVideo || project?.video;
+      const image = button.querySelector("img");
+      button.querySelector("video")?.remove();
+      button.removeAttribute("title");
+      delete button.dataset.previewState;
+      if (!source || !image || project.visibility !== "public") return;
+      let frame = button.querySelector(".hero-preview-frame");
+      if (!frame) {
+        frame = document.createElement("span");
+        frame.className = "hero-preview-frame";
+        image.replaceWith(frame);
+        frame.append(image);
+      }
+      const video = createPreviewVideo(source, image.src, project.title);
+      frame.append(video);
+      button.title = "마우스를 올리면 무음 미리보기 · 클릭하면 프로젝트 상세";
+      heroPreviewCleanups.push(previews.register(button, video));
     });
   }
 
@@ -293,17 +332,20 @@
     if (project.visual === "game-prototypes") {
       media.append(htmlToElement(renderGamePrototypeVisual()));
     } else if (hoverVideo) {
-      const video = document.createElement("video");
-      video.src = hoverVideo;
-      video.poster = image || "";
-      video.muted = true;
-      video.loop = true;
-      video.playsInline = true;
-      video.preload = "metadata";
-      video.setAttribute("aria-label", `${project.title} video preview`);
-      media.addEventListener("mouseenter", () => video.play().catch(() => {}));
-      media.addEventListener("mouseleave", () => video.pause());
+      if (image) {
+        const poster = document.createElement("img");
+        poster.src = image;
+        poster.alt = `${project.title} 미리보기`;
+        poster.loading = "lazy";
+        media.append(poster);
+      }
+      const video = createPreviewVideo(hoverVideo, image, project.title);
       media.append(video);
+      const hint = document.createElement("span");
+      hint.className = "preview-hint";
+      hint.setAttribute("aria-hidden", "true");
+      media.append(hint);
+      previews.register(card, video);
     } else if (image) {
       const img = document.createElement("img");
       img.src = image;
@@ -610,7 +652,16 @@
       if (copyButton) copyToClipboard(copyButton.dataset.detailCopy || "", "로컬 경로를 복사했습니다.");
       if (galleryStep) moveGallery(galleryStep, Number(galleryStep.dataset.galleryStep || 1));
       if (galleryJump) jumpGallery(galleryJump, Number(galleryJump.dataset.galleryJump || 0));
-      if (imageButton) openImage(imageButton.dataset.openImage, imageButton.dataset.imageCaption || "");
+      if (imageButton) {
+        if (imageButton.dataset.imageState === "error") {
+          imageButton.dataset.imageState = "loading";
+          imageButton.querySelector(".gallery-image-status").textContent = "이미지 불러오는 중…";
+          const image = imageButton.querySelector("img");
+          image.src = imageButton.dataset.openImage;
+        } else {
+          openImage(imageButton.dataset.openImage, imageButton.dataset.imageCaption || "");
+        }
+      }
     });
 
     $("[data-video-close]").addEventListener("click", closeVideo);
@@ -697,6 +748,7 @@
   function openProjectDetail(id) {
     const project = findProject(id);
     if (!project || project.visibility !== "public") return;
+    previews.pauseAll();
     state.detailId = id;
     if (location.hash !== `#project/${encodeURIComponent(id)}`) history.pushState(null, "", `#project/${encodeURIComponent(id)}`);
 
@@ -750,13 +802,31 @@
         </div>
       </div>
     `;
+    bindGalleryImages();
     if (!els.detailDialog.open) els.detailDialog.showModal();
     els.detailDialog.scrollTop = 0;
+    $(".detail-panel", els.detailDialog).scrollTop = 0;
     refreshIcons();
   }
 
   function closeProjectDetail() {
     els.detailDialog.close();
+  }
+
+  function bindGalleryImages() {
+    $$(".gallery-slide", els.detailContent).forEach((slide) => {
+      const image = slide.querySelector("img");
+      const status = slide.querySelector(".gallery-image-status");
+      const update = (state) => {
+        slide.dataset.imageState = state;
+        status.textContent = state === "error"
+          ? "이미지를 불러오지 못했습니다 · 클릭하여 다시 시도"
+          : state === "loading" ? "이미지 불러오는 중…" : "";
+      };
+      image.addEventListener("load", () => update("ready"));
+      image.addEventListener("error", () => update("error"));
+      update(image.complete ? (image.naturalWidth ? "ready" : "error") : "loading");
+    });
   }
 
   function renderDetailActions(project, links, youtubeId, localVideo) {
@@ -915,11 +985,13 @@
         (image, index) => `
           <button
             class="gallery-slide"
+            data-image-state="loading"
             type="button"
             data-open-image="${escapeAttribute(image)}"
             data-image-caption="${escapeAttribute(mediaCaption(project, image, index))}"
           >
-            <img src="${escapeAttribute(image)}" alt="${escapeAttribute(mediaCaption(project, image, index))}" loading="${index === 0 ? "eager" : "lazy"}" />
+            <img src="${escapeAttribute(image)}" alt="${escapeAttribute(mediaCaption(project, image, index))}" loading="eager" />
+            <span class="gallery-image-status" role="status">이미지 불러오는 중…</span>
             <span class="gallery-caption">${escapeHtml(mediaCaption(project, image, index))}</span>
           </button>
         `
@@ -930,7 +1002,7 @@
       .map(
         (image, index) => `
           <button class="gallery-thumb" type="button" data-gallery-jump="${index}" aria-label="이미지 ${index + 1}">
-            <img src="${escapeAttribute(image)}" alt="" loading="lazy" />
+            <img src="${escapeAttribute(image)}" alt="" loading="eager" />
           </button>
         `
       )
@@ -947,16 +1019,6 @@
           <div class="gallery-hint"><i data-lucide="maximize-2"></i>크게 보기</div>
         </div>
         ${images.length > 1 ? `<div class="gallery-strip" data-gallery-strip>${thumbs}</div>` : ""}
-        ${
-          localVideo
-            ? `<button class="media-play" type="button" data-detail-local-video="${escapeAttribute(localVideo)}"><i data-lucide="play"></i><span>Demo</span></button>`
-            : ""
-        }
-        ${
-          youtubeId
-            ? `<button class="media-play" type="button" data-detail-video="${escapeAttribute(project.youtubeUrl)}"><i data-lucide="play"></i><span>Demo</span></button>`
-            : ""
-        }
       </div>
     `;
   }
@@ -1255,6 +1317,7 @@
   }
 
   function openVideo(source, type = "youtube") {
+    previews.pauseAll();
     els.videoIframe.removeAttribute("src");
     els.videoPlayer.pause();
     els.videoPlayer.removeAttribute("src");
@@ -1296,6 +1359,7 @@
 
   function openImage(source, caption = "") {
     if (!source) return;
+    previews.pauseAll();
     els.imageViewer.src = source;
     els.imageViewer.alt = caption || "Project image";
     els.imageCaption.textContent = caption;
@@ -1320,7 +1384,8 @@
     const track = gallery?.querySelector("[data-gallery-track]");
     const slide = track?.children[index];
     if (!slide) return;
-    slide.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
+    // Scroll only the gallery, never its dialog or the page behind it (WebKit).
+    track.scrollTo({ left: index * track.clientWidth, behavior: "smooth" });
   }
 
   async function copyToClipboard(value, message) {
