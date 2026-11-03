@@ -718,7 +718,8 @@ h3 {
   object-fit: cover;
 }
 
-.project-card[data-image-fit="contain"] .project-media img {
+.project-card[data-image-fit="contain"] .project-media img,
+.project-card[data-image-fit="contain"] .project-media video {
   object-fit: contain;
   background: #f7f8fa;
 }

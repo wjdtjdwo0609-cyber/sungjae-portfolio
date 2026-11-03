@@ -110,3 +110,11 @@ DocScope images were captured from a local run on a copied demo folder, so the o
 `assets/docs/sungjae-portfolio.pdf` now opens with a one-page profile summary built by `buildProfileBrief` in `assets/portfolio-domain.js`. It uses only public data, keeps each representative project's limitations, separates team awards from individual commendations, and states patents as filings. In print, case sections use one column so text extractors read each heading before its body. `summary.html` shows the summary by default and leaves it out when `?projects=` is set, unless `brief=1` is added.
 
 `index.html` and `summary.html` also carry the same facts as static text for readers that do not run JavaScript. Blocks marked `<!-- static:name -->` are generated, and `app.js` or `summary.js` replaces the visible ones when they run. After replacing `assets/portfolio-data.js`, run `node tools/build-static.js`, reprint the PDFs and run `node tests/run-all.js`, which fails if the generated blocks no longer match the data. No text is hidden for AI readers.
+
+### 공개자료와 완료 결과 시연 (2026-11-03)
+
+- 사용자·팀 공개 승인된 `assets/docs/sungjae-third-hand-vla-presentation.pdf`(29쪽, 영상 제외)를 기존 코드 링크와 함께 연결했습니다. 이 링크를 포함하도록 대표 포트폴리오(3쪽)와 제3의 손 요약(1쪽) PDF를 재인쇄하고 본문·링크·페이지 잘림을 확인했습니다. 변경 없는 기록 PDF는 유지합니다.
+- NotebookLM 영상은 이전 세션의 2026-11-03 02:47 실수집 결과를 재열람한 24초 실제 화면 캡처 편집본이며, 7초 미리보기와 포스터를 연결했습니다. 신규 수집·전체 과정 실시간 녹화가 아니고 이번 재열람에서 신규 노트북 생성·채팅·Deep Research는 하지 않았습니다.
+- 감독자 전달 검증: 수집기 `npm test` 36개 및 syntax 검사 통과, 저장 HTTP URL 27개/중복 0개, 서체 가독성 디자인 카드 29개 중 오류 7개/선택 가능 22개. URL 수는 본문 수집 성공 수가 아니며 실패 소스 일괄삭제는 미지원입니다.
+- 포트폴리오 회귀 검사는 연결 경로·파일 헤더·한계 문구·공개 데이터의 로컬 경로 누출을 확인합니다. 영상 전체 재생·PDF 29쪽 내용 검수 및 최종 배포 검수는 감독자 담당이며, 헤더 검사만으로 이를 검증했다고 간주하지 않습니다.
+- Relay가 데이터·캐시·회귀 테스트를 반영하고 정적 생성 및 전체 6개 테스트 파일을 실행했습니다. 감독자는 원본 16개 중 공개 15개라는 테스트 기대값을 바로잡고 Grovebound YouTube ID 보존 검사를 추가했습니다. CUA로 NotebookLM 24초 완주, 모바일 390px 재생, Telegram 영상 및 Grovebound YouTube(1분 16초) 재생을 확인했습니다. GUI 촬영·PDF 재인쇄·최종 검수는 Relay 자체의 컴퓨터 제어 기능이 아닙니다.

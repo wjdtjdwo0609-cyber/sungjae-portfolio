@@ -53,7 +53,7 @@ window.PORTFOLIO_SEED = {
       }
     ],
     "education": "대한상공회의소 부산인력개발원 · [인텔] AI 융합 DX 마스터 클래스(5회차) · 2025.11.13~2026.05.22 · 900시간 수료",
-    "revision": "2026-11-03-keyword",
+    "revision": "2026-11-03-release",
     "overview": {
       "headline": "서비스를 직접 만들고, 팀과 현장 시스템을 연결해 왔습니다.",
       "degree": "동아대학교 유전공학과 · 이학사",
@@ -672,6 +672,11 @@ window.PORTFOLIO_SEED = {
           "label": "파이프라인 코드",
           "url": "https://github.com/wjdtjdwo0609-cyber/Dobot_VLM_VLA",
           "icon": "code-2"
+        },
+        {
+          "label": "제3의 손 · 팀 발표자료 (29쪽, 영상 제외)",
+          "url": "./assets/docs/sungjae-third-hand-vla-presentation.pdf",
+          "icon": "file-text"
         }
       ],
       "awards": [
@@ -1689,8 +1694,9 @@ window.PORTFOLIO_SEED = {
       "image": "./assets/images/knowledge-os/kos-dashboard-20261102.png",
       "imageFit": "contain",
       "visual": "",
-      "video": "",
-      "videoPoster": "",
+      "video": "./assets/videos/knowledge-os-telegram-demo-20261103.mp4",
+      "videoPoster": "./assets/images/knowledge-os/knowledge-os-telegram-poster-20261103.jpg",
+      "previewVideo": "./assets/videos/previews/knowledge-os-telegram-preview-20261103.mp4",
       "gallery": [
         "./assets/images/knowledge-os/kos-dashboard-20261102.png",
         "./assets/images/knowledge-os/kos-command-whitelist-20261102.png",
@@ -1707,6 +1713,24 @@ window.PORTFOLIO_SEED = {
       "limitations": "Status는 마지막 재빌드 때 만든 리포트를 모아 보여 주므로 화면의 숫자는 실시간으로 다시 센 값이 아닙니다. GUI의 실행 로그는 브라우저에만 남고 파일로 저장되지 않습니다. 검색 적중률은 BM25 엔진과 45문항 평가 세트 기준입니다.",
       "nextSteps": "",
       "mediaNotes": [
+        {
+          "src": "./assets/videos/knowledge-os-telegram-demo-20261103.mp4",
+          "caption": "Telegram 실제 상태조회 · 요청 → 도구 호출 → 완료 응답. 실제 창 캡처를 16초 무음으로 구간 편집했으며 연속 실시간 녹화가 아닙니다. 마지막 생성 리포트 기준으로 실시간 전체 재집계가 아닙니다.",
+          "capturedAt": "2026-11-03",
+          "version": "Codex CUA 캡처 보조 · 승인된 knowledge_status 요청 1회"
+        },
+        {
+          "src": "./assets/images/knowledge-os/knowledge-os-telegram-poster-20261103.jpg",
+          "caption": "Telegram 상태조회 완료 장면 · 마지막 생성 리포트 기준",
+          "capturedAt": "2026-11-03",
+          "version": "검수한 공개용 편집본 대표 프레임"
+        },
+        {
+          "src": "./assets/videos/previews/knowledge-os-telegram-preview-20261103.mp4",
+          "caption": "Telegram 상태조회 결과 · 7초 무음 미리보기 · 마지막 생성 리포트 기준",
+          "capturedAt": "2026-11-03",
+          "version": "실제 창 캡처 · 구간 편집"
+        },
         {
           "src": "./assets/images/knowledge-os/kos-dashboard-20261102.png",
           "caption": "상태 카드 8개와 운영 명령 9개를 한 화면에 둔 첫 화면",
@@ -1745,7 +1769,16 @@ window.PORTFOLIO_SEED = {
       ],
       "buildSteps": [],
       "challenges": [],
-      "evidence": [],
+      "evidence": [
+        {
+          "label": "Telegram 실제 상태조회 · 2026-11-03",
+          "value": "승인된 knowledge_status 요청 1회에 대한 도구 호출 표시와 5개 항목의 완료 응답을 캡처했습니다. 마지막 생성 리포트 기준이며 실시간 전체 재집계가 아닙니다."
+        },
+        {
+          "label": "시연 영상의 편집 범위",
+          "value": "Codex CUA가 보조 캡처한 실제 창의 요청·도구 호출·완료 응답 3구간을 16초 무음으로 편집했습니다. 연속 실시간 녹화가 아니며 카드에는 7초 무음 미리보기를 사용합니다."
+        }
+      ],
       "metrics": [
         {
           "label": "문서",
@@ -1801,26 +1834,61 @@ window.PORTFOLIO_SEED = {
       "maturity": "Case study",
       "featured": false,
       "priority": 22,
-      "tests": 25,
-      "image": "./assets/images/notebooklm-automation.png",
+      "tests": 36,
+      "image": "./assets/images/notebooklm-result-poster-20261103.jpg",
       "imageFit": "contain",
       "visual": "",
-      "video": "",
-      "videoPoster": "",
-      "gallery": [],
+      "video": "./assets/videos/notebooklm-result-walkthrough-20261103.mp4",
+      "videoPoster": "./assets/images/notebooklm-result-poster-20261103.jpg",
+      "previewVideo": "./assets/videos/previews/notebooklm-result-preview-20261103.mp4",
+      "gallery": [
+        "./assets/images/notebooklm-automation.png"
+      ],
       "youtubeUrl": "",
       "summary": "Chrome CDP에 연결해 로그인 세션이 필요한 NotebookLM 자료 수집 흐름을 자동화하고, GUI에서 주제 선택, 연결 상태, 실시간 로그, 결과 파일을 확인하게 만든 도구입니다.",
       "problem": "",
       "period": "",
       "collaboration": "",
       "learning": "",
-      "limitations": "",
+      "limitations": "저장된 HTTP URL 27개(중복 0개)는 본문 27개 수집 성공을 뜻하지 않습니다. 서체 가독성 디자인 카드 29개 중 오류 7개, 선택 가능한 소스 22개를 확인했으며 29개 전체 성공이 아닙니다. 실패 소스 일괄삭제는 미지원입니다. 영상은 2026-11-03 02:47 이전 세션의 실수집 결과를 재열람한 24초 실제 화면 캡처 편집본으로, 신규 수집이나 전체 과정의 실시간 녹화가 아닙니다. 이번 재열람에서는 신규 노트북 생성·채팅·Deep Research를 실행하지 않았습니다.",
       "nextSteps": "",
-      "mediaNotes": [],
+      "mediaNotes": [
+        {
+          "src": "./assets/videos/notebooklm-result-walkthrough-20261103.mp4",
+          "caption": "이전 세션(2026-11-03 02:47)의 실수집 결과 재열람 · 24초 실제 화면 캡처 편집. 신규 수집이나 전체 과정 실시간 녹화가 아닙니다. 카드 29개 중 오류 7개, 선택 가능 22개이며 저장 URL 27개는 본문 27개 성공이 아닙니다.",
+          "capturedAt": "2026-11-03",
+          "version": "기존 완료 결과 재열람 · 신규 노트북 생성·채팅·Deep Research 실행 안 함"
+        },
+        {
+          "src": "./assets/images/notebooklm-result-poster-20261103.jpg",
+          "caption": "기존 실수집 결과 재열람 대표 화면 · 카드 29개 중 오류 7개, 선택 가능 22개 · 전체 성공이 아님",
+          "capturedAt": "2026-11-03",
+          "version": "검수한 실제 화면 캡처 편집본"
+        },
+        {
+          "src": "./assets/videos/previews/notebooklm-result-preview-20261103.mp4",
+          "caption": "기존 결과 재열람의 7초 편집 미리보기 · 신규 수집 시연이 아님",
+          "capturedAt": "2026-11-03",
+          "version": "24초 실제 화면 캡처 편집본에서 발췌"
+        }
+      ],
       "architecture": [],
       "buildSteps": [],
       "challenges": [],
-      "evidence": [],
+      "evidence": [
+        {
+          "label": "수집기 코드 검증",
+          "value": "별도 수리 세션에서 npm test 36개 직접 통과 및 syntax 검사 통과. 포트폴리오 회귀 테스트나 모든 소스의 수집 성공을 뜻하지 않습니다."
+        },
+        {
+          "label": "저장 결과와 실제 UI 확인 범위",
+          "value": "2026-11-03 02:47 실수집의 저장 HTTP URL 27개, 중복 0개. 감독자의 기존 결과 재열람에서 서체 가독성 디자인 카드 29개 중 오류 7개와 선택 가능한 소스 22개를 확인했습니다. URL 27개는 본문 27개 성공이 아니며 실패 소스 일괄삭제는 미지원입니다."
+        },
+        {
+          "label": "완료 결과 재열람 시연",
+          "value": "이전 세션의 실수집 결과를 다시 연 24초 실제 화면 캡처 편집본입니다. 신규 수집이나 전체 과정 실시간 녹화가 아니며, 이번 재열람에서 신규 노트북 생성·채팅·Deep Research를 실행하지 않았습니다."
+        }
+      ],
       "metrics": [],
       "rolePoints": [],
       "scopeNotes": [],
